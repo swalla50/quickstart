@@ -3,12 +3,15 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import { QuickstartProvider } from "./Context";
 import reportWebVitals from "./reportWebVitals";
+import {AuthProvider} from './Context/AuthProvider'
 
 ReactDOM.render(
   <React.StrictMode>
-    <QuickstartProvider>
-      <App />
-    </QuickstartProvider>
+    <AuthProvider>
+      <QuickstartProvider>
+        <App />
+      </QuickstartProvider>
+    </AuthProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

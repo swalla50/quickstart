@@ -1,29 +1,48 @@
+import axios from '../api/axios';
 import { userInfo } from 'os';
 import { User } from 'plaid-threads';
-import React, { SyntheticEvent, useState } from 'react'
+import React, { SyntheticEvent, useContext, useState } from 'react'
+import AuthContext from '../Context/AuthProvider';
 import logo from '../assets/images/altbookwithtext.png';
 import './Login.css'
-
+import { Router, Route, Navigate, Routes, useNavigate} from 'react-router-dom';
 
 
 const  Login = () => {
+    
     const [UserName, setUserName] = useState('');
     const [Password, setPassword] = useState ('');
+    const [success, setSuccess] = useState (false);
 
-    const submit = async (e: SyntheticEvent) => {
+    const submit = async (e:any) => {
         e.preventDefault();
 
-        await fetch('https://webapi20220126203702.azurewebsites.net/api/applicationuser/login', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({
-                UserName,
-                Password
-            })
-        });
+        try{
+            const response = await axios.post('https://webapi20220126203702.azurewebsites.net/api/applicationuser/login', 
+            JSON.stringify({UserName,Password}),
+            {
+                headers: {'Content-Type': 'application/json'},
+                
+            }
+        )
+        console.log(JSON.stringify(response?.data));
+        // console.log(JSON.stringify(response));
+        const accessToken= response?.data?.accessToken;
+            
+            setUserName('');
+            setPassword('');
+            setSuccess(true);
+        }catch(err){
+            console.log("error happened")
+        }
     }
-    console.log(UserName,Password)
+    const navigate = useNavigate();
+
+    // React.useEffect(() => {
+    //     if (success) {
+    //       navigate('/home');
+    //     }
+    //   });
   return (
     
         <div>
@@ -51,7 +70,7 @@ const  Login = () => {
             <p className="mb-3 text-muted">Altnetix LLC</p>
             </form>
         </div>
-        
+
     );
    
 }
