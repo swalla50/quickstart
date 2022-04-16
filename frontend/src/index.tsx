@@ -4,7 +4,10 @@ import App from "./App";
 import { QuickstartProvider } from "./Context";
 import reportWebVitals from "./reportWebVitals";
 import {AuthProvider} from './Context/AuthProvider'
+import axios from 'axios';
+import './App.module.scss'
 
+axios.defaults.baseURL ='https://webapi20220126203702.azurewebsites.net/api/';
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
