@@ -1,12 +1,20 @@
 .canvas {
-    height: 80vh;
+    height: 90vh;
     background: #e9e9e9;
-    margin-top: 5%;
+    margin-top: 3%;
     border-radius: 10px 0px 0px 10px;
     margin-left: 13px;
     box-shadow: 0 25px 15px 0 rgb(0 0 0 / 45%);
     padding-inline: 1%;
     overflow-y: scroll;
+    width: 100%;
+    text-align: left;
+}
+.Template {
+    display: inline-flex;
+    width: 100%;
+    height: 100vh;
+
 }
 
 h3.welcome-name {
@@ -60,3 +68,69 @@ div#user-pic-drpdwn {
   ::-webkit-scrollbar-thumb:hover {
     background: #0d6efd; 
   }
+
+  .inner-nav {
+    background-color: transparent;
+    margin-top: 150%;
+}
+
+nav.nav-card {
+    background-color: #312f2f;
+    place-self: center;
+    height: 100vh;
+    opacity: 1;
+    position: fixed;
+    width: 300px;
+    border-radius: 0px 20px 20px 0px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%)
+
+}
+
+button.toggle {
+    float: left;
+    border-radius: 50px;
+    height: 60px;
+    width: 60px;
+    border: solid cornflowerblue 2px;
+    position: fixed;
+    margin-top: 10px;
+}
+
+a.nav-links {
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+a.nav-links:hover {
+    color: white;
+}
+li.nav-list {
+    list-style: none;
+    text-align: left;
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+li.nav-list:hover {
+    transform: scale(1.1);
+    background-color: rgb(106, 102, 102);
+    border-radius: 50px;
+    text-decoration: none;
+    height: 40px;
+    cursor: pointer;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%)
+}
+
+li.nav-list:not(:hover) {
+    transform: scale(1);
+}
+svg.svg-inline--fa.fa-2x {
+    color: #4f86f6;
+}
+
+button.nav-list {
+    width: 93%;
+    background: #4f86f6;
+    border-radius: 50px;
+    border: solid white 1px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%)
+}

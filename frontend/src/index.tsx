@@ -4,10 +4,11 @@ import App from "./App";
 import { QuickstartProvider } from "./Context";
 import reportWebVitals from "./reportWebVitals";
 import {AuthProvider} from './Context/AuthProvider'
-import axios from 'axios';
+import axios, {HeadersDefaults} from 'axios';
 import './App.module.scss'
 
 axios.defaults.baseURL ='https://webapi20220126203702.azurewebsites.net/api/';
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
