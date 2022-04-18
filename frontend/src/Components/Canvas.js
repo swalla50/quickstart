@@ -1,8 +1,7 @@
 import React, {useState, setShow} from 'react'
 import './Canvas.css'
 import { DropdownButton,Dropdown } from 'react-bootstrap'
-import userPic from '../assets/images/steven-user-pic.png'
-import {motion} from 'framer-motion';
+import {AnimatePresence,motion} from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase,faMoneyBill1Wave,faBuildingColumns,faReceipt,faClock,faBars,faTimes } from '@fortawesome/free-solid-svg-icons'
 
@@ -44,7 +43,7 @@ const Canvas = ( props ) => {
           Welcome {props.fullName}
           <div class="dropdown" id='user-pic-drpdwn'>
             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img className='profile-pic' src={props.userPic}  style ={{height:'60px',width:'60px', borderRadius:'50px'}}/>
+            <img className='profile-pic' src={'https://webapi20220126203702.azurewebsites.net/Images/' + props.userPic}  style ={{height:'60px',width:'60px', borderRadius:'50px'}}/>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <a class="dropdown-item" href="#">Settings</a>

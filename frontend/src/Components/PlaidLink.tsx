@@ -7,7 +7,7 @@ import Context from "../Context";
 
 
 
-const Bank = () =>  {
+const PlaidLink = () =>  {
     const { linkSuccess, isItemAccess, dispatch } = useContext(Context);
 
     const getInfo = useCallback(async () => {
@@ -96,4 +96,4 @@ const Bank = () =>  {
   
 }
 
-export default Bank
+export default PlaidLink

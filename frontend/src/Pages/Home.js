@@ -1,6 +1,6 @@
-import { User } from 'plaid-threads';
 import React, { Component } from 'react'
 import axios from '../api/axios'
+import Login from './Login';
 import Canvas from '../Components/Canvas';
 import { Router, Route, Navigate, Routes, useNavigate} from 'react-router-dom';
 import './Home.css'
@@ -18,26 +18,27 @@ localStorage.removeItem('token');
 handleLogout= () => {
   localStorage.clear();
   this.props.setUser(null);
+  
 }
 render(){
-  
+  if(localStorage.getItem('token')==null){
+    return(
+    <Navigate  to ="/"/>
+    )
+  }
+  else {
   let navItemList;
-  if(this.props.UserProfile.userRole ==='User'){
-    navItemList = (
-    <><li className='nav-list'>  <FontAwesomeIcon icon={faBriefcase} size='2x' /> <a href="home" className="nav-links">Business Overview</a> </li><li className='nav-list'>  <FontAwesomeIcon icon={faBuildingColumns} size='2x' /> <a className="nav-links" href="banking">Banking</a> </li><li className='nav-list'> <FontAwesomeIcon icon={faReceipt} size='2x' /> <a className="nav-links">Bookkeeping </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faClock} size='2x' />  <a href="timesheet" className="nav-links">Time Sheet</a></li><button className='nav-list' onClick={this.handleLogout} > Logout </button></>
-    )
-  }
-  else{
-    navItemList = (
-      <><li className='nav-list'>  <FontAwesomeIcon icon={faBriefcase} size='2x' /> <a href="home" className="nav-links">Business Overview</a> </li><li className='nav-list'>  <FontAwesomeIcon icon={faBuildingColumns} size='2x' /> <a className="nav-links" href="banking">Banking</a> </li><li className='nav-list'> <FontAwesomeIcon icon={faMoneyBill1Wave} size='2x' />  <a href="payroll" className="nav-links"> Payroll </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faReceipt} size='2x' /> <a className="nav-links">Bookkeeping </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faClock} size='2x' />  <a href="timesheet" className="nav-links">Time Sheet</a></li><button className='nav-list' onClick={this.handleLogout}> Logout </button></>
-    )
-  }
   
-  if(this.props.UserProfile){
+
+    navItemList = (
+      <><li className='nav-list'>  <FontAwesomeIcon icon={faBriefcase} size='2x' /> <a href="home" className="nav-links">Business Overview</a> </li><li className='nav-list'>  <FontAwesomeIcon icon={faBuildingColumns} size='2x' /> <a className="nav-links" href="bank">Banking</a> </li><li className='nav-list'> <FontAwesomeIcon icon={faMoneyBill1Wave} size='2x' />  <a href="payroll" className="nav-links"> Payroll </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faReceipt} size='2x' /> <a className="nav-links">Bookkeeping </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faClock} size='2x' />  <a href="timesheet" className="nav-links">Time Sheet</a></li><button className='nav-list' onClick={this.handleLogout}> Logout </button></>
+    )
+  
+  
   return (
     
     <div>
-    <Canvas fullName={this.props.UserProfile.fullName} navItems = {navItemList} userPic={`https://webapi20220126203702.azurewebsites.net/Images/${this.props.UserProfile.userPic}`}>
+    <Canvas fullName={this.props.UserProfile.fullName} navItems = {navItemList} userPic={this.props.UserProfile.userPic}>
       <div className='fin-overview'>
 
       </div>
@@ -53,7 +54,7 @@ render(){
     </div>
     
     )
-  }
+}
   
   
 

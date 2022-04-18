@@ -75,15 +75,14 @@ div#user-pic-drpdwn {
 }
 
 nav.nav-card {
-    background-color: #312f2f;
-    place-self: center;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);    place-self: center;
     height: 100vh;
     opacity: 1;
     position: fixed;
     width: 300px;
     border-radius: 0px 20px 20px 0px;
-    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%)
-
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    z-index: 2;
 }
 
 button.toggle {
@@ -94,11 +93,12 @@ button.toggle {
     border: solid cornflowerblue 2px;
     position: fixed;
     margin-top: 10px;
+    z-index: 3;
 }
 
 a.nav-links {
     color: white;
-    font-size: 20px;
+    font-size: 15px;
     text-decoration: none;
 }
 a.nav-links:hover {
@@ -117,7 +117,8 @@ li.nav-list:hover {
     text-decoration: none;
     height: 40px;
     cursor: pointer;
-    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%)
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    padding-inline:10px;
 }
 
 li.nav-list:not(:hover) {

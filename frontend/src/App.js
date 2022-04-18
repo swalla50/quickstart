@@ -12,6 +12,7 @@ import Home from "./Pages/Home";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import { User } from "plaid-threads";
+import TimeSheet from "./Pages/TimeSheet";
 
 
 
@@ -19,7 +20,9 @@ export default class App extends Component {
   
   state ={
     UserProfile: {},
-    fullName: {}
+    fullName: {},
+    myUserId: {},
+    userPic: ' https://webapi20220126203702.azurewebsites.net/Images/' + {}
   }
  
   componentDidMount = () => {
@@ -52,8 +55,9 @@ export default class App extends Component {
       <Routes>
         <Route path="/" element={<Login setUser={this.setUser} />} />
         <Route path="register" element={<Register />} />
-        <Route path="bank" element={<Bank />} /
-        ><Route path="home" element={<Home UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
+        <Route path="bank" element={<Bank UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
+        <Route path="home" element={<Home UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
+        <Route path="timesheet" element={<TimeSheet UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
       </Routes>
   </BrowserRouter>
   )
