@@ -13,7 +13,7 @@ export default class Login extends Component  {
 
     state={}
 
-      submit =  e => {
+      submit =  (e) => {
         e.preventDefault();
 
         const data = {
@@ -37,6 +37,7 @@ export default class Login extends Component  {
             console.log(err);
         })
         
+        
     }
     
 
@@ -44,10 +45,8 @@ export default class Login extends Component  {
     
    
     render(){
-        if(this.state.loggedIn){
-            return(
-                <Navigate  to ="/home"/>
-                )
+        if(localStorage.getItem('token')){
+            return <Navigate to={'/home'}/>
         }
     return (
             <div className ="login">

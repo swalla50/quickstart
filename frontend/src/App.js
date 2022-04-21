@@ -19,10 +19,8 @@ import TimeSheet from "./Pages/TimeSheet";
 export default class App extends Component {
   
   state ={
-    UserProfile: {},
-    fullName: {},
-    myUserId: {},
-    userPic: ' https://webapi20220126203702.azurewebsites.net/Images/' + {}
+    UserProfile: [],
+ 
   }
  
   componentDidMount = () => {
@@ -53,11 +51,11 @@ export default class App extends Component {
   return(
   <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login setUser={this.setUser} />} />
+        <Route exact path="/" element={<Login UserProfile={this.state.UserProfile}  setUser={this.setUser} />} />
         <Route path="register" element={<Register />} />
-        <Route path="bank" element={<Bank UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
-        <Route path="home" element={<Home UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
-        <Route path="timesheet" element={<TimeSheet UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
+        <Route exact path="bank" element={<Bank UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
+        <Route exact path="home" element={<Home UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
+        <Route exact path="timesheet" element={<TimeSheet UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
       </Routes>
   </BrowserRouter>
   )

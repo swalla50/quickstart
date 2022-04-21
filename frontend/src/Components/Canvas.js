@@ -1,13 +1,13 @@
-import React, {useState, setShow} from 'react'
+import React, {useState, setShow,useEffect,setUser} from 'react'
 import './Canvas.css'
 import { DropdownButton,Dropdown } from 'react-bootstrap'
 import {AnimatePresence,motion} from 'framer-motion';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBriefcase,faMoneyBill1Wave,faBuildingColumns,faReceipt,faClock,faBars,faTimes } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios';
 
 const Canvas = ( props ) => {
 
-  
 
   const logout = () =>{
     localStorage.removeItem('token');
@@ -19,6 +19,8 @@ const Canvas = ( props ) => {
     closed: {opacity: 0, x: "-100%"}
   }
   const [show, setShow] = useState(false);
+  
+  if(localStorage.getItem('token')){
   
   return (
     <div className='Template'>
@@ -41,13 +43,13 @@ const Canvas = ( props ) => {
       <div className='welcome-banner'>
         <h3 className='welcome-name'> 
           Welcome {props.fullName}
-          <div class="dropdown" id='user-pic-drpdwn'>
-            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <div className="dropdown" id='user-pic-drpdwn'>
+            <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img className='profile-pic' src={'https://webapi20220126203702.azurewebsites.net/Images/' + props.userPic}  style ={{height:'60px',width:'60px', borderRadius:'50px'}}/>
             </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Settings</a>
-              <a class="dropdown-item" onClick={logout} href="/">Logout</a>
+            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a className="dropdown-item" href="#">Settings</a>
+              <a className="dropdown-item" onClick={logout} href="/">Logout</a>
             </div>
           </div>
         </h3>
@@ -58,5 +60,5 @@ const Canvas = ( props ) => {
     </div>
   )
 }
-
+}
 export default Canvas
