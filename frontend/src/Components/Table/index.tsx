@@ -2,30 +2,30 @@ import React from "react";
 
 import { DataItem, Categories } from "../../dataUtilities";
 import Identity from "./Identity";
+import { faBriefcase, faMoneyBill1Wave, faBuildingColumns, faReceipt, faClock, faPlus, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import styles from "./index.module.scss";
 
 interface Props {
-  data: Array<DataItem>;
+  data: Array<any>;
   categories: Array<Categories>;
   isIdentity: boolean;
 }
 
 const Table = (props: Props) => {
-  const maxRows = 15;
+  const maxRows = 25;
   // regular table
-  const headers = props.categories.map((category, index) => (
-    <th key={index} className={styles.headerField}>
-      {category.title}
-    </th>
-  ));
+
 
   const rows = props.data
-    .map((item: DataItem | any, index) => (
+    .map((item: any, index) => (
       <tr key={index} className={styles.dataRows}>
         {props.categories.map((category: Categories, index) => (
           <td key={index} className={styles.dataField}>
+
             {item[category.field]}
+
           </td>
         ))}
       </tr>
@@ -37,7 +37,6 @@ const Table = (props: Props) => {
   ) : (
     <table className={styles.dataTable}>
       <thead className={styles.header}>
-        <tr className={styles.headerRow}>{headers}</tr>
       </thead>
       <tbody className={styles.body}>{rows}</tbody>
     </table>

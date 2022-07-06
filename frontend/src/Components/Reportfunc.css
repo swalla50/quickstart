@@ -1,0 +1,143 @@
+.Report-metric-top {
+    display: inline-flex;
+    width: 100%;
+}
+.Report-count-container {
+    background-color: white;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    width: 50%;
+    margin-right: 10px;
+    border-radius: 5px;
+    padding: 10px;
+}
+.Report-Types-container {
+    background-color: white;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    width: 50%;
+    margin-left: 10px;
+    border-radius: 5px;
+    padding: 10px;
+}
+.Report-filter-container{
+    background-color: white;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    margin-top: 40px;
+    border-radius: 5px;
+    padding: 10px;
+}
+h6.report-count-header {
+    border-bottom: solid #4f86f6;
+}
+.report-item {
+    background: linear-gradient(0deg, rgb(151, 151, 151) 0%, rgb(192, 189, 189) 100%);
+    padding: 10px;
+    color:white;
+    margin-top: 5px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    border-right: solid #4f86f6 10px;
+    border-left: solid #4f86f6 10px;
+    text-align: left;
+}
+.report-item:hover {
+    width: 95%;
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor:pointer;
+    border-right: solid #0044cb 10px;
+    border-left: solid #0044cb 10px;
+ }
+ .report-item:not(:hover) {
+     width: 100%;
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor:pointer;
+ }
+.report-list-container {
+    height: 55vh;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+    margin-top: 30px;
+    overflow-y: scroll;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    text-align: -webkit-center;
+}
+p.report-date {
+    color: white;
+    font-weight: 100;
+    font-size: 15px;
+}
+p.report-type {
+    color: white;
+    font-size: 12px;
+    font-weight: 100;
+}
+h5.report-name {
+    font-weight: 900;
+    font-size: 20px;
+}
+h1.report-count {
+    text-align: center;
+    font-family: 'Cern';
+    font-weight: 400;
+}
+.filters {
+    width: 100%;
+    display: inline-flex;
+}
+
+select.form-select {
+    width: 300px;
+}
+input.search-reports {
+    width: 300px;
+}
+button.btn.btn-primary {
+    margin-left: 10px;
+}
+.MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-adornedEnd.MuiAutocomplete-inputRoot.css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root {
+    background: white;
+}
+input:focus { 
+    outline: none !important;
+    border-color: #719ECE;
+}
+h5.report-return-count {
+    text-align: right;
+    width: 350px;
+}
+.report-return-count-container {
+    display: inline-flex;
+    align-items: center;
+    justify-content: right;
+    width: 100%;
+}
+h5.search-number-count {
+    margin-left: 5px;
+    color: #4f86f6;
+}
+button.clear.btn.btn-primary {
+    border-radius: 5px;
+    width: 200px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+}
+button.clear.btn.btn-primary:hover {
+    transform: translateY(5px);    
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor:pointer;
+ }
+ button.clear.btn.btn-primary:not(:hover) {
+    transform: translateY(0px);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor:pointer;
+ }
+ svg.svg-inline--fa.fa-filter.fa-2x{
+     color:white;
+ }
+ .MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-adornedStart.MuiInputBase-adornedEnd.MuiAutocomplete-inputRoot.css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root {
+    width: 300px;
+}

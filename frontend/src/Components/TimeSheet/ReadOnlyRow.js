@@ -5,47 +5,11 @@ import axios from 'axios';
 import moment from 'moment';
 
 
-const ReadOnlyRow = ({time, handleEditClick}) => {
+const ReadOnlyRow = ({time, handleEditClick, onquickupdate, getUserTime}) => {
 
     const [timesheet, settimesheet] = useState([]);
     const options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour:'numeric', minute:'numeric', second:'numeric'};
-    function getUserTime(){
-        axios.get(`timesheet/gettimesheet`)
-            .then((response) => {
-                const myTime = response.data;
-                settimesheet(response.data);
-
-            })
-            .catch((err) => {
-                console.log(err, "Unable to get user time info");
-            });
-    }
-
-    const onquickupdate = async (timeval) => {
-        var timeval = {
-            sheetId:  timeval,
-            timeworkedOut: moment().format('YYYY-MM-DDTHH:mm:ss'),
-          } 
-          try{
-            await axios.put('quickaddtime/quickupdatetime',  timeval)
-            .then(res => {
-                let newTime = res.data;
-                
-                res.data.timeworkedOut = moment().format('YYYY-MM-DDTHH:mm:ss')
-                
-                console.log("newTime:", newTime);
-                getUserTime();
-            })
-            .catch(err =>{
-                console.log(err);
-            })
-            getUserTime();
-          }catch(err){
-              console.log(err)
-          }
-          getUserTime();
-        
-      }
+   
     return (
         <tr id={time.sheetId} key={time.sheetId}>
             <td>{time.myUserId}</td>

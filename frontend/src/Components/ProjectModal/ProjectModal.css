@@ -1,0 +1,20 @@
+form.add-project-form {
+    display: flex;
+    padding-inline: 10%;
+    flex-direction: column;
+}
+.task-input-group {
+    display: inline-flex;
+}
+.first-division {
+    display: flex;
+}
+button.submit-project-form {
+    margin-top: 20px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 45%);
+    background: linear-gradient(0deg, rgba(49, 47, 47, 1) 0%, rgba(111, 110, 110, 1) 100%);
+    color: white;
+    height: 40px;
+}

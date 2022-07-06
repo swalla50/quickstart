@@ -1,0 +1,257 @@
+.project-func {
+    height: 100%;
+    width: 100%;
+    overflow-y: clip;
+    padding: 30px;
+}
+
+.Project-list-canvas {
+    width: 75%;
+    height: 90%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+}
+
+ul.project-list {
+    list-style: none;
+    grid-template-columns: 1fr 1fr 1fr;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+li.project-item {
+    width: 400px;
+    height: fit-content;
+    margin: 10px;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    background: linear-gradient(0deg, #4f86f6, #78a5ff);
+}
+
+li.project-item:hover {
+    transform: scale(1.05);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+
+}
+
+li.project-item:not(:hover) {
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+
+}
+
+h4.project-name {
+    color: white;
+}
+
+p.progress-percent {
+    color: white;
+}
+
+.project-header {
+    display: flex;
+}
+
+.project-header-listed {
+    display: flex;
+}
+
+svg.svg-inline--fa.fa-circle-check.fa-2x.project-done-icon {
+    color: rgb(0, 210, 0);
+    margin-left: 15px;
+    background: white;
+    padding: 3px;
+    border-radius: 50%;
+}
+
+h5.project-description {
+    height: 50px;
+    margin-bottom: 20px;
+}
+
+button#uncontrolled-tab-example-tab-Grid.active {
+    background: #495057;
+    font-weight: bold;
+    border-radius: 50%;
+    color: white;
+    border-radius: 20%;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+}
+
+button#uncontrolled-tab-example-tab-List.active {
+    background: #495057;
+    font-weight: bold;
+    border-radius: 50%;
+    color: white;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    border-radius: 20%;
+}
+
+ul.project-tabs.nav.nav-tabs {
+    width: 100%;
+    justify-content: flex-end;
+    padding-bottom: 10px;
+}
+
+li.project-item-listed {
+    width: 100%;
+    height: fit-content;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    background: linear-gradient(0deg, #4f86f6, #78a5ff);
+    border-radius: 10px;
+    list-style: none;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+li.project-item-listed:hover {
+    transform: scale(1.02);
+    width: 90%;
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+
+}
+
+li.project-item-listed:not(:hover) {
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+
+}
+
+div#uncontrolled-tab-example-tabpane-List {
+    overflow-y: scroll;
+    height: 65vh;
+}
+
+.Project-list-contatiner {
+    display: flex;
+    height: 100%;
+}
+
+.Project-content-container {
+    width: 25%;
+    height: 90%;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    margin-left: 10px;
+}
+
+img.left-gif {
+    height: 100px;
+}
+
+svg.svg-inline--fa.fa-bars-progress.fa-4x.project-done-icon {
+    color: #4f86f6;
+}
+
+button.project-edit-btn {
+    color: white;
+    background: linear-gradient(0deg, rgba(49, 47, 47, 1) 0%, rgba(111, 110, 110, 1) 100%);
+    border-radius: 50px;
+    border: none;
+    margin-bottom: 15px;
+    padding: 5px;
+    height: 50px;
+    float: right;
+    width: 50px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 45%);
+}
+
+button.project-edit-btn:hover {
+    transform: scale(1.1);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+}
+
+button.project-edit-btn:not(:hover) {
+    transform: scale(1);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+}
+
+button.project-close-edit-btn {
+    color: white;
+    background: linear-gradient(0deg, rgba(49, 47, 47, 1) 0%, rgba(111, 110, 110, 1) 100%);
+    border-radius: 50px;
+    border: none;
+    margin-bottom: 15px;
+    padding: 5px;
+    height: 50px;
+    float: right;
+    width: 50px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 45%);
+}
+
+button.project-close-edit-btn:hover {
+    transform: scale(1.1);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+}
+
+button.project-close-edit-btn:not(:hover) {
+    transform: scale(1);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+}
+
+button.project-save-btn {
+    width: 100%;
+    margin-top: 20px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 45%);
+    background: linear-gradient(0deg, rgba(49, 47, 47, 1) 0%, rgba(111, 110, 110, 1) 100%);
+    height: 50px;
+}
+
+button.project-save-btn:hover {
+    transform: translateY(10px);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+}
+
+button.button.project-save-btn:hover:not(:hover) {
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+}
+
+button.Add-New-Project {
+    color: white;
+    background: linear-gradient(0deg, rgba(49, 47, 47, 1) 0%, rgba(111, 110, 110, 1) 100%);
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 15px;
+    padding: 5px;
+    height: 50px;
+    width: 200px;
+    box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
+}
+button.Add-New-Project:hover {
+    transform: translateY(10px);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+}
+
+button.Add-New-Project:not(:hover) {
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+}
+svg.svg-inline--fa.fa-list-check.fa-1x.project-done-icon {
+    margin-left: 25px;
+    height: 20px;
+}

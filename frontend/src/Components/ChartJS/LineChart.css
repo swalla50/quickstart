@@ -1,0 +1,40 @@
+canvas#myChart {
+    width: 100% !important;
+    height: 50% !important;
+}
+
+h2.connect-account-head{
+    font-weight: 100;
+    font-family:  -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+h2.connect-account-head2{
+    font-weight: 900;
+    font-family:  -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+.connect-account-btn-group {
+    text-align: center;
+}
+button.connect-account-btn {
+    background: #4f86f6;
+    width: 200px;
+    height: 50px;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+button.connect-account-btn:hover {
+    transform:translateY(-5px);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor:pointer;
+}
+button.connect-account-btn:not(:hover) {
+    transform:translateY(5px);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+}
+svg.svg-inline--fa.fa-money-bill-transfer.fa-2x {
+    color: white;
+}

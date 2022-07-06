@@ -27,7 +27,9 @@ const Link = () => {
               isItemAccess: false,
             },
           });
+          console.log(dispatch)
           return;
+          
         }
         const data = await response.json();
         dispatch({
@@ -41,7 +43,7 @@ const Link = () => {
       };
       setToken();
       dispatch({ type: "SET_STATE", state: { linkSuccess: true } });
-      window.history.pushState("", "", "/");
+      window.history.pushState("", "", "/bank");
     },
     [dispatch]
   );

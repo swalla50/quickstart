@@ -1,0 +1,20 @@
+svg.svg-inline--fa.fa-clock.fa-1x{
+    color:#4f86f6;
+    margin-right: 3px;
+}
+table.table.table-striped {
+    border-radius: 15px;
+    margin-top: 10%;
+    background: white;
+}
+
+svg.svg-inline--fa.fa-dollar-sign.fa-1x{
+    color:#4f86f6;
+    margin-right: 3px;
+}
+td.action-payment {
+    text-align: center;
+}
+button.excel-export {
+    float: right;
+}

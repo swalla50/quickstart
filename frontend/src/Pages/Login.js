@@ -32,6 +32,7 @@ export default class Login extends Component  {
                 loggedIn: true
             });
             this.props.setUser(res.data.user);
+            window.history.pushState("", "", "/home");
         })
         .catch(err =>{
             console.log(err);
@@ -46,7 +47,7 @@ export default class Login extends Component  {
    
     render(){
         if(localStorage.getItem('token')){
-            return <Navigate to={'/home'}/>
+             <Navigate to={'/home'}/>
         }
     return (
             <div className ="login">

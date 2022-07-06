@@ -16,6 +16,8 @@ import {
   Paystub,
   Earnings,
 } from "plaid/dist/api";
+import { faBriefcase,faMoneyBill1Wave,faBuildingColumns,faReceipt,faClock,faPlus, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const formatCurrency = (
   number: number | null | undefined,

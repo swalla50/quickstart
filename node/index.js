@@ -97,7 +97,7 @@ app.post('/api/create_link_token', function (request, response, next) {
           // This should correspond to a unique id for the current user.
           client_user_id: 'user-id',
         },
-        client_name: 'Plaid Quickstart',
+        client_name: 'Altbooks',
         products: PLAID_PRODUCTS,
         country_codes: PLAID_COUNTRY_CODES,
         language: 'en',
@@ -190,11 +190,7 @@ app.post('/api/set_access_token', function (request, response, next) {
       if (PLAID_PRODUCTS.includes('transfer')) {
         TRANSFER_ID = await authorizeAndCreateTransfer(ACCESS_TOKEN);
       }
-      response.json({
-        access_token: ACCESS_TOKEN,
-        item_id: ITEM_ID,
-        error: null,
-      });
+      console.log('goes to DB:', tokenResponse.data.access_token)
     })
     .catch(next);
 });

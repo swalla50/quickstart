@@ -13,7 +13,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import { User } from "plaid-threads";
 import TimeSheet from "./Pages/TimeSheet";
-
+import Payroll from "./Pages/Payroll";
+import Reports from "./Pages/Reports";
+import Project from "./Pages/Project";
 
 
 export default class App extends Component {
@@ -54,8 +56,11 @@ export default class App extends Component {
         <Route exact path="/" element={<Login UserProfile={this.state.UserProfile}  setUser={this.setUser} />} />
         <Route path="register" element={<Register />} />
         <Route exact path="bank" element={<Bank UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
+        <Route exact path="payroll" element={<Payroll UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
+        <Route exact path="reports" element={<Reports UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
         <Route exact path="home" element={<Home UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
         <Route exact path="timesheet" element={<TimeSheet UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
+        <Route exact path="project" element={<Project UserProfile={this.state.UserProfile} setUser={this.setUser} />} />
       </Routes>
   </BrowserRouter>
   )

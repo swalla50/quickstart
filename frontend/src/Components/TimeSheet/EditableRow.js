@@ -6,14 +6,10 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const EditableRow = ({ time, handleCancelClick, handleEditFormChange, editFormData }) => {
-    const notify = () => toast("Wow so easy!");
-    toast.success("Success Notification !", {
-        position: toast.POSITION.TOP_CENTER
-      });
 
     return (
 
-        <tr >
+        <tr id={time.sheetId} key={time.sheetId}>
             <td>
                 <input type='text' value={editFormData.myUserId} readOnly name='myUserId'></input>
 

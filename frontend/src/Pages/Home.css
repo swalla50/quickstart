@@ -1,19 +1,53 @@
 .fin-overview {
     width: 100%;
     background: white;
-    height: 400px;
+    height: fit-content;
     border-radius: 5px;
     display: flex;
+    flex-direction: column;
     box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
-
 }
 
 .row-2 {
     width: 100%;
     height: 500px;
     margin-top: 40px;
-    background: antiquewhite;
-    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
     border-radius: 5px;
     margin-bottom: 20px;
+    display: flex;
+}
+
+ul.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+    width: 20%;
+}
+
+.left-home {
+    background: white;
+    height: 100%;
+    width: 50%;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    border-radius: 5px;
+    margin-right: 10px;
+    overflow: hidden;
+}
+
+.right-home {
+    background: white;
+    height: 100%;
+    width: 50%;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    border-radius: 5px;
+}
+
+h4.transaction-header {
+    text-align: center;
+    border-bottom: solid 2px #0d6efd;
+    color: black; 
+    margin-bottom: 0px;
+}
+
+.transaction-feed {
+    overflow-y: scroll;
+    height: 100%;
 }

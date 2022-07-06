@@ -1,0 +1,36 @@
+li.list-drag-comp {
+    list-style: none;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 24px;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
+    border:none;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+ul.characters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(150px, 2fr));
+    grid-column-gap: 16px;
+    grid-row-gap: 16px;
+    height: 100%;
+    padding: 10px;
+    width: 100%;
+}
+
+.draggable-container {
+    height: 100%;
+}
+svg.svg-inline--fa.fa-5x {
+    color: #4f86f6;
+}
+h3.draggable-header{
+    color:white;
+}

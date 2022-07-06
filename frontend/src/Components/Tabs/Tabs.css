@@ -1,0 +1,32 @@
+.tab-content {
+    width: 100%;
+    padding: 2%;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #dee2e6;
+    width: 20%;
+}
+
+
+
+button#uncontrolled-tab-example-tab-7\ Day.active {
+
+    background: #495057;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+}
+button#uncontrolled-tab-example-tab-Month.active{
+    background: #495057;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+}
+
+button#uncontrolled-tab-example-tab-Year.active{
+    background: #495057;
+    font-weight: bold;
+    color: white;
+    border-radius: 5px;
+}
