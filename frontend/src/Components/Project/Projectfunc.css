@@ -19,7 +19,8 @@ ul.project-list {
     grid-template-columns: 1fr 1fr 1fr;
     display: flex;
     flex-wrap: wrap;
-
+    overflow-y: scroll;
+    height: 62vh;
 }
 
 li.project-item {
@@ -129,7 +130,7 @@ li.project-item-listed:not(:hover) {
 
 div#uncontrolled-tab-example-tabpane-List {
     overflow-y: scroll;
-    height: 65vh;
+    height: 62vh;
 }
 
 .Project-list-contatiner {
@@ -239,6 +240,7 @@ button.Add-New-Project {
     height: 50px;
     width: 200px;
     box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
+    width: 500px;
 }
 button.Add-New-Project:hover {
     transform: translateY(10px);
@@ -254,4 +256,209 @@ button.Add-New-Project:not(:hover) {
 svg.svg-inline--fa.fa-list-check.fa-1x.project-done-icon {
     margin-left: 25px;
     height: 20px;
+}
+svg.svg-inline--fa.fa-square.fa-1x.task-done-icon {
+    float: right;
+    width: 20px;
+    height: 20px;
+    color: white;
+    border: solid gray 2px;
+    border-radius: 5px;
+}
+svg.svg-inline--fa.fa-square-check.fa-1x.task-done-icon {
+    float: right;
+    width: 25px;
+    height: 25px;
+    border-radius: 5px;
+}
+h5.project-task-title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: solid gray 1px;
+}
+p.task-assignee {
+    font-size: 11px;
+}
+p.task-date {
+    font-size: 12px;
+}
+input.title-input {
+    border-bottom: solid #4f86f6 1px;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    margin-top: 20px;
+}
+input.title-input:focus {
+    border-bottom: solid #4f86f6 5px;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    -webkit-transition: all 1s ease;
+    transition: all 100ms ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
+    transform: scale(1.1);
+    z-index: 1000;
+}
+
+textarea.description-input {
+    border-bottom: solid #4f86f6 1px;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    margin-top: 20px;
+}
+textarea.description-input:focus {
+    border-bottom: solid #4f86f6 5px;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    outline: none;
+    -webkit-transition: all 1s ease;
+    transition: all 100ms ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
+    transform: scale(1.1);
+}
+input#task{
+    border-bottom: solid #4f86f6 1px;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+}
+input#task:focus{
+    border-bottom: solid #4f86f6 1px;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    -webkit-transition: all 1s ease;
+    transition: all 100ms ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
+    transform: scale(1.1);
+}
+select#taskCompleter{
+    border-bottom: solid #4f86f6 1px;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    margin-right: 30px;
+}
+select#taskCompleter:focus{
+    border-bottom: solid #4f86f6 1px;
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    margin-right: 30px;
+    -webkit-transition: all 1s ease;
+    transition: all 100ms ease-in-out;
+    border-radius: 5px;
+    box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
+    transform: scale(1.1);
+}
+
+button.add-task-btn {
+    border: none;
+    height: 35px;
+    width: 100px;
+    border-radius: 5px;
+    background: linear-gradient(0deg, rgb(0, 185, 15) 0%, rgb(10, 146, 0) 100%);
+    outline: none;
+    box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
+    color: white;
+    margin-right: 10px;
+}
+button.rmv-task-btn {
+    border: none;
+    width: 125px;
+    background: linear-gradient(41deg, #d10000, #992020);
+    color: white;
+    height: 35px;
+    border-radius: 5px;
+    box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
+}
+button.rmv-task-btn:hover {
+    
+    width: 150px;
+    -webkit-transition: all 1s ease;
+    transition: all 100ms ease-in-out;
+
+}
+button.rmv-task-btn:not(:hover) {
+    height: 35px;
+    width: 125px;
+    -webkit-transition: all 1s ease;
+    transition: all 100ms ease-in-out;
+}
+button.add-task-btn:hover {
+    
+    width: 150px;
+    -webkit-transition: all 1s ease;
+    transition: all 100ms ease-in-out;
+
+}
+button.add-task-btn:not(:hover) {
+    height: 35px;
+    width: 125px;
+    -webkit-transition: all 1s ease;
+    transition: all 100ms ease-in-out;
+}
+svg.svg-inline--fa.fa-circle-check.fa-1x.task-add-icon{
+    color:white;
+}
+label.project-title {
+    width: 100%;
+    align-self: center;
+    background: linear-gradient(0deg, rgba(49, 47, 47, 1) 0%, rgba(111, 110, 110, 1) 100%);
+    color: white;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+button.submit-project-form:hover{
+    width: 500px;
+    align-self: center;
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+button.submit-project-form:not(:hover){
+    align-self: center;
+    width: 100%;
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+.first-division {
+    display: flex;
+    margin-bottom: 20px;
+}
+svg.svg-inline--fa.fa-trash-can.fa-1x.task-rmv-icon {
+    color: white;
+}
+
+.edit-task-input-group {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+.edit-tasks-container {
+    height: 50vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.edit-first-division {
+    padding: 30px;
+}
+h4.project-count {
+    float: right;
+    margin-left: 50%;
+}
+.project-count-container {
+    width: 100%;
+    display: flex;
+
+}
+.archive-proj-container {
+    display: inline-flex;
 }
