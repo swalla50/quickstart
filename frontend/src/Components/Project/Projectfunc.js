@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import gif from '../../../src/assets/images/icons8-double-left.gif'
 import SkeletonElement from '../Skeleton/SkeletonElement';
 import SkeletonProject from '../Skeleton/SkeletonProject';
+import CirlceLoading from '../Skeleton/CirlceLoading';
 
 function Projectfunc(props) {
     const [projectList, setProjectList] = useState([]);
@@ -378,7 +379,7 @@ function Projectfunc(props) {
             <h2> Projects </h2>
             <div className='Project-list-contatiner'>
                 <div className='Project-list-canvas'>
-                    <div className='project-count-container'><button onClick={() => setProjectModal(true)} className='Add-New-Project'>Add Project <FontAwesomeIcon className="project-done-icon" icon={faPlus} size='1x' /></button> <h4 className='project-count'>({projectList.filter(item => item.isActive == 1).length} Projects)</h4></div>
+                    <div className='project-count-container'><button onClick={() => setProjectModal(true)} className='Add-New-Project'>Add Project <FontAwesomeIcon className="project-done-icon" icon={faPlus} size='1x' /></button> <h4 className='project-count'>{projectList==""? <div className='loading-project-count'>{projectList=="" &&<div className='project-count-circle'>(<CirlceLoading/> Projects)</div>}</div>:<div div className='loaded-project-count'>({projectList.filter(item => item.isActive == 1).length} Projects)</div>}</h4></div>
                     <Tabs className='project-tabs' defaultActiveKey="Grid" id="uncontrolled-tab-example" >
                         <Tab eventKey="Grid" title={<FontAwesomeIcon className="project-done-icon" icon={faGrip} size='2x' />} className="Grid-tab">
                             <ul className='project-list'>
