@@ -10,42 +10,10 @@ import ProjectModal from '../ProjectModal/ProjectModal'
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import gif from '../../../src/assets/images/icons8-double-left.gif'
+import SkeletonElement from '../Skeleton/SkeletonElement';
+import SkeletonProject from '../Skeleton/SkeletonProject';
 
-function Projectfunc() {
-    // const projectList = [
-    //     {
-    //         projectID: 1,
-    //         projectName: 'New project',
-    //         projectDescription: 'This is a test Project for the world to see.',
-    //         MostRecentTask: 'Test Last Task',
-    //         LastTaskCompleter: 'Steven Wallace',
-    //         progress: 50
-    //     },
-    //     {
-    //         projectID: 2,
-    //         projectName: 'ASC Project',
-    //         projectDescription: 'This is a project containing ASC Modules and finance reports.',
-    //         MostRecentTask: 'Amirization',
-    //         LastTaskCompleter: 'Jason Drummond',
-    //         progress: 10
-    //     },
-    //     {
-    //         projectID: 3,
-    //         projectName: 'MSN Project',
-    //         projectDescription: 'This is a project containing MSN Re-configuration.',
-    //         MostRecentTask: 'Plot Creation',
-    //         LastTaskCompleter: 'Steven Wallace',
-    //         progress: 100
-    //     },
-    //     {
-    //         projectID: 4,
-    //         projectName: 'Facebook Project',
-    //         projectDescription: 'This is a project containing Facebook Auditing.',
-    //         MostRecentTask: 'Audit intial summary',
-    //         LastTaskCompleter: 'Jason Drummond',
-    //         progress: 25
-    //     },
-    // ]
+function Projectfunc(props) {
     const [projectList, setProjectList] = useState([]);
     const [projectContent, setProjectContent] = useState("");
     const [projEdit, setProjEdit] = useState(false);
@@ -53,6 +21,7 @@ function Projectfunc() {
     const [projectTasks, setprojectTasks] = useState("");
     const [assigneeList, setAssigneeList] = useState([]);
     const [Tasks, setTasks] = useState([{ task: "" }]);
+    const [current, setCurrent] = useState(props.current)
 
     const options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
 
@@ -131,29 +100,15 @@ function Projectfunc() {
                             autoClose: 5000,
                             theme: 'dark'
                         });
-                        closeeditProject();
+
+
+
                     })
                     .catch(err => {
                         console.log(err);
                     })
-                axios.get(`getTasks/getTaskList`)
-                    .then((response) => {
-                        setProjectList(response.data);
 
 
-                    })
-                    .catch((err) => {
-                        console.log(err, "Unable to get user time info");
-                    });
-                axios.get(`getproject/getprojectList`)
-                    .then((response) => {
-                        setProjectList(response.data);
-
-
-                    })
-                    .catch((err) => {
-                        console.log(err, "Unable to get user time info");
-                    });
             }
             if (projectTasks[i].TaskID != null) {
                 console.log("UPDATE ", i, ": ", projectTasks[i])
@@ -181,25 +136,27 @@ function Projectfunc() {
                 autoClose: 5000,
                 theme: 'dark'
             });
+            closeeditProject();
+
             axios.get(`getTasks/getTaskList`)
                 .then((response) => {
                     setProjectList(response.data);
+                    axios.get(`getproject/getprojectList`)
+                        .then((response) => {
+                            setProjectList(response.data);
 
+
+                        })
+                        .catch((err) => {
+                            console.log(err, "Unable to get user time info");
+                        });
 
                 })
                 .catch((err) => {
                     console.log(err, "Unable to get user time info");
                 });
-            axios.get(`getproject/getprojectList`)
-                .then((response) => {
-                    setProjectList(response.data);
 
 
-                })
-                .catch((err) => {
-                    console.log(err, "Unable to get user time info");
-                });
-            closeeditProject();
         }
         console.log("This is the edited project: ", projectTasks)
 
@@ -260,8 +217,9 @@ function Projectfunc() {
 
     //Grab
     useEffect(() => {
-
-        axios.get(`getproject/getprojectList`)
+        setTimeout(()=>{
+            setCurrent(props.current) 
+            axios.get(`getproject/getprojectList`)
             .then((response) => {
                 setProjectList(response.data);
 
@@ -286,8 +244,11 @@ function Projectfunc() {
             .catch((err) => {
                 console.log(err, "Unable to get user list");
             });
+           }, 4000)
 
-    }, []);
+       
+
+    }, [props.current]);
 
     console.log("assign", assigneeList)
     function handleTaskAdd(eventid2) {
@@ -421,6 +382,11 @@ function Projectfunc() {
                     <Tabs className='project-tabs' defaultActiveKey="Grid" id="uncontrolled-tab-example" >
                         <Tab eventKey="Grid" title={<FontAwesomeIcon className="project-done-icon" icon={faGrip} size='2x' />} className="Grid-tab">
                             <ul className='project-list'>
+                                {/* Loading Data Divs */}
+
+
+                                {projectList=="" &&[1,2,3,4,5,6,7,8,9,10].map((n) => <SkeletonProject key={n} theme="dark"/>)}
+                                {/* Data Loaded content */}
                                 {projectList.filter(projectList => projectList.isActive == 1).map(item => (
                                     <li className='project-item' key={item.projectID} onClick={(e) => getProjectData(e.target.id)} id={item.projectID}>
                                         <div onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-header'>{item.progress === 100 ? <><h4 className='project-name'>{item.projectName}</h4><FontAwesomeIcon className="project-done-icon" icon={faCheckCircle} size='2x' /></> : <h4 className='project-name'>{item.projectName}</h4>}</div>
