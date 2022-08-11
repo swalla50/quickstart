@@ -21,7 +21,16 @@ function Projectfunc(props) {
     const [projectModal, setProjectModal] = useState(false);
     const [projectTasks, setprojectTasks] = useState("");
     const [assigneeList, setAssigneeList] = useState([]);
+    const [completedtasks, setcompletedtasks] = useState([{}]);
     const [Tasks, setTasks] = useState([{ task: "" }]);
+    const [newProjName, setnewProjName] = useState("");
+    const [newProjDesc, setnewProjDesc] = useState("");
+    const [projID, setprojID] = useState("");
+    const [isChecked, setisChecked] = useState(false);
+    const [isComplete, setisComplete] = useState(false);
+    const [lastTask, setlastTask] = useState("");
+    const [lastCompleter, setlastCompleter] = useState("");
+
     const [current, setCurrent] = useState(props.current)
 
     const options = { weekday: 'short', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' };
@@ -49,28 +58,30 @@ function Projectfunc(props) {
             autoClose: 5000,
             theme: 'dark'
         });
-        axios.get(`getproject/getprojectList`)
-            .then((response) => {
-                setProjectList(response.data);
 
-
-            })
-            .catch((err) => {
-                console.log(err, "Unable to get user time info");
-            });
-        axios.get(`getTasks/getTaskList`)
-            .then((response) => {
-                setProjectList(response.data);
-
-
-            })
-            .catch((err) => {
-                console.log(err, "Unable to get user time info");
-            });
     }
 
     const onChangeProject = async () => {
+        var completed = 0
+        for (let k = 0; k < projectTasks.length; k++) {
+            if (projectTasks[k].TaskCompleted == true) {
 
+                completed++
+                console.log("ammount completed: ", completed)
+            }
+        }
+        var progress = ((completed / projectTasks.length) * 100)
+        progress = Math.round(progress)
+
+
+        // var lasttaskArr = []
+        // for (let k = 0; k < projectTasks.length; k++) {
+        //     if (projectTasks[k].TaskCompleted == true) {
+
+        //         completed++
+        //         console.log("ammount completed: ", completed)
+        //     }
+        // }
         console.log("Final tasks", projectTasks)
         for (let i = 0; i < projectTasks.length; i++) {
             if (projectTasks[i].TaskID == null) {
@@ -81,26 +92,31 @@ function Projectfunc(props) {
                     }
                 }
 
+
+
                 var submittedTask =
                 {
                     TaskName: projectTasks[i].TaskName,
-                    projectID: projectTasks[i].projectID,
+                    projectID: projID,
                     DueDate: projectTasks[i].DueDate,
-                    TaskCompleted: false,
+                    TaskCompleted: projectTasks[i].TaskCompleted,
                     TaskDeleted: false,
                     TaskCompleter: projectTasks[i].TaskCompleter,
                     Progress: "0",
                     isActive: true
                 }
+                var newprojData1 = {
+                    ProjectID: projID,
+                    projectName: newProjName,
+                    projectDescription: newProjDesc,
+                    LastTaskCompleter: lastCompleter,
+                    MostRecentTask: lastTask,
+                    progress: progress,
+                    isDeleted: false
+                }
                 axios.post('addtasks/addTask', submittedTask,)
                     .then(res => {
                         console.log("This is the new project: ", res.data)
-
-                        toast.success(`${"Project: " + projectTasks[i].TaskName + " Edited Successfully!"}`, {
-                            position: toast.POSITION.TOP_RIGHT,
-                            autoClose: 5000,
-                            theme: 'dark'
-                        });
 
 
 
@@ -108,16 +124,38 @@ function Projectfunc(props) {
                     .catch(err => {
                         console.log(err);
                     })
+                axios.put('updateProject/updateProject', newprojData1)
+                    .then(res2 => {
+
+                        var newprojectdata = res2.data
+                        console.log(newprojectdata)
+
+                    })
+                    .catch(err => {
+
+                        console.log(err);
+                    })
 
 
             }
             if (projectTasks[i].TaskID != null) {
                 console.log("UPDATE ", i, ": ", projectTasks[i])
+                console.log("PROGRESS UPDATE ", i, ": ", progress)
                 var taskval = {
                     TaskID: projectTasks[i].TaskID,
                     TaskName: projectTasks[i].TaskName,
                     TaskCompleter: projectTasks[i].TaskCompleter,
-                    DueDate: projectTasks[i].DueDate
+                    DueDate: projectTasks[i].DueDate,
+                    TaskCompleted: projectTasks[i].TaskCompleted
+                }
+                var newprojData = {
+                    ProjectID: projID,
+                    projectName: newProjName,
+                    projectDescription: newProjDesc,
+                    isDeleted: isChecked,
+                    progress: progress,
+                    LastTaskCompleter: lastCompleter,
+                    MostRecentTask: lastTask
                 }
 
                 axios.put('updatetasks/updateTasks', taskval)
@@ -130,13 +168,39 @@ function Projectfunc(props) {
 
                         console.log(err);
                     })
+                axios.put('updateProject/updateProject', newprojData)
+                    .then(res2 => {
+
+                        var newprojectdata = res2.data
+                        console.log(newprojectdata)
+
+                    })
+                    .catch(err => {
+
+                        console.log(err);
+                    })
+                if (isChecked == true) {
+                    var deletedTask =
+                    {
+
+                        TaskDeleted: true,
+                        projectID: projID
+                    }
+                    console.log("this will be deleled", deletedTask)
+                    axios.put('deletetasks/deleteprojTasks', deletedTask)
+                        .then(res => {
+                            console.log("This is the delted task ", res.data)
+                            setProjectContent("")
+                            axios.get(`getproject/getprojectList`)
+
+                        })
+                        .catch(err => {
+                            console.log(err);
+                        })
+                }
 
             }
-            toast.success(`${"Project: " + projectTasks[i].TaskName + " Edited Successfully!"}`, {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 5000,
-                theme: 'dark'
-            });
+
             closeeditProject();
 
             axios.get(`getTasks/getTaskList`)
@@ -156,58 +220,116 @@ function Projectfunc(props) {
                 .catch((err) => {
                     console.log(err, "Unable to get user time info");
                 });
+            getProjectData(projID);
+            setProjectContent(projectList.filter(proj => proj.projectID == projID));
 
 
         }
-        console.log("This is the edited project: ", projectTasks)
 
+        console.log("This is the edited project: ", newprojData)
+        toast.success(`${"Project: " + newProjName + " Edited Successfully!"}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+            theme: 'dark'
+        });
     }
+
     const onChangeProject2 = async () => {
-        for (let i = 0; i < Tasks.length; i++) {
-            Tasks[i].projectID = projectContent[0].projectID
+        var completed = 0
+        for (let k = 0; k < Tasks.length; k++) {
+            if (Tasks[k].TaskCompleted == true) {
 
-            var submittedTask2 =
-            {
-                TaskName: Tasks[i].TaskName,
-                projectID: Tasks[i].projectID,
-                DueDate: Tasks[i].DueDate,
-                TaskCompleted: false,
-                TaskDeleted: false,
-                TaskCompleter: Tasks[i].TaskCompleter,
+                completed++
+                console.log("ammount completed: ", completed)
             }
-            axios.post('addtasks/addTask', submittedTask2,)
-                .then(res => {
-                    console.log("This is the new project: ", res.data)
+        }
+        var progress = ((completed / Tasks.length) * 100)
 
-                    toast.success(`${"Project: " + Tasks[i].TaskName + " Edited Successfully!"}`, {
-                        position: toast.POSITION.TOP_RIGHT,
-                        autoClose: 5000,
-                        theme: 'dark'
-                    });
+        progress = Math.round(progress);
+
+        console.log("no tasks", Tasks)
+        for (let i = 0; i < Tasks.length; i++) {
+            if (Tasks[i].TaskName && projID) {
+                Tasks[i].projectID = projectContent[0].projectID
+
+                var submittedTask2 =
+                {
+                    TaskName: Tasks[i].TaskName,
+                    projectID: projID,
+                    DueDate: Tasks[i].DueDate,
+                    TaskCompleted: Tasks[i].TaskCompleted,
+                    TaskDeleted: false,
+                    TaskCompleter: Tasks[i].TaskCompleter,
+                }
+                axios.post('addtasks/addTask', submittedTask2,)
+                    .then(res => {
+                        console.log("This is the new project: ", res.data)
+
+
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            }
+            var newprojData = {
+                ProjectID: projID,
+                projectName: newProjName,
+                projectDescription: newProjDesc,
+                progress: progress,
+                isDeleted: isChecked,
+                LastTaskCompleter: lastCompleter,
+                MostRecentTask: lastTask
+            }
+            axios.put('updateProject/updateProject', newprojData)
+                .then(res2 => {
+
+                    var newprojectdata = res2.data
+                    console.log(newprojectdata)
 
                 })
                 .catch(err => {
+
                     console.log(err);
                 })
+            if (isChecked == true) {
+                var deletedTask =
+                {
+
+                    TaskDeleted: true,
+                    projectID: projID
+                }
+                console.log("this will be deleled", deletedTask)
+                axios.put('deletetasks/deleteprojTasks', deletedTask)
+                    .then(res => {
+                        console.log("This is the delted task ", res.data)
+                        setProjectContent("")
+                        axios.get(`getproject/getprojectList`)
+                            .then((response) => {
+                                setProjectList(response.data);
+                                toast.error(`${"Project: " + newProjName + " has been deleted."}`, {
+                                    position: toast.POSITION.TOP_RIGHT,
+                                    autoClose: 5000,
+                                    theme: 'dark'
+                                });
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get user time info");
+                            });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            } toast.success(`${"Project: " + Tasks[i].TaskName + " Edited Successfully!"}`, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 5000,
+                theme: 'dark'
+            });
+
+
             closeeditProject();
-            axios.get(`getTasks/getTaskList`)
-                .then((response) => {
-                    setProjectList(response.data);
 
 
-                })
-                .catch((err) => {
-                    console.log(err, "Unable to get user time info");
-                });
-            axios.get(`getproject/getprojectList`)
-                .then((response) => {
-                    setProjectList(response.data);
-
-
-                })
-                .catch((err) => {
-                    console.log(err, "Unable to get user time info");
-                });
 
 
 
@@ -218,43 +340,41 @@ function Projectfunc(props) {
 
     //Grab
     useEffect(() => {
-        setTimeout(()=>{
-            setCurrent(props.current) 
+        setTimeout(() => {
+            setCurrent(props.current)
             axios.get(`getproject/getprojectList`)
-            .then((response) => {
-                setProjectList(response.data);
+                .then((response) => {
+                    setProjectList(response.data.filter(proj => proj.isDeleted == false));
 
-            })
-            .catch((err) => {
-                console.log(err, "Unable to get user time info");
-            });
-        axios.get(`gettasks/gettaskList`)
-            .then((responset) => {
-                setprojectTasks(responset.data);
+                })
+                .catch((err) => {
+                    console.log(err, "Unable to get user time info");
+                });
+            axios.get(`gettasks/gettaskList`)
+                .then((responset) => {
+                    setprojectTasks(responset.data);
 
 
-            })
-            .catch((err) => {
-                console.log(err, "Unable to get user time info");
-            });
-        axios.get(`userlist/userlist`)
-            .then((response) => {
-                setAssigneeList(response.data);
+                })
+                .catch((err) => {
+                    console.log(err, "Unable to get user time info");
+                });
+            axios.get(`userlist/userlist`)
+                .then((response) => {
+                    setAssigneeList(response.data);
 
-            })
-            .catch((err) => {
-                console.log(err, "Unable to get user list");
-            });
-           }, 4000)
-
-       
+                })
+                .catch((err) => {
+                    console.log(err, "Unable to get user list");
+                });
+        }, 4000)
+        getProjectData();
 
     }, [props.current]);
 
-    console.log("assign", assigneeList)
     function handleTaskAdd(eventid2) {
         setTasks([...Tasks, { projectID: eventid2 }])
-        console.log("append", eventid2)
+        console.log("newTask", Tasks)
     }
     function handleTaskAdde(eventid) {
         setprojectTasks([...projectTasks, { TaskID: null, projectID: eventid, TaskDeleted: false, TaskCompleted: false }])
@@ -270,7 +390,6 @@ function Projectfunc(props) {
         const list = [...projectTasks]
         list.splice(index, 1);
         setprojectTasks(list)
-        console.log("remv ptask", projectTasks)
     }
 
     const handleTaskNameChange = (e, index) => {
@@ -278,7 +397,6 @@ function Projectfunc(props) {
         const list = [...projectTasks];
         list[index][name] = value;
         setprojectTasks(list)
-        console.log("change task", projectTasks)
     }
 
     const handleTaskAssigneeChange = (ea, index) => {
@@ -299,6 +417,7 @@ function Projectfunc(props) {
         const list = [...Tasks];
         list[index][name] = value;
         setTasks(list)
+        console.log("newTask", Tasks)
     }
     const handleTaskAssigneeChange2 = (eaaa, index) => {
         const { name, value } = eaaa.target
@@ -312,8 +431,48 @@ function Projectfunc(props) {
         list[index][name] = value;
         setTasks(list)
     }
+    function handleChangeChk(e) {
+        let isCheckedvalue = e.target.checked;
+        setisChecked(isCheckedvalue)
+        // do whatever you want with isChecked value
 
-    console.log("plist", projectList)
+    }
+    function handleProjectNameChange(projName) {
+        setnewProjName(projName)
+    }
+    function handleProjectDescChange(projDesc) {
+        setnewProjDesc(projDesc)
+    }
+
+    function handleChangeComplete(ec, index, tn, tc) {
+        const { name, checked } = ec.target
+        const list = [...projectTasks];
+        list[index][name] = checked;
+        setprojectTasks(list)
+        // var lasttaskArr = []
+        // var lastTask = ""
+        // for (let k = 0; k < projectTasks.length; k++) {
+        //     if (projectTasks[k].TaskCompleted == true) {
+
+        //         lasttaskArr.push(projectTasks[k].TaskName)
+        //         console.log("last task: ", lasttaskArr)
+        //     }
+        //     lastTask= lasttaskArr[lasttaskArr.length -1]
+
+        // }
+        if (checked == true) {
+            setlastTask(tn)
+            setlastCompleter(tc)
+        }
+        // console.log("last task shown: ", lastTask)
+    }
+    function handleChangeComplete2(ec, index) {
+        const { name, checked } = ec.target
+        const list = [...Tasks];
+        list[index][name] = checked;
+        setprojectTasks(list)
+        console.log("tasks true", Tasks)
+    }
 
 
     // const openProjectModal =(props){
@@ -326,14 +485,22 @@ function Projectfunc(props) {
         document.getElementById("project-modal-modal").value = "";
     }
 
-    function getProjectData(event) {
+    const getProjectData = (event) => {
         setProjectContent(projectList.filter(proj => proj.projectID == event));
-
         getProjecttaskData(event);
+        setprojID(event)
         closeeditProject();
-        console.log("newtask", event)
+
     }
 
+    // const getprojContent =() =>{
+    //     for(let i = 0; i < projectContent.length; i++){
+    //         setnewProjName(projectContent[i].projectName);
+    //             setnewProjDesc(projectContent[i].projectDescription);
+    //             setprojID(projectContent[i].projectID)
+    //             console.log("init proj name",projectContent[i].projectName)
+    //     }
+    // }
     var completed = 0;
     var alltasks;
     var progresscalc;
@@ -341,56 +508,46 @@ function Projectfunc(props) {
         axios.get(`gettasks/gettaskList`)
             .then((responset) => {
                 setprojectTasks(responset.data.filter(pTask => pTask.projectID == taskevent));
-
+                setprojID(taskevent)
 
             })
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
             });
 
-        // for (let i = 0; i < projectTasks.filter(pTask => pTask.projectID == taskevent).length; i++) {
-        //     if (projectTasks[i].taskCompleted == 1) {
-        //         completed++;
-
-        //     }
-        //     var count = 1;
-
-        //     alltasks = ((projectTasks.filter(pTask => pTask.projectID == taskevent).length) * (count + i))
-        //     console.log("ptasks", i + 1)
-
-        // }
-        // progresscalc = (completed / alltasks) * 100;
-
-        console.log("completed: ", completed, "all tasks: ", alltasks, "perc: ", progresscalc)
-
         // setprojectTasks(projectTasks.filter(pTask => pTask.projectID == taskevent))
     }
-    console.log("ptasks", projectTasks)
     function editProject() {
         setProjEdit(true)
+        for (let i = 0; i < projectContent.length; i++) {
+            setnewProjName(projectContent[i].projectName);
+            setnewProjDesc(projectContent[i].projectDescription);
+            setprojID(projectContent[i].projectID)
+            console.log("init proj name", projectContent[i].projectName)
+        }
     }
     function closeeditProject() {
         setProjEdit(false)
     }
-
+    console.log("This is the project ID: ", projID)
     return (
         <div className='project-func'>
             <ToastContainer />
             <h2> Projects </h2>
             <div className='Project-list-contatiner'>
                 <div className='Project-list-canvas'>
-                    <div className='project-count-container'><button onClick={() => setProjectModal(true)} className='Add-New-Project'>Add Project <FontAwesomeIcon className="project-done-icon" icon={faPlus} size='1x' /></button> <h4 className='project-count'>{projectList==""? <div className='loading-project-count'>{projectList=="" &&<div className='project-count-circle'>(<CirlceLoading/> Projects)</div>}</div>:<div div className='loaded-project-count'>({projectList.filter(item => item.isActive == 1).length} Projects)</div>}</h4></div>
+                    <div className='project-count-container'><button onClick={() => setProjectModal(true)} className='Add-New-Project'>Add Project <FontAwesomeIcon className="project-done-icon" icon={faPlus} size='1x' /></button> <h4 className='project-count'>{projectList == "" ? <div className='loading-project-count'>{projectList == "" && <div className='project-count-circle'>(<CirlceLoading /> Projects)</div>}</div> : <div div className='loaded-project-count'>({projectList.filter(item => item.isDeleted == 0).length} Projects)</div>}</h4></div>
                     <Tabs className='project-tabs' defaultActiveKey="Grid" id="uncontrolled-tab-example" >
                         <Tab eventKey="Grid" title={<FontAwesomeIcon className="project-done-icon" icon={faGrip} size='2x' />} className="Grid-tab">
                             <ul className='project-list'>
                                 {/* Loading Data Divs */}
 
 
-                                {projectList=="" &&[1,2,3,4,5,6,7,8,9,10].map((n) => <SkeletonProject key={n} theme="dark"/>)}
+                                {projectList == "" && [1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => <SkeletonProject key={n} theme="dark" />)}
                                 {/* Data Loaded content */}
-                                {projectList.filter(projectList => projectList.isActive == 1).map(item => (
+                                {projectList.filter(projectList => projectList.isDeleted == 0).map(item => (
                                     <li className='project-item' key={item.projectID} onClick={(e) => getProjectData(e.target.id)} id={item.projectID}>
-                                        <div onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-header'>{item.progress === 100 ? <><h4 className='project-name' onClick={(e) => getProjectData(e.target.id)} id={item.projectID}>{item.projectName}</h4><FontAwesomeIcon onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className="project-done-icon" icon={faCheckCircle} size='2x' /></> : <h4 onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-name'>{item.projectName}</h4>}</div>
+                                        <div onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-header'>{item.progress === 100 ? <><h4 className='project-name' onClick={(e) => getProjectData(e.target.id)} id={item.projectID}>{item.projectName}</h4><FontAwesomeIcon onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className="project-fin-icon" icon={faCheckCircle} size='2x' /></> : <h4 onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-name'>{item.projectName}</h4>}</div>
                                         <h5 onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-description'>{item.projectDescription}</h5>
                                         <p onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='last-task'>{item.MostRecentTask} : <p className='completer' onClick={(e) => getProjectData(e.target.id)} id={item.projectID} style={{ fontWeight: "bold", color: "white" }}>{item.LastTaskCompleter}</p></p>
                                         <div onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='progress-container'>
@@ -405,9 +562,9 @@ function Projectfunc(props) {
                         </Tab>
                         <Tab eventKey="List" title={<FontAwesomeIcon className="project-done-icon" icon={faList} size='2x' />} className="list-tab">
                             <ul className='project-list-listed'>
-                                {projectList.filter(projectList => projectList.isActive == 1).map(item => (
+                                {projectList.filter(projectList => projectList.isDeleted == 0).map(item => (
                                     <li onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-item-listed' key={item.projectID} >
-                                        <div onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-header-listed'>{item.progress === 100 ? <><h4 className='project-name' onClick={(e) => getProjectData(e.target.id)} id={item.projectID}>{item.projectName}</h4><FontAwesomeIcon onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className="project-done-icon" icon={faCheckCircle} size='2x' /></> : <h4 onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-name'>{item.projectName}</h4>}</div>
+                                        <div onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-header-listed'>{item.progress === 100 ? <><h4 className='project-name' onClick={(e) => getProjectData(e.target.id)} id={item.projectID}>{item.projectName}</h4><FontAwesomeIcon onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className="project-fin-icon" icon={faCheckCircle} size='2x' /></> : <h4 onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-name'>{item.projectName}</h4>}</div>
                                         <h5 onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='project-description-listed'>{item.projectDescription}</h5>
                                         <p onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='last-task-listed'>{item.MostRecentTask} : <p onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='completer' style={{ fontWeight: "bold", color: "white" }}>{item.LastTaskCompleter}</p></p>
                                         <div onClick={(e) => getProjectData(e.target.id)} id={item.projectID} className='progress-container-listed'>
@@ -425,7 +582,7 @@ function Projectfunc(props) {
                     />
                 </div>
                 <div className='Project-content-container'>
-                    {projectContent == [] ?
+                    {projectContent == "" ?
                         <div className='default-project-content'>
                             <h3> Please Select a Project</h3>
 
@@ -482,15 +639,13 @@ function Projectfunc(props) {
                                             <label className='project-description-label'>
                                                 Project Name
                                             </label>
-                                            <input type='text' value={item.projectName} style={{ width: '100%' }} className='project-title-input'>
-
-                                            </input>
+                                            <input onChange={(projName) => handleProjectNameChange(projName.target.value)} id={item.projectID} type='text' defaultValue={item.projectName} style={{ width: '100%' }} className='project-title-input' />
 
                                             <label className='project-description-label'>
                                                 Description
                                             </label>
                                             <p className='project-description'>
-                                                <textarea className='project-description-input' style={{ width: '100%' }}>{item.projectDescription}</textarea>
+                                                <textarea onChange={(projDesc) => handleProjectDescChange(projDesc.target.value)} defaultValue={item.projectDescription} className='project-description-input' style={{ width: '100%' }} />
                                             </p>
 
                                             {projectTasks == "" ?
@@ -529,7 +684,9 @@ function Projectfunc(props) {
                                                                     </button>
                                                                 )}
                                                             </div>
-
+                                                            <div className='complete-task-container'>
+                                                                <h5 className='complete-task-label'>Complete Task: </h5> <input onChange={(e) => handleChangeComplete2(e, index)} name="TaskCompleted" className='complete-check' type="checkbox" />
+                                                            </div>
                                                         </div>
                                                     ))
 
@@ -557,7 +714,7 @@ function Projectfunc(props) {
                                                                 <label className='TaskDueDate-label'> Due Date </label>
                                                                 <input onChange={(e) => handleTaskDueDateChange(e, index)} value={singleTask.DueDate} name="DueDate" type="datetime-local" id="dueDate" required />
 
-                                                                {projectTasks.length - 1 === index && projectTasks.length < 5 &&
+                                                                {projectTasks.length - 1 === index && projectTasks.length < 30 &&
                                                                     (
                                                                         <button type='button' onClick={(e) => handleTaskAdde(singleTask.projectID)} className='add-task-btn'>
                                                                             <span>Add a Task</span><FontAwesomeIcon className="task-add-icon" icon={faCheckCircle} size='1x' />
@@ -571,13 +728,21 @@ function Projectfunc(props) {
                                                                     </button>
                                                                 )}
                                                             </div>
-
+                                                            {singleTask.TaskCompleted == true ?
+                                                                <div className='complete-task-container'>
+                                                                    <h5 className='complete-task-label'>Complete Task: </h5> <input onChange={(e) => handleChangeComplete(e, index, singleTask.TaskName, singleTask.TaskAssignee)} name="TaskCompleted" checked={true} className='complete-check' type="checkbox" />
+                                                                </div>
+                                                                :
+                                                                <div className='complete-task-container'>
+                                                                    <h5 className='complete-task-label'>Complete Task: </h5> <input onChange={(e) => handleChangeComplete(e, index, singleTask.TaskName, singleTask.TaskAssignee)} name="TaskCompleted" checked={false} className='complete-check' type="checkbox" />
+                                                                </div>
+                                                            }
                                                         </div>
                                                     ))}
                                                 </div>
                                             }
                                             <div className='archive-proj-container'>
-                                                <h5>Archive Project</h5> <input className='archive-check' type="checkbox" />
+                                                <h5 className='archive-project-label'>Archive Project</h5> <input onChange={e => handleChangeChk(e)} className='archive-check' type="checkbox" />
                                             </div>
                                             <button className='project-save-btn' onClick={projectTasks == "" ? onChangeProject2 : onChangeProject}>
                                                 <FontAwesomeIcon className="project-done-icon" icon={faSave} size='2x' />
@@ -591,6 +756,7 @@ function Projectfunc(props) {
                         </div>
                     }
                 </div>
-            </div>        </div >
+            </div>
+        </div >
     )
 } export default Projectfunc

@@ -28,8 +28,6 @@ function ProjectModal(props) {
             });
 
     }, []);
-    console.log("userlist", assigneeList)
-
 
     const handleTaskAdd = () => {
         setTasks([...Tasks, { task: "" }])
@@ -72,8 +70,8 @@ function ProjectModal(props) {
             projectDescription: newprojDetail,
             MostRecentTask: "No Tasks Completed Yet",
             LastTaskCompleter: "N/A",
-            progress: "0",
-            isActive: true
+            progress: 0,
+            isDeleted: false
         }
         axios.post('addproject/addProject', submittedProj,)
             .then(res => {
@@ -146,7 +144,7 @@ function ProjectModal(props) {
                     <label className='project-title'> Project Description </label>
                     <textarea id="description-input" onChange={(e) => onProjectDetail(e.target.value)} className='description-input' />
 
-                    <div className='tasks-container'>
+                    {/* <div className='tasks-container'>
                         <label className='project-title'> Project Tasks: </label>
                         {Tasks.map((singleTask, index) => (
                             <div key={index} className='first-division'>
@@ -159,7 +157,7 @@ function ProjectModal(props) {
                                         <option value={null}> </option>
                                         {assigneeList.map((item) => (
 
-                                            <option value={item.fullName}>{item.fullName}</option>
+                                            <option value={item.myUserId}>{item.FullName}</option>
 
                                         ))}
                                     </select>
@@ -183,7 +181,7 @@ function ProjectModal(props) {
                         ))
 
                         }
-                    </div>
+                    </div> */}
                     <button type="button" onClick={(e) => onAddProject(e)} className='submit-project-form'>Add Project</button>
 
                 </form>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { faBriefcase, faMoneyBill1Wave,faFileExcel, faBuildingColumns, faReceipt, faClock, faPlus, faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faBriefcase, faMoneyBill1Wave, faFileExcel, faBuildingColumns, faReceipt, faClock, faPlus, faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Payrollfunc.css'
 import moment from 'moment';
@@ -8,13 +8,16 @@ import ReadOnlyRow from './ReadOnlyRow';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from "xlsx";
+import { Skeleton } from '@mui/material';
+import SkeletonTable from '../Skeleton/SkeletonTable';
 
 
-function Payrollfunc() {
+function Payrollfunc(props) {
 
     const [pay, setpay] = useState([]);
     const [user, setUser] = useState([]);
     const [editTime, setEditTime] = useState(null);
+    const [current, setCurrent] = useState(props.current)
     const [editFormData, setEditFormData] = useState({
         sheetId: "",
         timeworkedIn: "",
@@ -41,7 +44,7 @@ function Payrollfunc() {
             className: "export-Toast",
             position: toast.POSITION.TOP_RIGHT,
             autoClose: 5000,
-            theme:'dark'
+            theme: 'dark'
         });
     }
 
@@ -70,47 +73,51 @@ function Payrollfunc() {
 
     //Grab
     useEffect(() => {
+        setTimeout(() => {
+            setCurrent(props.current)
+            axios.get(`payroll/getpay`)
+                .then((response) => {
+                    const myTime = response.data;
+                    setpay(response.data);
 
-        axios.get(`payroll/getpay`)
-            .then((response) => {
-                const myTime = response.data;
-                setpay(response.data);
+                })
+                .catch((err) => {
+                    console.log(err, "Unable to get user pay info");
+                });
+            axios.get(`UserProfile`)
+                .then((res) => {
+                    const myUser = res.data;
+                    setUser(myUser);
 
-            })
-            .catch((err) => {
-                console.log(err, "Unable to get user pay info");
-            });
-        axios.get(`UserProfile`)
-            .then((res) => {
-                const myUser = res.data;
-                setUser(myUser);
+                })
+                .catch((err) => {
+                    console.log(err, "Unable to get user pay info");
+                });
+        }, 4000)
 
-            })
-            .catch((err) => {
-                console.log(err, "Unable to get user pay info");
-            });
 
-    }, []);
+
+    }, [props.current]);
 
     const onExportClick = () => {
         handleOnExport()
         successExport()
     }
-  
+
 
     return (
         <div className='pay'>
 
             <><h2> Payroll </h2><div className='user-pay-table-container' >
                 <div className='pay-table'>
-                <button className='excel-export' onClick={onExportClick}><FontAwesomeIcon className="excel-icon" icon={faFileExcel} size='1x' /> </button>
+                    <button className='excel-export' onClick={onExportClick}><FontAwesomeIcon className="excel-icon" icon={faFileExcel} size='1x' /> </button>
                     <form >
                         <table id="payRollTable" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Name</th>
-                                    <th>pay Worked</th>
+                                    <th>Hours Worked</th>
                                     <th>Pay Per Hour</th>
                                     <th>Payment</th>
                                     <th>Pay Period</th>
@@ -118,11 +125,11 @@ function Payrollfunc() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {pay.filter(pay => pay.myUserId == user.myUserId).map(pay => (
+                                {pay.filter(pay => pay.myUserId == user.MyUserId).map(pay => (
                                     <ReadOnlyRow pay={pay} />
                                 ))}
                             </tbody>
-                        </table>
+                        </table>{pay == "" &&[1, 2, 3].map((n) => <SkeletonTable theme="dark" key={n} />)}
                     </form>
 
                 </div>

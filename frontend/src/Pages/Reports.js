@@ -40,7 +40,7 @@ export default class Reports extends Component {
             <><li className='nav-list'>  <FontAwesomeIcon icon={faBriefcase} size='2x' /> <a href="home" className="nav-links">Business Overview</a> </li><li className='nav-list'>  <FontAwesomeIcon icon={faBuildingColumns} size='2x' /> <a className="nav-links" href="bank">Banking</a> </li><li className='nav-list'> <FontAwesomeIcon icon={faMoneyBill1Wave} size='2x' />  <a href="payroll" className="nav-links"> Payroll </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faReceipt} size='2x' /> <a className="nav-links">Bookkeeping </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faClock} size='2x' />  <a href="timesheet" className="nav-links">Time Sheet</a></li><button className='nav-list' onClick={this.handleLogout}> Logout </button></>
         )
         return (
-            <Canvas fullName={this.props.UserProfile.fullName} navItems = {navItemList} userPic={this.props.UserProfile.userPic}>
+            <Canvas UserProfile={this.props.UserProfile} fullName={this.props.UserProfile.fullName} navItems = {navItemList} userPic={this.props.UserProfile.userPic}>
                 <Reportfunc/>
             </Canvas>
         )

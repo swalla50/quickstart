@@ -11,8 +11,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import ReactToExcel from 'react-html-table-to-excel';
 import $ from "jquery";
 import * as XLSX from "xlsx";
+import SkeletonTable from '../Skeleton/SkeletonTable';
 
-function TimeSheetfunc() {
+function TimeSheetfunc(props) {
 
     function handleOnExport() {
         let element = document.getElementById("timesheetTable");
@@ -45,6 +46,7 @@ function TimeSheetfunc() {
         timeworkedIn: "",
         timeworkedOut: "",
     })
+    const [current, setCurrent] = useState(props.current)
 
     //Add the change to form
     const handleAddFormChange = (event) => {
@@ -71,6 +73,7 @@ function TimeSheetfunc() {
 
     //Grab
     useEffect(() => {
+        setTimeout(()=>{
 
         axios.get(`timesheet/gettimesheet`)
             .then((response) => {
@@ -90,8 +93,8 @@ function TimeSheetfunc() {
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
             });
-
-    }, []);
+        }, 4000)
+    }, [props.current]);
 
     //getting the user's time
     const getUserTime = () => {
@@ -147,12 +150,11 @@ function TimeSheetfunc() {
                 console.log(user)
 
                 var timevalue = {
-                    fullName: user.fullName,
+                    fullName: user.FullName,
                     timeworkedIn: moment().format('YYYY-MM-DDTHH:mm:ss'),
                     timeworkedOut: null,
                     payperHour: user.payperHour,
-                    myUserId: user.myUserId
-
+                    myUserId: user.MyUserId
                 }
                 axios.post('AddTimeSheet/addTimeitem', timevalue)
                     .then(() => {
@@ -232,6 +234,7 @@ function TimeSheetfunc() {
                     <button className="add-time-btn"><FontAwesomeIcon icon={faPlus} size='2x' onClick={() => onAddTime()} />
                     </button></div>
                 <div className='user-pay-table-container' >
+                    
                     <div className='pay-table'>
                         
                         <form onSubmit={handleEditFormSubmit}>
@@ -246,19 +249,23 @@ function TimeSheetfunc() {
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
+                                
                                 <tbody>
-                                    {timesheet.filter(timesheet => timesheet.myUserId == user.myUserId).map(time => (
+                                    
+                                    {timesheet.filter(timesheet => timesheet.myUserId == user.MyUserId).map(time => (
                                         <>
                                             {editTime === time.sheetId ? (
                                                 <EditableRow time={time} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClick} />
                                             ) : (
+                                                
                                                 <ReadOnlyRow time={time} onquickupdate={() => onquickupdate(time.sheetId)} handleEditClick={handleEditClick} />
                                             )}
                                         </>
                                     ))}
 
                                 </tbody>
-                            </table>
+                                
+                            </table>{timesheet == "" && [1,2,3].map((n) => <SkeletonTable theme="dark" key={n}/>)}
                         </form>
 
                     </div>

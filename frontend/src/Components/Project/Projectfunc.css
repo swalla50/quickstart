@@ -20,6 +20,7 @@ ul.project-list {
     display: flex;
     flex-wrap: wrap;
     overflow-y: scroll;
+    overflow-x: hidden;
     height: 62vh;
 }
 
@@ -64,7 +65,7 @@ p.progress-percent {
     display: flex;
 }
 
-svg.svg-inline--fa.fa-circle-check.fa-2x.project-done-icon {
+svg.svg-inline--fa.fa-circle-check.fa-2x.project-fin-icon {
     color: rgb(0, 210, 0);
     margin-left: 15px;
     background: white;
@@ -146,6 +147,7 @@ div#uncontrolled-tab-example-tabpane-List {
     border-radius: 10px;
     box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
     margin-left: 10px;
+    overflow-y: scroll;
 }
 
 img.left-gif {
@@ -291,9 +293,10 @@ input.title-input {
 }
 input.title-input:focus {
     border-bottom: solid #4f86f6 5px;
-    border-right: none;
-    border-left: none;
-    border-top: none;
+    border-left: solid #4f86f6 1px;
+    border-right: solid #4f86f6 1px;
+    border-top: solid #4f86f6 1px;
+    outline: none;
     -webkit-transition: all 1s ease;
     transition: all 100ms ease-in-out;
     border-radius: 5px;
@@ -311,9 +314,9 @@ textarea.description-input {
 }
 textarea.description-input:focus {
     border-bottom: solid #4f86f6 5px;
-    border-right: none;
-    border-left: none;
-    border-top: none;
+    border-left: solid #4f86f6 1px;
+    border-right: solid #4f86f6 1px;
+    border-top: solid #4f86f6 1px;
     outline: none;
     -webkit-transition: all 1s ease;
     transition: all 100ms ease-in-out;
@@ -378,29 +381,30 @@ button.rmv-task-btn {
     border-radius: 5px;
     box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
 }
+
 button.rmv-task-btn:hover {
     
-    width: 150px;
+    width: 80%;
     -webkit-transition: all 1s ease;
     transition: all 100ms ease-in-out;
 
 }
 button.rmv-task-btn:not(:hover) {
     height: 35px;
-    width: 125px;
+    width: 100%;    
     -webkit-transition: all 1s ease;
     transition: all 100ms ease-in-out;
 }
 button.add-task-btn:hover {
     
-    width: 150px;
+    width: 80%;
     -webkit-transition: all 1s ease;
     transition: all 100ms ease-in-out;
 
 }
 button.add-task-btn:not(:hover) {
     height: 35px;
-    width: 125px;
+    width: 100%;
     -webkit-transition: all 1s ease;
     transition: all 100ms ease-in-out;
 }
@@ -461,4 +465,30 @@ h4.project-count {
 }
 .archive-proj-container {
     display: inline-flex;
+}
+.project-task-list {
+    height: 50vh;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+.complete-task-container {
+    display: inline-flex;
+    margin-top: 35px;
+}
+h5.complete-task-label{
+    margin-right: 10px;
+    margin-top: 5px;
+    color: #4f86f6;
+}
+input.complete-check {
+    width: 15px;
+}
+
+h5.archive-project-label{
+    margin-right: 10px;
+    margin-top: 5px;
+    color: #4f86f6;
+}
+input.archive-check{
+    width: 15px;
 }

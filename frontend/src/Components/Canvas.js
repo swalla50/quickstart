@@ -8,6 +8,8 @@ import logo from '../assets/images/altbookwithtext.png';
 import ChatModal from './Chat/ChatModal';
 import axios from 'axios';
 import { Link, Navigate, NavLink } from 'react-router-dom'
+import Auth from '../Auth/Auth';
+import CompanyFeed from './CompanyFeed/CompanyFeed';
 
 const Canvas = (props) => {
 
@@ -19,8 +21,7 @@ const Canvas = (props) => {
   const handleLogout = () => {
     localStorage.clear();
     this.props.setUser(null);
-    <Navigate to='/' />
-
+    Auth.logout();
   }
 
   const variants = {
@@ -50,7 +51,7 @@ const Canvas = (props) => {
             whileTap={{ scale: 0.9}}
           >
             {show ? <FontAwesomeIcon icon={faTimes} size='2x' /> : <FontAwesomeIcon icon={faBars} size='2x' />}
-          </motion.button></li><li className='nav-list'>  <FontAwesomeIcon icon={faBriefcase} size='2x' /> <NavLink to="/home" className="nav-links">Business Overview</NavLink> </li><li className='nav-list'>  <FontAwesomeIcon icon={faPieChart} size='2x' /> <NavLink to="/reports" className="nav-links">Reports</NavLink> </li><li className='nav-list'>  <FontAwesomeIcon icon={faBuildingColumns} size='2x' /> <Link className="nav-links" to="/bank">Banking</Link> </li><li className='nav-list'> <FontAwesomeIcon icon={faMoneyBill1Wave} size='2x' />  <a href="payroll" className="nav-links"> Payroll </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faReceipt} size='2x' /> <a className="nav-links">Bookkeeping </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faClock} size='2x' />  <a href="timesheet" className="nav-links">Time Sheet</a></li><li className='nav-list'>  <FontAwesomeIcon icon={faProjectDiagram} size='2x' /> <NavLink to="/project" className="nav-links">Projects</NavLink> </li><button href='/' className='nav-list' onClick={handleLogout}> Logout </button></> : <><li className='nav-list-closed'><motion.button className='toggle' onClick={() => setShow(show => !show)}
+          </motion.button></li><li className='nav-list'>  <FontAwesomeIcon icon={faBriefcase} size='2x' /> <NavLink to="/home" className="nav-links">Business Overview</NavLink> </li><li className='nav-list'>  <FontAwesomeIcon icon={faPieChart} size='2x' /> <NavLink to="/reports" className="nav-links">Reports</NavLink> </li><li className='nav-list'>  <FontAwesomeIcon icon={faBuildingColumns} size='2x' /> <Link className="nav-links" to="/bank">Banking</Link> </li><li className='nav-list'> <FontAwesomeIcon icon={faMoneyBill1Wave} size='2x' />  <a href="payroll" className="nav-links"> Payroll </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faReceipt} size='2x' /> <a href="bookkeeping"className="nav-links">Bookkeeping </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faClock} size='2x' />  <a href="timesheet" className="nav-links">Time Sheet</a></li><li className='nav-list'>  <FontAwesomeIcon icon={faProjectDiagram} size='2x' /> <NavLink to="/project" className="nav-links">Projects</NavLink> </li><button href='/' className='nav-list' onClick={handleLogout}> Logout </button></> : <><li className='nav-list-closed'><motion.button className='toggle' onClick={() => setShow(show => !show)}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.9}}
           >
@@ -62,10 +63,10 @@ const Canvas = (props) => {
           
           <div className='welcome-banner'>
             <h3 className='welcome-name'>
-              Welcome {props.fullName}
+              Welcome {props.UserProfile.FullName}
               <div className="dropdown" id='user-pic-drpdwn'>
                 <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img className='profile-pic' src={'https://webapi20220126203702.azurewebsites.net/Images/' + props.userPic} style={{ height: '60px', width: '60px', borderRadius: '50px' }} />
+                  <img className='profile-pic' src={'https://webapi20220126203702.azurewebsites.net/Images/' + props.UserProfile.userPic} style={{ height: '60px', width: '60px', borderRadius: '50px' }} />
                 </button>
                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a className="dropdown-item" href="#">Settings</a>
@@ -91,7 +92,7 @@ const Canvas = (props) => {
         >
           
           <div className='nav-card'  >
-            Hello 
+            <CompanyFeed /> 
             
           </div>
         </motion.nav>

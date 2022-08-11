@@ -3,9 +3,10 @@ import { faBriefcase,faMoneyBill1Wave,faBuildingColumns,faReceipt,faClock,faPlus
 import { Router, Route, Navigate, Routes, useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Canvas from '../Components/Canvas';
-import Projectfunc from '../Components/Project/Projectfunc';
+import './Payroll.css'
+import Bookkeepingfunc from '../Components/Bookkeeping/Bookkeepingfunc';
 
-export default class Project extends Component {
+export default class Bookkeeping extends Component {
     handleLogout= () => {
         localStorage.clear();
         this.props.setUser(null);
@@ -40,7 +41,7 @@ export default class Project extends Component {
         )
         return (
             <Canvas UserProfile={this.props.UserProfile} fullName={this.props.UserProfile.fullName} navItems = {navItemList} userPic={this.props.UserProfile.userPic}>
-                <Projectfunc/>
+                <Bookkeepingfunc/>
             </Canvas>
         )
         }   

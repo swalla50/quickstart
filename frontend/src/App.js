@@ -16,7 +16,8 @@ import TimeSheet from "./Pages/TimeSheet";
 import Payroll from "./Pages/Payroll";
 import Reports from "./Pages/Reports";
 import Project from "./Pages/Project";
-
+import Auth from "./Auth/Auth";
+import Bookkeeping from "./Pages/Bookkeeping";
 
 export default class App extends Component {
   
@@ -56,6 +57,7 @@ export default class App extends Component {
         <Route exact path="/" element={<Login UserProfile={this.state.UserProfile}  setUser={this.setUser} />} />
         <Route path="register" element={<Register />} />
         <Route exact path="bank" element={<Bank UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
+        <Route exact path="bookkeeping" element={<Bookkeeping UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
         <Route exact path="payroll" element={<Payroll UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
         <Route exact path="reports" element={<Reports UserProfile={this.state.UserProfile} setUser={this.setUser}/>} />
         <Route exact path="home" element={<Home UserProfile={this.state.UserProfile} setUser={this.setUser} />} />

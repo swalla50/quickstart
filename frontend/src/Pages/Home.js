@@ -35,12 +35,7 @@ export default class Home extends Component {
   }
 
   render() {
-    if (localStorage.getItem('token') == null) {
-      return (
-        <Navigate to="/" />
-      )
-    }
-    else {
+    
       let navItemList;
 
 
@@ -72,7 +67,7 @@ export default class Home extends Component {
 
       )
 
-    }
+    
 
 
 
