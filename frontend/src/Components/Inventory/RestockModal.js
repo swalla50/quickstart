@@ -6,14 +6,15 @@ import { textSpanIsEmpty } from 'typescript';
 import moment from 'moment';
 
 
-function SellModal(props) {
+function RestockModal(props) {
     const [invList, setinvList] = useState([]);
-    const [invID, setinvID] = useState("");
+    const [invID, setinvID] = useState ("");
     const [invNum, setinvNum] = useState("");
     const [currNum, setcurrNum] = useState("");
     const [newNum, setnewNum] = useState("");
     const [user, setUser] = useState("");
     const [srLog, setsrLog] = useState([]);
+
 
 
     useEffect(() => {
@@ -24,7 +25,7 @@ function SellModal(props) {
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
             });
-        axios.get(`UserProfile`)
+            axios.get(`UserProfile`)
             .then((res) => {
                 setUser(res.data)
 
@@ -36,11 +37,20 @@ function SellModal(props) {
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
             });
+            axios.get(`getSRLog/getSRLog`)
+            .then((response) => {
+                setsrLog(response.data);
+
+
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
     }, [])
 
-    function onsellIDChange(currentNum) {
-
-
+    function onRestockIDChange( currentNum) {
+        
+        
         const select = currentNum.target;
         const id = select.children[select.selectedIndex].id;
         const newNumber = select.children[select.selectedIndex].value
@@ -59,100 +69,86 @@ function SellModal(props) {
         console.log("id", newNumber, id)
 
     }
-    function onsellnumChange(numofitem) {
+    function onRestocknumChange(numofitem) {
         setnewNum(numofitem);
-
+        
 
     }
 
-    function onSellChange() {
-        var newNumber = currNum - newNum;
-        var Sold = {
+    function onRestockChange(){
+        var newNumber = (parseInt(currNum) + parseInt(newNum));
+        var Restock = {
             InventoryID: invID,
             ItemName: invList.filter(item => item.InventoryID == invID).map(name => name.InventoryName).at(0),
             ItemAmount: invList.filter(item => item.InventoryID == invID).map(name => name.InventoryCost).at(0),
-            Sold: true,
-            Restocked: false,
+            Sold: false,
+            Restocked: true,
             numberSR: newNum,
             NumofInventory: newNumber,
             Clerk: user.FullName,
             Date: moment().format('YYYY-MM-DDTHH:mm:ss')
         }
 
-        axios.put('sellinventory/sellInventory', Sold)
-            .then(res => {
-                console.log("edited time", res.data)
-                toast.success(`${"Sold " + newNum + " Items Successfully!"}`, {
-                    position: toast.POSITION.TOP_RIGHT,
-                    autoClose: 5000,
-                    theme: 'dark'
-                });
-                axios.get(`getinventory/getInventoryList`)
-                    .then((response) => {
-                        setinvList(response.data.filter(inv => inv.isDeleted == false));
-
-                    })
-                    .catch((err) => {
-                        console.log(err, "Unable to get user time info");
-                    });
-            })
-            .catch(err => {
-                console.log(err);
-            })
-            axios.post('addSRLog/addSRLog', Sold)
+        axios.put('Restockinventory/RestockInventory', Restock)
+        .then(res => {
+            console.log("edited time", res.data)
+            toast.success(`${"Restocked " + newNum + " Items Successfully!"}`, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 5000,
+                theme:'dark'
+            });
+            axios.post('addSRLog/addSRLog', Restock)
             .then(res => {
                 var srlog = res.data;
             })
             .catch(err => {
                 console.log(err);
             })
-            axios.get(`getSRLog/getSRLog`)
-            .then((response) => {
-                setsrLog(response.data);
+            axios.get(`getinventory/getInventoryList`)
+    .then((response) => {
+        setinvList(response.data.filter(inv => inv.isDeleted == false));
 
-
-            })
-            .catch((err) => {
-                console.log(err, "Unable to get user time info");
-            });
-            props.onHide()
-        console.log("Sold:", Sold);
-    }
-
-    function onoptionclick(event) {
-        setinvID(event);
-        console.log("ccon: ", event)
+    })
+    .catch((err) => {
+        console.log(err, "Unable to get user time info");
+    });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+        console.log("Sold:", Restock);
+        props.onHide()
     }
     return (
-        <div className='SellModal'>
+        <div className='RestockModal'>
 
             <Modal
                 {...props}
                 size="xl"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
-                dialogClassName="modal-width-sell"
-                contentClassName="modal-height-sell"
+                dialogClassName="modal-width-Restock"
+                contentClassName="modal-height-Restock"
             >
 
                 <Modal.Header closeButton>
-                    Sell Items
+                    Restock Items
                 </Modal.Header>
                 <Modal.Body>
-                    <h6 className='sell-update-header'>Sell your items here: </h6>
-                    <Form className="sell-form-container" >
+                    <h6 className='Restock-update-header'>Restock your items here: </h6>
+                    <Form className="Restock-form-container" >
 
-                        <div className='sell-form'>
-                            <Form.Select onChange={onsellIDChange} className='sell-select-item'>
+                        <div className='Restock-form'>
+                            <Form.Select onChange={onRestockIDChange} className='Restock-select-item'>
                                 <option>Select an Item</option>
                                 {invList.map((item) => (
-                                    <option id={item.InventoryID} value={item.NumofInventory} className='item-selection'>{item.InventoryName}</option>
+                                    <option  id={item.InventoryID} value={item.NumofInventory} className='item-selection'>{item.InventoryName}</option>
                                 ))}
                             </Form.Select>
-                            <Form.Control onChange={(e) => onsellnumChange(e.target.value)} type="number" placeholder="Number of items" className='item-amount-sold' />
+                            <Form.Control onChange={(e) => onRestocknumChange(e.target.value)} type="number" placeholder="Number of items" className='item-amount-sold' />
                         </div>
-                        <div className='submit-sell-container'>
-                            <Button onClick={() => { onSellChange(); props.onHide() }} variant="secondary" size="sm">Sell</Button>
+                        <div className='submit-Restock-container'>
+                            <Button onClick={() => {onRestockChange();props.onHide() }}variant="secondary" size="sm">Restock</Button>
                         </div>
 
                     </Form>
@@ -164,4 +160,4 @@ function SellModal(props) {
         </div >
     )
 }
-export default SellModal
+export default RestockModal

@@ -115,6 +115,7 @@ textarea.inv-edit-input {
 
 .modal-height {
     height: 90vh;
+    padding: 6rem !important;
 }
 
 
@@ -131,8 +132,7 @@ button.Add-inv-btn {
     width: 100px;
     height: 30px;
     color: white;
-    background: #4f86f6;
-    margin-right: 20px;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);    margin-right: 20px;
     box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 20%);
 }
 button.Add-inv-btn:hover {
@@ -161,7 +161,7 @@ svg.svg-inline--fa.fa-plus.fa-1x.inv-add-icon {
 }
 
 .table-container{
-    height: 50%;
+    height: 40%;
     overflow-y: scroll;
     border-radius: 5px;
     box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 20%);
@@ -186,7 +186,7 @@ button.sell-btn{
     width: 100px;
     height: 30px;
     color: white;
-    background: #4ff65d;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);    
     margin-right: 10px;
     box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 20%);
 }
@@ -196,10 +196,13 @@ button.stock-btn{
     width: 100px;
     height: 30px;
     color: white;
-    background: #f9f50d;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
     box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 20%);
 }
 .sell-stock-container {
+    display: flex;
+}
+.Restock-stock-container {
     display: flex;
 }
 svg.svg-inline--fa.fa-dollar-sign.fa-1x.sell-item-icon {
@@ -214,7 +217,15 @@ svg.svg-inline--fa.fa-boxes-stacked.fa-1x.stock-item-icon{
 .sell-form {
     display: flex;
 }
+.Restock-form{
+    display: flex;
+}
 select.sell-select-item.form-select {
+    width: 50%;
+    height: 30px;
+    font-size: 15px;
+}
+select.Restock-select-item.form-select {
     width: 50%;
     height: 30px;
     font-size: 15px;
@@ -229,4 +240,104 @@ button.btn.btn-secondary.btn-sm {
     width: 100px;
     font-size: 12px;
     height: 30px;
+}
+
+.second-row-inventory {
+    height: 35%;
+    display: inline-flex;
+    width: 100%;
+    padding-inline: 1%;
+}
+.row-2-first {
+    height: 100%;
+    margin: 10px;
+    width: 33%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 20%);
+}
+.row-2-first-srlog {
+    height: 100%;
+    margin: 10px;
+    width: 50%;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 20%);
+}
+tr.inventory-table-headers {
+    background: #4f86f6;
+    color: white;
+}
+button#uncontrolled-tab-example-tab-Sells.active {
+    background-color:  rgba(49,47,47,1) 0%;
+}
+button#uncontrolled-tab-example-tab-Restock.active {
+    background-color:  rgba(49,47,47,1) 0%;
+}
+table.sell-restock-list {
+    width: 100%;
+    text-align: left;
+}
+th.srlog-header {
+    width: 100px;
+    font-size: 15px;
+}
+svg.svg-inline--fa.fa-arrow-up.fa-2x.srlog-sold-arrow {
+    color: lawngreen;
+}
+button#uncontrolled-tab-example-tab-Sells.active {
+    background: linear-gradient(0deg, rgb(115, 114, 114) 0%, rgba(111,110,110,1) 100%);
+    border-radius: 5px;
+    height: 30px;
+    width: fit-content;
+    display: flex;  
+}
+button#uncontrolled-tab-example-tab-Sells {
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
+    border-radius: 5px;
+    height: 30px;
+    width: fit-content;
+    display: flex;    
+}
+button#uncontrolled-tab-example-tab-Restock {
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
+    border-radius: 5px;
+    height: 30px;
+    width: fit-content; 
+    display: flex;
+}
+button#uncontrolled-tab-example-tab-Restock.active {
+    background: linear-gradient(0deg, rgb(115, 114, 114) 0%, rgba(111,110,110,1) 100%);
+    border-radius: 5px;
+    height: 30px;
+    width: fit-content; 
+}
+p.tab-title {
+    color: white;
+}
+ul.inventory-tabs.nav.nav-tabs {
+    padding: 1%;
+    height: 50px;
+    width: 100%;
+}
+div#uncontrolled-tab-example-tabpane-Sells {
+    height: 20vh;
+}
+.tab-content {
+    overflow-y: scroll;
+    height: 20vh;
+}
+tr.inventory-log-item {
+    border-bottom: solid #6c757d 2px;
+}
+svg.svg-inline--fa.fa-chart-line.fa-1x.sold-total-icon {
+    color: greenyellow;
+}
+svg.svg-inline--fa.fa-money-bill.fa-1x.inventory-sell-icon {
+    margin-left: 10px;
+    height: 2rem;
+}
+svg.svg-inline--fa.fa-box.fa-1x.inventory-restock-icon {
+    margin-left: 10px;
+    height: 2rem;
 }
