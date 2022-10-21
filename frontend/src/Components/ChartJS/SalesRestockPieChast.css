@@ -1,0 +1,11 @@
+.PieChart {
+    height: 30rem;
+    width: 30rem;
+}
+canvas#myChart1SalesandRestock{
+    height: 10rem;
+    width: 10rem;
+}
+.no-srdata {
+    color: #4f86f6;
+}

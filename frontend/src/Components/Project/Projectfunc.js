@@ -42,12 +42,10 @@ function Projectfunc(props) {
             TaskDeleted: true,
             TaskID: id
         }
-        console.log("this will be deleled", deletedTask)
         handleTaskeRemove(deleteindex);
         axios.put('addtasks/deletetasks', deletedTask)
             .then(res => {
-                console.log("This is the delted task ", res.data)
-
+                
 
             })
             .catch(err => {
@@ -67,7 +65,6 @@ function Projectfunc(props) {
             if (projectTasks[k].TaskCompleted == true) {
 
                 completed++
-                console.log("ammount completed: ", completed)
             }
         }
         var progress = ((completed / projectTasks.length) * 100)
@@ -82,10 +79,8 @@ function Projectfunc(props) {
         //         console.log("ammount completed: ", completed)
         //     }
         // }
-        console.log("Final tasks", projectTasks)
         for (let i = 0; i < projectTasks.length; i++) {
             if (projectTasks[i].TaskID == null) {
-                console.log("POST ", i, ": ", projectTasks[i])
                 const config = {
                     headers: {
                         Authorization: 'Bearer ' + localStorage.getItem('token')
@@ -116,8 +111,6 @@ function Projectfunc(props) {
                 }
                 axios.post('addtasks/addTask', submittedTask,)
                     .then(res => {
-                        console.log("This is the new project: ", res.data)
-
 
 
                     })
@@ -128,7 +121,6 @@ function Projectfunc(props) {
                     .then(res2 => {
 
                         var newprojectdata = res2.data
-                        console.log(newprojectdata)
 
                     })
                     .catch(err => {
@@ -139,8 +131,7 @@ function Projectfunc(props) {
 
             }
             if (projectTasks[i].TaskID != null) {
-                console.log("UPDATE ", i, ": ", projectTasks[i])
-                console.log("PROGRESS UPDATE ", i, ": ", progress)
+
                 var taskval = {
                     TaskID: projectTasks[i].TaskID,
                     TaskName: projectTasks[i].TaskName,
@@ -172,7 +163,6 @@ function Projectfunc(props) {
                     .then(res2 => {
 
                         var newprojectdata = res2.data
-                        console.log(newprojectdata)
 
                     })
                     .catch(err => {

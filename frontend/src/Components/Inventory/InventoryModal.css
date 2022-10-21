@@ -47,24 +47,20 @@
 }
 
 .itemtitle {
-    padding: 15px;
-    padding-bottom: 15px;
-    color: black;
+    color: white;
     overflow: hidden;
 
 }
 
 .itemprice {
-    padding: 15px;
     padding-bottom: 15px;
     color: #319959;
     min-width: 80px;
 }
 
 .itemstock {
-    padding: 15px;
     padding-bottom: 15px;
-    color: black;
+    color: white;
     font-weight: 300;
     /* justify-content: center;
     align-items: center; */
@@ -72,8 +68,7 @@
 }
 
 .itemnum {
-    padding: 15px;
-    color: gray;
+    color: white;
     font-weight: 300;
 }
 
@@ -234,6 +229,7 @@ input.item-amount-sold.form-control {
     width: 50%;
     height: 30px;
     font-size: 15px;
+    text-align: center;
 }
 button.btn.btn-secondary.btn-sm {
     margin-top: 10px;
@@ -243,12 +239,13 @@ button.btn.btn-secondary.btn-sm {
 }
 
 .second-row-inventory {
-    height: 35%;
+    height: 45%;
     display: inline-flex;
     width: 100%;
     padding-inline: 1%;
 }
 .row-2-first {
+    text-align: -webkit-center;
     height: 100%;
     margin: 10px;
     width: 33%;
@@ -263,9 +260,11 @@ button.btn.btn-secondary.btn-sm {
     background: white;
     border-radius: 5px;
     box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 20%);
+    contain: strict;
 }
 tr.inventory-table-headers {
     background: #4f86f6;
+    text-align: left;
     color: white;
 }
 button#uncontrolled-tab-example-tab-Sells.active {
@@ -323,12 +322,10 @@ ul.inventory-tabs.nav.nav-tabs {
 div#uncontrolled-tab-example-tabpane-Sells {
     height: 20vh;
 }
-.tab-content {
-    overflow-y: scroll;
-    height: 20vh;
-}
+
 tr.inventory-log-item {
     border-bottom: solid #6c757d 2px;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgb(59, 59, 59) 100%);
 }
 svg.svg-inline--fa.fa-chart-line.fa-1x.sold-total-icon {
     color: greenyellow;
@@ -340,4 +337,13 @@ svg.svg-inline--fa.fa-money-bill.fa-1x.inventory-sell-icon {
 svg.svg-inline--fa.fa-box.fa-1x.inventory-restock-icon {
     margin-left: 10px;
     height: 2rem;
+}
+td.item-name-col {
+    color: white;
+}
+thead.inventory-log-header-table {
+    background: #4f86f6;
+}
+.srlog-header{
+    color: white;
 }

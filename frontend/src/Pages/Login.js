@@ -5,8 +5,9 @@ import React, { Component, SyntheticEvent, useContext, useState } from 'react'
 import AuthContext from '../Context/AuthProvider';
 import logo from '../assets/images/altbookwithtext.png';
 import './Login.css'
-import { Router, Route, Navigate, Routes, useNavigate} from 'react-router-dom';
+import { Router, Route, Navigate, Routes, useNavigate, Link} from 'react-router-dom';
 import { render } from '@testing-library/react';
+import Auth from '../Auth/Auth';
 
 
 export default class Login extends Component  {
@@ -31,6 +32,7 @@ export default class Login extends Component  {
             this.setState({
                 loggedIn: true
             });
+            Auth.login();
             this.props.setUser(res.data.user);
             window.history.pushState("", "", "/home");
         })
@@ -47,8 +49,11 @@ export default class Login extends Component  {
    
     render(){
         if(localStorage.getItem('token')){
-             <Navigate to={'/home'}/>
+             <Navigate to="/home"/>
+             window.history.pushState("", "", "/home");
+             window.location.reload()
         }
+        
     return (
             <div className ="login">
                 <form className="form-signin" onSubmit={this.submit}> 
@@ -70,7 +75,7 @@ export default class Login extends Component  {
                     <input type="checkbox" value="remember-me"/> Remember me
                 </label>
                 </div>
-                <button className="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
+                <button  className="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
                 <p className="mt-5 mb-0 text-muted">&#174; 2021</p>
                 <p className="mb-3 text-muted">Altnetix LLC</p>
                 </form>

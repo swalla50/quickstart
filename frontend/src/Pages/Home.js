@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component,useState } from 'react'
 import axios from 'axios'
 import Login from './Login';
 import Canvas from '../Components/Canvas';
@@ -10,6 +10,8 @@ import LineChart from '../Components/ChartJS/LineChart';
 import Tab from '../Components/Tabs/Tabs';
 import BankFeed from '../Components/BankFeed';
 import DragnDrop from '../Components/DragnDrop/DragnDrop';
+import UserModal from '../Components/Settings/UserModal';
+
 
 
 export default class Home extends Component {
@@ -34,10 +36,11 @@ export default class Home extends Component {
     }]
   }
 
+  
+
   render() {
     
       let navItemList;
-
 
 
       navItemList = (

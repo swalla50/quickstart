@@ -2,6 +2,14 @@
     display: inline-flex;
     width: 100%;
 }
+iframe{
+    height: 100%;
+    width: 100%;
+}
+.report-style-class {
+    height: 100%;
+}
+
 .Report-count-container {
     background-color: white;
     box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
@@ -39,6 +47,7 @@ h6.report-count-header {
     border-right: solid #4f86f6 10px;
     border-left: solid #4f86f6 10px;
     text-align: left;
+    height: 90px;
 }
 .report-item:hover {
     width: 95%;
@@ -55,7 +64,7 @@ h6.report-count-header {
     cursor:pointer;
  }
 .report-list-container {
-    height: 55vh;
+    height: 60rem;
     padding: 10px;
     border-radius: 5px;
     background-color: white;
@@ -140,4 +149,7 @@ button.clear.btn.btn-primary:hover {
  }
  .MuiOutlinedInput-root.MuiInputBase-root.MuiInputBase-colorPrimary.MuiInputBase-fullWidth.MuiInputBase-formControl.MuiInputBase-adornedStart.MuiInputBase-adornedEnd.MuiAutocomplete-inputRoot.css-1gywuxd-MuiInputBase-root-MuiOutlinedInput-root {
     width: 300px;
+}
+.report-count-circle{
+    height: 100px;
 }

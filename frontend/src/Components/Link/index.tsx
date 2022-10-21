@@ -27,7 +27,6 @@ const Link = () => {
               isItemAccess: false,
             },
           });
-          console.log(dispatch)
           return;
           
         }
@@ -40,10 +39,12 @@ const Link = () => {
             isItemAccess: true,
           },
         });
+        
       };
       setToken();
       dispatch({ type: "SET_STATE", state: { linkSuccess: true } });
       window.history.pushState("", "", "/bank");
+      
     },
     [dispatch]
   );

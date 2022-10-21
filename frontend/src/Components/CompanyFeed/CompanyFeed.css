@@ -124,3 +124,52 @@ svg.svg-inline--fa.fa-paper-plane.fa-1x.reply-btn-icon{
     color: white;
     margin-left: 5px;
 }
+.my-comment-content-container {
+    background: aliceblue;
+    border-radius: 10px;
+    text-align: right;
+}
+p.my-comment-text {
+    font-size: 13px;
+    padding: 5px;
+}
+.new-post-form {
+    display: flex;
+    padding-inline: 10rem;
+    flex-direction: column;
+}
+input.post-subject {
+    margin-bottom: 2rem;
+}
+svg.svg-inline--fa.fa-plus.fa-2x.new-post-add-icon:hover{
+    cursor: pointer;
+    transform: scale(1.1);
+    background-color: white;
+    border-radius: 50%;
+    padding: 1px;
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+svg.svg-inline--fa.fa-plus.fa-2x.new-post-add-icon:not(:hover){
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+.post-option-dropdown.dropdown {
+    text-align: right;
+    height: 20px;
+    width: 100px;
+}
+button#dropdown-item-buttonpost::after{
+    display: none; 
+ }
+ button#dropdown-item-buttonpost {
+    background: #7e7e7e;
+    border-radius: 10px;
+    font-size: 6px;
+    height: 20px;
+    font-weight: bolder;
+}
+button.delete-post-btn.dropdown-item {
+    background: #a70909;
+    border-radius: 5px;
+}

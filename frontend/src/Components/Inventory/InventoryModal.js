@@ -11,6 +11,7 @@ import ReadOnlyRow from './ReadOnlyRow'
 import moment from 'moment'
 import SellModal from './SellModal'
 import RestockModal from './RestockModal'
+import SalesRestockPieChart from '../ChartJS/SalesRestockPieChart'
 function InventoryModal(props) {
 
     const [invList, setinvList] = useState([]);
@@ -330,7 +331,7 @@ function InventoryModal(props) {
                             <div className='metric-header-container'>
                                 <h5 className='metric-header'>TOTAL SOLD</h5>
                             </div>
-                            <div className='metric-content'><h4 className='metric'>${soldList.filter(item  => item.Sold = true).reduce((a,v) =>  a = a + (v.ItemAmount * v.numberSR) , 0 )} <FontAwesomeIcon className="sold-total-icon" icon={faChartLine} size='1x' /></h4></div>
+                            <div className='metric-content'><h4 className='metric'>${soldList.filter(item  => item.Sold = true).reduce((a,v) =>  a = a + (v.ItemAmount * v.numberSR) , 0 ).toFixed(2)} <FontAwesomeIcon className="sold-total-icon" icon={faChartLine} size='1x' /></h4></div>
                         </div>
                     </div>
                     <div className='above-table-head'>
@@ -399,11 +400,11 @@ function InventoryModal(props) {
 
                     <div className='second-row-inventory'>
                         <div className='row-2-first-srlog'>
-                            <h4 className='log-heading'> RECCENT SELLS AND RESTOCKS </h4>
+                            <h4 className='log-heading'> RECENT SELLS AND RESTOCKS </h4>
                             <Tabs className='inventory-tabs' defaultActiveKey="Sells" id="uncontrolled-tab-example" >
-                                <Tab eventKey="Sells" title={<><p className='tab-title'>Sells</p><FontAwesomeIcon className="inventory-sell-icon" icon={faMoneyBill} size='1x' /></>} className="Sell-tab">
+                                <Tab style={{height:'28rem', overflowY:'scroll'}}eventKey="Sells" title={<><p className='tab-title'>Sells</p><FontAwesomeIcon className="inventory-sell-icon" icon={faMoneyBill} size='1x' /></>} className="Sell-tab">
                                     <table className='sell-restock-list'>
-                                        <thead>
+                                        <thead className='inventory-log-header-table'>
                                             <tr>
                                                 <th className='srlog-header'></th>
                                                 <th className='srlog-header'>Item</th>
@@ -411,6 +412,8 @@ function InventoryModal(props) {
                                                 <th className='srlog-header'>Cost</th>
                                                 <th className='srlog-header'>Clerk</th>
                                                 <th className='srlog-header'>Date</th>
+                                                <th className='srlog-header'></th>
+                                                
                                             </tr>
                                         </thead>
                                         <tbody className='srlog-table-body'>
@@ -454,9 +457,9 @@ function InventoryModal(props) {
                                         </tbody>
                                     </table>
                                 </Tab>
-                                <Tab eventKey="Restock" title={<><p className='tab-title'>Restocks</p><FontAwesomeIcon className="inventory-restock-icon" icon={faBox} size='1x' /></>} className="Restock-tab">
+                                <Tab style={{height:'28rem', overflowY:'scroll'}} eventKey="Restock" title={<><p className='tab-title'>Restocks</p><FontAwesomeIcon className="inventory-restock-icon" icon={faBox} size='1x' /></>} className="Restock-tab">
                                     <table className='sell-restock-list'>
-                                        <thead>
+                                        <thead className='inventory-log-header-table'>
                                             <tr>
                                                 <th className='srlog-header'></th>
                                                 <th className='srlog-header'>Item</th>
@@ -464,6 +467,7 @@ function InventoryModal(props) {
                                                 <th className='srlog-header'>Cost</th>
                                                 <th className='srlog-header'>Clerk</th>
                                                 <th className='srlog-header'>Date</th>
+                                                <th className='srlog-header'></th>
                                             </tr>
                                         </thead>
                                         <tbody className='srlog-table-body'>
@@ -510,7 +514,8 @@ function InventoryModal(props) {
                             </Tabs>
                         </div>
                         <div className='row-2-first'>
-                            <h4 className='log-heading'> RECENT RESTOCKS </h4>
+                            <h4 className='log-heading'> TODAY'S SALES AND RESTOCKS ($) </h4>
+                            <SalesRestockPieChart className="PieChart"/>
                         </div>
                         <div className='row-2-first'>
                             <h4 className='log-heading'> RECENT Sells </h4>

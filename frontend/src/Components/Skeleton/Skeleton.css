@@ -1,59 +1,70 @@
 /* basic styles */
 
-.skeleton{
+.skeleton {
     background-color: #ddd;
     margin: 10px 0;
     border-radius: 5px;
 }
-.skeleton.lasttask{
+
+.skeleton.lasttask {
     width: 250px;
     height: 25px;
 }
-.skeleton.taskassignee{
+
+.skeleton.taskassignee {
     width: 200px;
     height: 20px;
 }
 
-.skeleton.title{
+.skeleton.title {
     width: 350px;
     height: 20px;
     margin-bottom: 15px;
 }
-.skeleton.description{
+
+.skeleton.description {
     width: 100%;
-    height:50px;
+    height: 50px;
 }
-.skeleton.progress{
+
+.skeleton.progress {
     height: 10px;
     width: 100%;
 }
-.skeleton.percent{
+
+.skeleton.percent {
     width: 30px;
     height: 18px;
 }
-.skeleton.avatar{
-    width:100px;
+
+.skeleton.avatar {
+    width: 100px;
     height: 100px;
     border-radius: 50%;
 }
-.skeleton.button1{
+
+.skeleton.button1 {
     width: 40px;
     margin-right: 10px;
     height: 20px;
-}.skeleton.button2{
+}
+
+.skeleton.button2 {
     width: 80px;
     height: 20px;
 }
-.skeleton-wrapper{
-    margin:10px auto;
+
+.skeleton-wrapper {
+    margin: 10px auto;
     padding: 30px;
     border-radius: 5px;
     height: fit-content;
     position: relative;
     overflow: hidden;
 }
-.skeleton-wrapper-table{
-    margin:10px auto;
+
+.skeleton-wrapper-table {
+    margin: 10px auto;
     padding: 30px;
     border-radius: 5px;
     height: 70px;
@@ -61,50 +72,83 @@
     position: relative;
     overflow: hidden;
 }
+
+.skeleton-wrapper-report {
+    margin: 10px auto;
+    padding: 30px;
+    border-radius: 5px;
+    height: 70px;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
 /* Themes */
-.skeleton-wrapper.light{
+.skeleton-wrapper.light {
     background: #f2f2f2;
 }
-.skeleton-wrapper.dark{
+
+.skeleton-wrapper.dark {
     background: linear-gradient(0deg, rgba(49, 47, 47, 1) 0%, rgba(111, 110, 110, 1) 100%);
-     box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
 }
-.skeleton-wrapper-table.dark{
+
+.skeleton-wrapper-table.dark {
     background: linear-gradient(0deg, rgba(49, 47, 47, 1) 0%, rgba(111, 110, 110, 1) 100%);
-     box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
 }
-.skeleton-wrapper.dark .skeleton{
+
+.skeleton-wrapper-report.dark {
+    background: linear-gradient(0deg, rgba(49, 47, 47, 1) 0%, rgba(111, 110, 110, 1) 100%);
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    height: 90px;
+    border-right: solid #4f86f6 10px;
+    border-left: solid #4f86f6 10px;
+}
+
+.skeleton-wrapper.dark .skeleton {
     background: #777;
 }
-.skeleton-wrapper-table.dark .skeleton{
+
+.skeleton-wrapper-table.dark .skeleton {
     background: #777;
 }
 
 /* Animation Effect */
 
-.shimmer-wrapper{
+.shimmer-wrapper {
     position: absolute;
-    top:0px;
+    top: 0px;
     left: 0px;
     width: 100%;
     height: 100%;
     animation: loading 2s infinite;
 }
-.shimmer{
+
+.shimmer {
     width: 50%;
     height: 100%;
     background: rgba(255, 255, 255, 0.2);
     transform: skewX(-20deg);
     box-shadow: 0 0 30px rgba(255, 255, 255, 0.05);
 }
-.dark .shimmer{
+
+.dark .shimmer {
     background: rgba(255, 255, 255, 0.05);
 }
 
 @keyframes loading {
-    0% {transform: translateX(-150%)}
-    50% {transform: translateX(-60%)}
-    100% {transform: translateX(150%);}
+    0% {
+        transform: translateX(-150%)
+    }
+
+    50% {
+        transform: translateX(-60%)
+    }
+
+    100% {
+        transform: translateX(150%);
+    }
 
 }
 
@@ -113,40 +157,62 @@
     from {
         transform: rotate(0deg);
     }
-    to { 
+
+    to {
         transform: rotate(360deg);
     }
 }
- 
 
- @-webkit-keyframes rotate {
+
+@-webkit-keyframes rotate {
     from {
         -webkit-transform: rotate(0deg);
     }
-    to { 
+
+    to {
         -webkit-transform: rotate(360deg);
     }
 }
 
 .load {
-	width: 30px;
-	height: 30px;
-	margin: 0px auto 0;
-	border:solid 5px #4f86f6;
-	border-radius: 50%;
-	border-right-color: transparent;
-	border-bottom-color: transparent;
-	 -webkit-transition: all 0.5s ease-in;
-    -webkit-animation-name:             rotate; 
-    -webkit-animation-duration:         1.0s; 
-    -webkit-animation-iteration-count:  infinite;
+    width: 30px;
+    height: 30px;
+    margin: 0px auto 0;
+    border: solid 5px #4f86f6;
+    border-radius: 50%;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    -webkit-transition: all 0.5s ease-in;
+    -webkit-animation-name: rotate;
+    -webkit-animation-duration: 1.0s;
+    -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
-    	
-    	 transition: all 0.5s ease-in;
-    animation-name:             rotate; 
-    animation-duration:         1.0s; 
-    animation-iteration-count:  infinite;
-    animation-timing-function: linear; 
+
+    transition: all 0.5s ease-in;
+    animation-name: rotate;
+    animation-duration: 1.0s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+.report-circle-load {
+    width: 100px;
+    height: 100px;
+    margin: 0px auto 0;
+    border: solid 5px #4f86f6;
+    border-radius: 50%;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    -webkit-transition: all 0.5s ease-in;
+    -webkit-animation-name: rotate;
+    -webkit-animation-duration: 1.0s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+
+    transition: all 0.5s ease-in;
+    animation-name: rotate;
+    animation-duration: 1.0s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
 }
 
 .loading-project-count {
@@ -154,22 +220,25 @@
     color: #699afb;
     text-shadow: 0px 4px 3px rgb(0 0 0 / 31%), 0px 8px 13px rgb(0 0 0 / 10%), 0px 18px 23px rgb(0 0 0 / 10%);
 }
-.loaded-project-count{
+
+.loaded-project-count {
     display: flex;
     color: #699afb;
     text-shadow: 0px 4px 3px rgb(0 0 0 / 31%), 0px 8px 13px rgb(0 0 0 / 10%), 0px 18px 23px rgb(0 0 0 / 10%);
     width: 140px;
 }
+
 .project-count-circle {
     display: flex;
 }
 
 /* Table Styles */
-.skeleton.tablerow{
+.skeleton.tablerow {
     width: 90%;
-    height:20px;
+    height: 20px;
     margin-right: 10px;
 }
+
 .skeleton-table {
     display: flex;
 }

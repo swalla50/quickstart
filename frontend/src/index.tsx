@@ -5,7 +5,17 @@ import { QuickstartProvider } from "./Context";
 import reportWebVitals from "./reportWebVitals";
 import {AuthProvider} from './Context/AuthProvider'
 import axios, {HeadersDefaults} from 'axios';
+import './global'
 import './App.module.scss'
+import '@boldreports/javascript-reporting-controls/Scripts/bold.report-designer.min';
+import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
+import '@boldreports/javascript-reporting-controls/Content/material/bold.reports.all.min.css';
+import '@boldreports/javascript-reporting-controls/Content/material/bold.reportdesigner.min.css';
+//Data-Visualization
+import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.bulletgraph.min';
+import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej.chart.min';
+//Reports react base
+import '@boldreports/react-reporting-components/Scripts/bold.reports.react.min';
 
 axios.defaults.baseURL ='https://webapi20220126203702.azurewebsites.net/api/';
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');

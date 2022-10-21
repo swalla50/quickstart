@@ -1,0 +1,135 @@
+svg.svg-inline--fa.fa-envelope.fa-1x.project-done-icon {
+    padding: 0px;
+    margin-right: 3px;
+}
+svg.svg-inline--fa.fa-phone.fa-1x.project-done-icon{
+    padding: 0px;
+    margin-right: 3px;
+}
+tr.inventory-table-headers {
+    text-align: left;
+}
+.add-vendor-btn-container {
+    text-align: end;
+    margin-bottom: 10px;
+    width: 100%;
+}
+button.add-vendor-btn.btn.btn-primary {
+    font-size: 12px;
+}
+svg.svg-inline--fa.fa-plus.fa-2x.vendor-add-icon {
+    color: white;
+}
+
+button.add-vendor-btn.btn.btn-primary:hover {
+    transform: scale(1.05);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+
+}
+
+button.add-vendor-btn.btn.btn-primary:not(:hover) {
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+
+}
+
+svg.svg-inline--fa.fa-building.fa-1x.company-icon{
+    color: #4f86f6;
+    margin-left: 5px;
+    margin-top: 4px;
+}
+svg.svg-inline--fa.fa-building-circle-arrow-right.fa-1x.company-icon {
+    margin-left: 5px;
+    margin-top: 4px;
+}
+
+
+button#uncontrolled-tab-example-tab-CashReciepts.vendor-tab-title.active {
+    width: 100px;
+    display: flex;
+    color:white;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
+    padding: 2px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+button#uncontrolled-tab-example-tab-Dispersments.vendor-tab-title.active{
+    width: 100px;
+    color:white;
+    display: flex;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
+    padding: 2px;
+    border-radius: 5px 5px 5px 5px;
+}
+button#uncontrolled-tab-example-tab-CashReciepts {
+    width: 100px;
+    display: flex;
+    color: #4f86f6;
+    padding: 2px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+button#uncontrolled-tab-example-tab-Dispersments{
+    width: 100px;
+    display: flex;
+    color:#4f86f6;
+    padding: 2px;
+    border-radius: 5px 5px 5px 5px;
+}
+
+input.addvencom-input.form-control {
+    width: 70%;
+    margin-left: 3rem;
+    box-shadow: 0 6px 15px 0 rgb(0 0 0 / 25%);
+    margin-bottom: 2rem;
+    font-size: 15px;
+}
+input.addvencom-input.form-control:focus {
+    transform: scale(1.1);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+input.addvencom-input.form-control:not(:focus) {
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+select.addvencom-input.form-select:focus{
+    transform: scale(1.1);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+select.addvencom-input.form-select {
+    width: 70%;
+    margin-left: 3rem;
+    box-shadow: 0 6px 15px 0 rgb(0 0 0 / 25%);
+    margin-bottom: 2rem;
+    font-size: 15px;
+}
+select.addvencom-input.form-select:not(:focus) {
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+label.addvencom-label.form-label {
+    width: 100%;
+    color: #4f86f6;
+    text-align: left;
+    font-weight: 400;
+    margin-left: 3rem;
+    text-transform: uppercase;
+}
+.addvencom-input {
+    text-align: left;
+    margin-left: 3rem;
+}
+
+h4.ComVenModal-header {
+    font-weight: 600;
+    color: #4f86f6;
+    text-transform: uppercase;
+}
+tr.content-bar{
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgb(59, 59, 59) 100%);
+}

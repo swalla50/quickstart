@@ -3,7 +3,7 @@ import moment from 'moment'
 import { faFilter, faPieChart } from '@fortawesome/free-solid-svg-icons'
 import './Reportfunc.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 import Form from 'react-bootstrap/Form';
 import { Button, Modal } from 'react-bootstrap'
 import {
@@ -26,10 +26,14 @@ import {
 } from "@mui/material";
 import { CheckBoxOutlineBlank } from '@material-ui/icons'
 import { CheckBoxOutlined } from '@material-ui/icons'
+import SkeletonProject from './Skeleton/SkeletonProject'
+import SkeletonReport from './Skeleton/SkeletonReport'
+import CirlceLoading from './Skeleton/CirlceLoading'
+import ReportCirlceLoading from './Skeleton/ReportCircleLoading'
+import ReportModal from './ReportModal'
 
 const icon = <CheckBoxOutlineBlank fontSize="small" />;
 const checkedIcon = <CheckBoxOutlined fontSize="small" />;
-
 
 
 //     {
@@ -71,19 +75,30 @@ const checkedIcon = <CheckBoxOutlined fontSize="small" />;
 // ]
 // ;
 
-function Reportfunc() {
+function Reportfunc(props) {
     const [reportList, setReportList] = useState([]);
     const [query, setQuery] = useState([]);
     const [querydropName, setquerydropName] = useState("");
     const [filterPublished, setFilterPublished] = useState([]);
+    const [searchTextBox, setsearchTextBox] = useState("");
+    const [Options, setOptions] = useState([]);
+    const [name, setName] = useState('');
+    const [reportModal2, setreportModal2] = useState(false);
+
     var option = []
     function clearFilter() {
         setQuery([]);
+        setsearchTextBox("");
+
 
 
     }
+    const handleshowreport = () => {
+        setreportModal2(false);
+    }
     //Grab
     useEffect(() => {
+        setTimeout(()=>{
 
         axios.get(`getReportList/getReportList`)
             .then((response) => {
@@ -96,10 +111,54 @@ function Reportfunc() {
                 console.log(err, "Unable to get user time info");
             });
  
-    }, []);
+    }, 4000)
+}, [props.current]);
+
+const [Token, setToken] = useState("");
+
+
+// function generateToken(){const generate =   {
+//     "datasets": [
+//       {
+//         "id": "8edc5e31-44e6-487e-a99e-9fa3fcf2a091"
+//       }
+//     ],
+//     "reports": [
+//       {
+//         "allowEdit": true,
+//         "id": "1db405ab-48e4-49cd-9782-0a6365276607"
+//       }
+//     ]
+//   }
+
+
+// Axios({
+//     method: 'post',
+//     url: 'https://api.powerbi.com/v1.0/myorg/GenerateToken',
+//     headers: {
+//         'Content-Type': 'application/json'
+//     }, 
+//     data: 
+//         {
+//             "datasets": [
+//               {
+//                 "id": "8edc5e31-44e6-487e-a99e-9fa3fcf2a091"
+//               }
+//             ],
+//             "reports": [
+//               {
+//                 "allowEdit": true,
+//                 "id": "1db405ab-48e4-49cd-9782-0a6365276607"
+//               }
+//             ]
+//           }
+    
+//   });
+  
+// }
     console.log("report list", reportList)
     const search = (list) => {
-        return reportList.filter(report => report.reportName?.toLocaleLowerCase().includes(query) || report.reportType?.includes(query) || report.reportType?.toLocaleLowerCase().includes(query) || report.reportCreation?.includes(query));
+        return reportList.filter(report => report.reportName?.includes(query) ||  report.reportName?.toLocaleLowerCase().includes(query) || report.reportType?.includes(query) || report.reportType?.toLocaleLowerCase().includes(query) || report.reportCreation?.includes(query));
     }
     // const dropdownrName = (rName) => {
     //     return reportList.filter(reportN => reportN.reportName.toLocaleLowerCase().includes(query));
@@ -121,6 +180,7 @@ function Reportfunc() {
         //   //distinct building name values from array
         let uniqueBuildingValues = [...setOfValue]
         ReportNames = uniqueBuildingValues
+        console.log ('ReportName', ReportNames,ReportTypes)
     }
 
 
@@ -135,7 +195,7 @@ function Reportfunc() {
                 <div className='Report-metric-top'>
                     <div className='Report-count-container'>
                         <h6 className='report-count-header'>Report Count</h6>
-                        <h1 className='report-count'>{reportList.length}</h1>
+                        <h1 className='report-count'> {reportList != "" && <div className='report-count-circle'>{reportList.length}</div>} {reportList == "" && <div className='report-count-circle'><ReportCirlceLoading /></div>}</h1>
                     </div>
                     <div className='Report-Types-container'>
                         <h6 className='report-count-header'>Report Types</h6>
@@ -149,7 +209,7 @@ function Reportfunc() {
                     <div className='Report-filter-container'>
                         <h6 className='report-count-header'>Report Filter</h6>
                         <div className='filters'>
-                            <input type="text" placeholder='Search...' className='search-reports' onChange={(e) => setQuery(e.target.value.toLocaleLowerCase())} />
+                            <input type="text" placeholder='Search...' value ={searchTextBox} className='search-reports' onChange={(e) => {setQuery(e.target.value.toLocaleLowerCase());setsearchTextBox(e.target.value);}} />
                             <Autocomplete
                                 id="checkboxes-tags-demo"
                                 options={finalReportType}
@@ -182,6 +242,7 @@ function Reportfunc() {
                                             icon={icon}
                                             checkedIcon={checkedIcon}
                                             checked={selected}
+                                            value={option}
                                         />
                                         {option}
                                     </li>
@@ -199,7 +260,8 @@ function Reportfunc() {
                             <Autocomplete
                                 id="checkboxes-tag-demo"
                                 options={finalReportName}
-                                onChange={(e, value) => setQuery(e.target.value.toLocaleLowerCase())}
+                                value={query}
+                                onChange={(values,e) => setQuery(e)}
                                 getOptionLabel={(options) => options}
                                 renderTags={(value, getTagProps) => {
                                     const numTags = value.length;
@@ -207,11 +269,12 @@ function Reportfunc() {
 
                                     return (
                                         <>
-                                            {value.slice(0, limitTags).map((options, index) => (
+                                            {value.slice(0, limitTags).map((Options, index) => (
                                                 <Chip
                                                     {...getTagProps({ index })}
                                                     key={index}
-                                                    label={options}
+                                                    label={Options}
+                                                    value={Options}
                                                 />
                                             ))}
 
@@ -222,14 +285,14 @@ function Reportfunc() {
                                 PaperComponent={({ children }) => (
                                     <Paper style={{ width: 300 }}>{children}</Paper>
                                 )}
-                                renderOption={(props, options, { selected }) => (
+                                renderOption={(props, optionss, { selected }) => (
                                     <li {...props}>
                                         <Checkbox
                                             icon={icon}
                                             checkedIcon={checkedIcon}
                                             checked={selected}
                                         />
-                                        {options}
+                                        {optionss}
                                     </li>
                                 )}
                                 style={{ width: 300 }}
@@ -266,13 +329,19 @@ function Reportfunc() {
             </div>
             <div className='report-list-container'>
                 {search(reportList).map(item => (
-                    <div className='report-item' key={item.reportID}>
+                    <div onClick={() => setreportModal2(true)} className='report-item' key={item.reportID}>
                         <h5 className='report-name'>{item.reportName}</h5>
                         <p className='report-date'>{item.reportCreation}</p>
                         <p className='report-type'>{item.reportType}</p>
                     </div>
                 ))}
+                {reportList == "" && [1,2,3,4,5,6,7,8,9].map((n) => <SkeletonReport theme="dark" key={n}/>)}
             </div>
+            <ReportModal id="report-modal-modal"
+                show={reportModal2}
+                onHide={handleshowreport}
+                Token={Token}
+            />
         </div>
     )
 }

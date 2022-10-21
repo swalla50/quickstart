@@ -1,5 +1,5 @@
 .project-func {
-    height: 100%;
+    height: 93rem;
     width: 100%;
     overflow-y: clip;
     padding: 30px;
@@ -7,7 +7,7 @@
 
 .Project-list-canvas {
     width: 75%;
-    height: 90%;
+    height: 78rem;
     background: white;
     padding: 20px;
     border-radius: 10px;
@@ -21,7 +21,7 @@ ul.project-list {
     flex-wrap: wrap;
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 62vh;
+    height: 60rem;
 }
 
 li.project-item {
@@ -131,7 +131,7 @@ li.project-item-listed:not(:hover) {
 
 div#uncontrolled-tab-example-tabpane-List {
     overflow-y: scroll;
-    height: 62vh;
+    height: 60rem;
 }
 
 .Project-list-contatiner {
@@ -141,13 +141,12 @@ div#uncontrolled-tab-example-tabpane-List {
 
 .Project-content-container {
     width: 25%;
-    height: 90%;
+    height: 78rem;
     background: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
     margin-left: 10px;
-    overflow-y: scroll;
 }
 
 img.left-gif {
@@ -467,7 +466,7 @@ h4.project-count {
     display: inline-flex;
 }
 .project-task-list {
-    height: 50vh;
+    height: 60rem;
     overflow-y: scroll;
     overflow-x: hidden;
 }

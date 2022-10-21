@@ -159,7 +159,7 @@ const LineChart = (props: Props) => {
               datasets: [
 
                 {
-                  data: plaidamount.map((obj: any) => obj.amount).filter((item: any) => item.amount > 0),
+                  data: plaidamount.map((obj: any) => obj.amount).filter((item: any) => item > 0),
                   borderColor: '#1976d2cc',
                   backgroundColor: '#1976d2cc',
                   borderWidth: 1,
@@ -198,7 +198,7 @@ const LineChart = (props: Props) => {
                   display: true,
                   type: 'time',
                   time: {
-                    unit: 'day'
+                    unit:'day'
                   },
                   min: minDate,
                   max: maxDate

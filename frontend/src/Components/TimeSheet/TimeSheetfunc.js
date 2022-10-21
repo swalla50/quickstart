@@ -37,6 +37,7 @@ function TimeSheetfunc(props) {
     const [timesheet, settimesheet] = useState([]);
     const [user, setUser] = useState([]);
     const [editTime, setEditTime] = useState(null);
+    const [groupRights, setGroupRights] = useState([0]);
     const [editFormData, setEditFormData] = useState({
         sheetId: "",
         timeworkedIn: "",
@@ -88,6 +89,20 @@ function TimeSheetfunc(props) {
             .then((res) => {
                 const myUser = res.data;
                 setUser(myUser);
+
+    
+    
+                    axios.get(`groupRights/getGroupRights`)
+                        .then((response) => {
+                            setGroupRights(response.data.filter(item => item.vendorId == res.data.Company && item.ModuleID == 3));
+                            console.log("RIGHTS  FOUND:", response.data.filter(item => (item.vendorId == res.data.Company) && (item.ModuleID == 2)))
+                            
+                        })
+                        .catch((err) => {
+                            console.log(err, "Unable to get user time info");
+                        });
+
+    
 
             })
             .catch((err) => {
@@ -228,6 +243,9 @@ function TimeSheetfunc(props) {
     return (
         <div className='Timesheet'>
         <ToastContainer />
+        {groupRights[0].LevelID !== null ?
+            (
+
             <><h2> Time-Sheet </h2>
                 <div className='time-btn-group'>
                     <button className='excel-export' onClick={onExportClick}><FontAwesomeIcon className="excel-icon" icon={faFileExcel} size='1x' /> </button>
@@ -270,6 +288,14 @@ function TimeSheetfunc(props) {
 
                     </div>
                 </div></>
+            )
+            :
+            (
+                <div className='no-access'>
+                    No Access To TimeSheet
+                </div>
+            )
+        }
 
         </div>
     )

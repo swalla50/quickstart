@@ -1,0 +1,159 @@
+.invoice-row1 {
+    display: flex;
+    margin-top: 5%;
+}
+.sender-info {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    text-align: left;
+}
+input.sender-info-input {
+    width: 50%;
+    margin-left: 10px;
+}
+.sender-logo {
+    width: 50%;
+}
+.sender-logo1 {
+    width: 50%;
+}
+.sender-logo1:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+.sender-logo1:not(:hover) {
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+img.sender-logo-img {
+    height: 150px;
+}
+input.sender-info-input {
+    width: 50%;
+    height: 30px;
+    border: solid gray 1px;
+    border-radius: 10px;
+    margin-left: 10px;
+    margin-top: 2px;
+}
+h3.invoice-header {
+    text-align: left;
+    margin-left: 10px;
+    font-weight: bold;
+    color: #4f85f5;
+    background: aliceblue;
+}
+.invoice-row2 {
+    display: flex;
+    margin-top: 30px;
+    flex-direction: column;
+    place-content: space-evenly;
+}
+input.Invoice-item {
+    border-radius: 10px;
+    border: solid gray 1px;
+}
+input.invoice-price {
+    border-radius: 10px;
+    border: solid gray 1px;
+}
+input.invoice-quantity {
+    border-radius: 10px;
+    border: solid gray 1px;
+}
+input.invoice-totalcost {
+    border-radius: 10px;
+    border: solid gray 1px;
+}
+form.invoice-table-container {
+    height: 100%;
+}
+input.invoice-edit-input{
+    height: 30px;
+    border: solid gray 1px;
+    color: black;
+    border-radius: 10px;
+}
+button.add-invoice-btn {
+    border: none;
+    box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 10%);
+}
+svg.svg-inline--fa.fa-trash-can.fa-1x.invoice-delete-icon {
+    color: #d90505;
+}
+button.add-invoice-btn {
+    width: 15rem;
+    border-radius: 5px;
+    float: right;
+    margin-bottom: 1rem;
+    box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 10%);
+}
+.invoice-header-container {
+    width: 100%;
+    text-align: left;
+    display: flex;
+}
+button.change-invoice-view {
+    margin-left: 20px;
+    border: none;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 10%);
+}
+h4.additional-notes-header {
+    text-align: left;
+    margin-top: 10rem;
+}
+p.invoice-additional-notes {
+    text-align: left;
+    border: solid gray 1px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.ap{
+    padding: 10px;
+}
+#content{
+    padding: 4px;
+}
+.totalcost-final-container {
+    display: flex;
+    /* text-align: right; */
+}
+svg.svg-inline--fa.fa-file-pdf.fa-1x.pdf-invoice-icon {
+    color: white;
+    margin-left: 20px;
+}
+svg.svg-inline--fa.fa-file-pdf.fa-2x.pdf-invoice-icon:hover {
+    cursor: pointer;
+}
+button.btn.btn-success.btn-lg.pdf-invoice-btn {
+    background: red;
+    margin-left: 20px;
+    border-radius: 10px;
+    border: none;
+}
+.invoice-image-upload{
+        
+}
+.hidden {
+    display: none!important;
+    visibility: hidden!important;
+}
+svg.svg-inline--fa.fa-dollar-sign.fa-1x.invoice-dollar-icon {
+    margin-top: 0.3rem;
+}
+td.total-cost-final-field {
+    display: flex;
+}
+.modal-height-invoice {
+    height: 90vh;
+    overflow-y: scroll;
+    padding: 6rem !important;
+}
+.modal-width-invoice {
+    min-width: 100%;
+}

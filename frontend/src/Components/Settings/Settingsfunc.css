@@ -1,0 +1,186 @@
+ul.Settings-tabs.nav.nav-tabs {
+    width: 100%;
+    border-bottom: solid 1px rgba(128, 128, 128, 0.364);
+}
+ul.Settings-options {
+    display: flex;
+    justify-content: center;
+}
+li.bk-option {
+    text-align: -webkit-center;
+    list-style: none;
+    height: 300px;
+    border-radius: 10px;
+    width: 300px;
+    background: white;
+    margin-right: 30px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 15%);
+}
+.bk-option:not(:hover){
+    
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+    
+}
+.bk-option:hover svg{
+    height: 100px;
+    transform: translateY(5px);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+    
+}.bk-option:not(:hover) svg{
+    transform: scale(1);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+    
+}
+.bk-option:hover{
+    transform: scale(1.05);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+    
+}
+
+.bk-option-name {
+    height: 60%;
+}
+form.UpdateUser-form-container {
+    padding-inline: 15rem;
+    text-align: left;
+}
+select.UpdateUser-select-item.form-select {
+    width: 100%;
+}
+select.UpdateUser-select-item.form-select {
+    width: 100%;
+    height: 30px;
+    font-size: 15px;
+}
+
+select.add-user-input.form-select {
+    width: 100%;
+    height: 30px;
+    font-size: 15px;
+}
+.group-title-container {
+    display: flex;
+    background: #4f86f6;
+    color: gold;
+    justify-content: center;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+}
+
+h5.group-text {
+    margin-right: 1rem;
+}
+p.group-name {
+    color: white;
+}
+.title-container {
+    width: 90%;
+    display: flex;
+}
+.module-rights-container {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+
+}
+.rights-available {
+    width: 50%;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    margin-right: 2rem;
+    padding-inline: 3rem;
+
+}
+.rights-assigned {
+    width: 50%;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    margin-left: 2rem;
+    padding-inline: 3rem;
+}
+/* button.module-name {
+    background: #4f86f6;
+    border-radius: 50px;
+    border:none;
+    color: white;
+    height: 30px;
+    margin-bottom: 2rem;
+} */
+.MuiListItemButton-root.MuiListItemButton-dense.MuiListItemButton-gutters.MuiButtonBase-root.module-name.css-178cqt3-MuiButtonBase-root-MuiListItemButton-root{
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
+    color: white;
+    border-radius: 50px;
+}
+.MuiListItemButton-root.MuiListItemButton-dense.MuiListItemButton-gutters.MuiButtonBase-root.module-nameEdit.css-178cqt3-MuiButtonBase-root-MuiListItemButton-root{
+    background: rgb(191, 191, 16);
+    border-radius: 50px;
+    color: white;
+}
+
+.MuiListItemButton-root.MuiListItemButton-dense.MuiListItemButton-gutters.MuiButtonBase-root.module-nameDelete.css-178cqt3-MuiButtonBase-root-MuiListItemButton-root{
+    background:  rgb(185, 0, 0);
+    border-radius: 50px;
+    color: white;
+}
+.MuiListItemButton-root.MuiListItemButton-dense.MuiListItemButton-gutters.MuiButtonBase-root.module-nameView.css-178cqt3-MuiButtonBase-root-MuiListItemButton-root{
+    background: rgb(11, 215, 11);
+    border-radius: 50px;
+    color: white;
+}
+
+.rights-container {
+    height: 40rem;
+    display: flex;
+    flex-direction: column;
+    place-content: space-evenly;
+}
+button.view-right.btn.btn-primary {
+    border-radius: 50px;
+    width: 50%;
+    font-size: 20px;
+    height: 40px;
+    font-weight: 600;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    align-self: center;
+}
+button.edit-right.btn.btn-primary {
+    border-radius: 50px;
+    width: 50%;
+    font-size: 20px;
+    height: 40px;
+    font-weight: 600;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    align-self: center;
+}
+button.delete-right.btn.btn-primary {
+    border-radius: 50px;
+    width: 50%;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+    font-size: 20px;
+    height: 40px;
+    font-weight: 600;
+    align-self: center;
+}
+.assign-unassign-right-btn {
+    height: 100%;
+    display: flex;
+}
+.available-module-container {
+    height: 10;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.upper {
+    display: flex;
+    height: 80%;
+
+}
+.lower {
+    height: 20%;
+}

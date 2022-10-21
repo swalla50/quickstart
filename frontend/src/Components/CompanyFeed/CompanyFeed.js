@@ -1,4 +1,4 @@
-import { faMailForward, faMessage, faPaperPlane, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faMailForward, faMessage, faPaperPlane, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './CompanyFeed.css'
 import React, { useState, useEffect } from 'react'
@@ -9,6 +9,9 @@ import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 import { faCommentAlt } from '@fortawesome/free-solid-svg-icons'
 import moment from 'moment'
 import { ToastContainer, toast, Zoom } from 'react-toastify'
+import AddCompanyModal from './AddCompanyModal'
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 
 function CompanyFeed() {
 
@@ -16,12 +19,13 @@ function CompanyFeed() {
     const [commentList, setcommentList] = useState([]);
     const [user, setUser] = useState([]);
     const [replyMessage, setreplyMessage] = useState("");
+    const [postModal, setPostModal] = useState(false);
 
     //Pulls in Feed
     useEffect(() => {
         axios.get(`getCP/getCPFeed`)
             .then((response) => {
-                setfeedList(response.data);
+                setfeedList(response.data.filter(item => item.isActive === true));
                 console.log("FEED:", response.data)
             })
             .catch((err) => {
@@ -50,6 +54,38 @@ function CompanyFeed() {
 
     }, []);
 
+    function CommentType({ items }) {
+        if (items.Id == user.MyUserId) {
+            return (
+                <div className='my-comment-content-container'>
+                    <div className='comment-header'>
+                        <img className='comment-profile-pic' src={items.postreplyUserPic} style={{ height: '20px', width: '20px', borderRadius: '50px', marginRight: '1rem' }} />
+                        <h6 className='commenter'>{items.FullName}</h6>
+                    </div>
+                    <div className='comment-content'>
+                        <p className='my-comment-text'>
+                            {items.commenttext}
+                        </p>
+                    </div>
+                </div>
+            )
+        }
+        else {
+            return (
+                <div className='comment-content-container'>
+                    <div className='comment-header'>
+                        <img className='comment-profile-pic' src={items.postreplyUserPic} style={{ height: '20px', width: '20px', borderRadius: '50px', marginRight: '1rem' }} />
+                        <h6 className='commenter'>{items.FullName}</h6>
+                    </div>
+                    <div className='comment-content'>
+                        <p className='comment-text'>
+                            {items.commenttext}
+                        </p>
+                    </div>
+                </div>
+            )
+        }
+    }
 
     //Opens Comments
     function CustomToggle({ children, eventKey, callback }) {
@@ -87,15 +123,25 @@ function CompanyFeed() {
     }
 
     //Refreshes comments
-    function refreshComment(){
+    function refreshComment() {
         axios.get(`getComment/getComment`)
-        .then((res) => {
-            setcommentList(res.data);
-            console.log("COMMENTS:", res.data)
-        })
-        .catch((err) => {
-            console.log(err, "Unable to get user time info");
-        });
+            .then((res) => {
+                setcommentList(res.data);
+                console.log("COMMENTS:", res.data)
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
+    }
+    //Refreshes posts
+    function refreshPost() {
+        axios.get(`getCP/getCPFeed`)
+            .then((response) => {
+                setfeedList(response.data.filter(item => item.isActive === true));
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
     }
     //Reply Data Sent Function
     /* public int cfId { get; set; }
@@ -110,38 +156,63 @@ function CompanyFeed() {
         const replyDataSent = {
             parentcommentid: postid,
             FullName: user.FullName,
-            postreplyUserPic: `${'https://webapi20220126203702.azurewebsites.net/Images/' + user.userPic}`,            
+            postreplyUserPic: `${'https://webapi20220126203702.azurewebsites.net/Images/' + user.userPic}`,
             commenttext: replyMessage,
+            Id: user.MyUserId
         }
         axios.post('AddComment/addCommentitem', replyDataSent,)
-        .then(res => {
-            console.log('NEW REPLY', res.data)
-            
-           
-            toast.success(`${"Comment added to post!"}`, {
-                position: toast.POSITION.TOP_RIGHT,
-                autoClose: 5000,
-                theme: 'dark'
-            });
-            refreshComment();
-        })
-        .catch(err => {
-            console.log(err);
-        })
+            .then(res => {
+                console.log('NEW REPLY', res.data)
+
+
+                toast.success(`${"Comment added to post!"}`, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    autoClose: 5000,
+                    theme: 'dark'
+                });
+                refreshComment();
+            })
+            .catch(err => {
+                console.log(err);
+            })
         setreplyMessage("");
         refreshComment();
     }
-    
+
+    function deletePost(id) {
+        const deletedPost = {
+            cfId: id,
+            isActive: 0
+        }
+        axios.put('AddCP/deleteCPitem', deletedPost,)
+            .then(res => {
+                console.log('NEW DELETE', res.data)
+
+                refreshPost();
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        toast.error(`${"Deleted your post."}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+            theme: 'dark'
+        });
+        refreshPost();
+    }
+    function handleshowpost() {
+        setPostModal(false);
+        refreshPost();
+    }
     //onmessagereplychange
-    const onMessgeReplyChange = (e) =>{
+    const onMessgeReplyChange = (e) => {
         setreplyMessage(e);
     }
 
     return (
         <div className='company-feed'>
-            <ToastContainer />
             <div className='add-project-container'>
-                <h3 className='company-feed-title'> Feed </h3> <FontAwesomeIcon className="project-done-icon" icon={faPlus} size='1x' />
+                <h3 className='company-feed-title'> Feed </h3> <FontAwesomeIcon onClick={() => setPostModal(true)} className="new-post-add-icon" icon={faPlus} size='2x' />
             </div>
             <div className='feed-list-container'>
                 {feedList.map((item) => (
@@ -154,6 +225,9 @@ function CompanyFeed() {
                                 </div><div className='user-name'>
                                     {item.FullName}
                                 </div>
+                                <DropdownButton menuVariant="dark" className='post-option-dropdown' id="dropdown-item-buttonpost" title=". . .">
+                                    <Dropdown.Item style={{ color: 'white' }} onClick={() => deletePost(item.cfId)} className="delete-post-btn" as="button">Delete  <FontAwesomeIcon style={{ color: 'white' }} className="delete-post-icon" icon={faTrashCan} size='1x' /></Dropdown.Item>
+                                </DropdownButton>
                             </div>
                             <div className='post-content-container'>
                                 <h4 className='post-title'>
@@ -176,20 +250,9 @@ function CompanyFeed() {
                                 <Accordion.Collapse eventKey="1">
 
                                     <Card.Body className='post-comment-container'>
-                                        {commentList.filter(items => items.parentcommentid == item.cfId).map(items =>
-                                            <div className='comment-content-container'>
-                                                <div className='comment-header'>
-                                                    <img className='comment-profile-pic' src={items.postreplyUserPic} style={{ height: '20px', width: '20px', borderRadius: '50px', marginRight: '1rem' }} />
-                                                    <h6 className='commenter'>{items.FullName}</h6>
-                                                </div>
-                                                <div className='comment-content'>
-                                                    <p className='comment-text'>
-                                                        {items.commenttext}
-                                                    </p>
-                                                </div>
-
-                                            </div>
-
+                                        {commentList.filter(items => items.parentcommentid == item.cfId).map(items => (
+                                            <CommentType items={items}></CommentType>
+                                        )
                                         )}
                                         <Accordion defaultActiveKey="1">
                                             <div className='reply-comments'>
@@ -200,8 +263,8 @@ function CompanyFeed() {
 
                                                     <Card.Body className='reply-comment-container'>
 
-                                                        <textarea onChange={(e) => onMessgeReplyChange(e.target.value)} value = {replyMessage}className='reply-text'></textarea>
-                                                        <button onClick={(element) => {sendReply(element.target.id); refreshComment();}} id={item.cfId}className='reply-submit-btn'>Send <FontAwesomeIcon className="reply-btn-icon" icon={faPaperPlane} size='1x' /></button>
+                                                        <textarea onChange={(e) => onMessgeReplyChange(e.target.value)} value={replyMessage} className='reply-text'></textarea>
+                                                        <button onClick={(element) => { sendReply(element.target.id); refreshComment(); }} id={item.cfId} className='reply-submit-btn'>Send <FontAwesomeIcon className="reply-btn-icon" icon={faPaperPlane} size='1x' /></button>
                                                     </Card.Body>
                                                 </Accordion.Collapse>
                                             </div>
@@ -216,6 +279,10 @@ function CompanyFeed() {
                 ))}
 
             </div>
+            <AddCompanyModal id="inventory-modal-modal"
+                show={postModal}
+                onHide={handleshowpost}
+            />
         </div>
     )
 }
