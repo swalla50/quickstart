@@ -8,6 +8,8 @@ import './Login.css'
 import { Router, Route, Navigate, Routes, useNavigate, Link} from 'react-router-dom';
 import { render } from '@testing-library/react';
 import Auth from '../Auth/Auth';
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+
 
 
 export default class Login extends Component  {
@@ -38,6 +40,11 @@ export default class Login extends Component  {
         })
         .catch(err =>{
             console.log(err);
+            toast.error(`${"Invalid Login Credentials "}`, {
+                position: toast.POSITION.TOP_RIGHT,
+                autoClose: 5000,
+                theme: 'dark'
+            });
         })
         
         
@@ -56,6 +63,8 @@ export default class Login extends Component  {
         
     return (
             <div className ="login">
+                <ToastContainer />
+
                 <form className="form-signin" onSubmit={this.submit}> 
                 <img  className="login-form-logo" src={logo}/>
                 <div className='Email-label'>

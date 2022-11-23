@@ -17,6 +17,7 @@ import UserModal from '../Components/Settings/UserModal';
 export default class Home extends Component {
 
 
+  
   state = {}
   logout() {
     localStorage.removeItem('token');
@@ -65,6 +66,7 @@ export default class Home extends Component {
                 <DragnDrop/>
               </div>
             </div>
+            
           </Canvas>
         </div>
 

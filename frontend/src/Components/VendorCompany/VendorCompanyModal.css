@@ -133,3 +133,16 @@ h4.ComVenModal-header {
 tr.content-bar{
     background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgb(59, 59, 59) 100%);
 }
+div#uncontrolled-tab-example-tabpane-CashReciepts {
+    height: 40rem;
+    overflow-y: scroll;
+}
+th.compnay-th {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+input.search-companyid {
+    width: 100%;
+    font-size: 12px;
+}

@@ -3,8 +3,9 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './DragnDrop.css'
 import { faGears, faBuilding, faUser, faChartColumn } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import UserModal from '../Settings/UserModal';
+import AddUserModal from '../ManageUsers/AddUserModal';
 function DragnDrop() {
     const dragcomponents = [
         {
@@ -17,24 +18,25 @@ function DragnDrop() {
             id: 'myCompany',
             name: 'Company',
             icon: faBuilding,
-            route:'/company'
+            route: '/company'
         },
         {
             id: 'newEmployee',
             name: 'Add A New Employee',
             icon: faUser,
-            route:'/adduser'
+            route: '/adduser'
         },
         {
             id: 'Reports',
             name: 'Reports',
             icon: faChartColumn,
-            route:'/reports'
-            
+            route: '/reports'
+
         }
     ]
     const [characters, updateCharacters] = useState(dragcomponents);
     const [userModal, setUserModal] = useState(false);
+    const [adduserModal, setadduserModal] = useState(false);
 
     function handleOnDragEnd(result) {
         console.log(result)
@@ -47,6 +49,9 @@ function DragnDrop() {
 
     }
 
+    function handleadduserModal() {
+        setadduserModal(false);
+    }
     return (
         <div className='draggable-container'>
 
@@ -58,7 +63,7 @@ function DragnDrop() {
                                 return (
                                     <Draggable key={id} draggableId={id} index={index}>
                                         {(provided) => (
-                                            <Link to={route}className='list-drag-comp' ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
+                                            <Link to={route} className='list-drag-comp' ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} >
                                                 <FontAwesomeIcon icon={icon} size='5x' />
                                                 <h3 className='draggable-header'>
                                                     {name}
@@ -76,6 +81,10 @@ function DragnDrop() {
             <UserModal id="user-modal-modal"
                 show={userModal}
                 onHide={setUserModal}
+            />
+            <AddUserModal id="user-modal-modal"
+                show={adduserModal}
+                onHide={handleadduserModal}
             />
         </div>
     )

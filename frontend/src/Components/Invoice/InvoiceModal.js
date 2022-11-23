@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBarsProgress, faListCheck, faCheck, faCheckCircle, faTrashCan, faGrip, faList, faPencil, faPlus, faSave, faSquare, faSquareCheck, faXmark, faFileInvoice, faDollarSign, faFilePdf } from '@fortawesome/free-solid-svg-icons'
+import { faBarsProgress, faListCheck, faCheck, faCheckCircle, faTrashCan, faGrip, faList, faPencil, faPlus, faSave, faSquare, faSquareCheck, faXmark, faFileInvoice, faDollarSign, faFilePdf, faArrowCircleRight, faXmarkCircle } from '@fortawesome/free-solid-svg-icons'
 import { Tabs, Tab } from 'react-bootstrap'
 import { Button, Modal } from 'react-bootstrap';
 import moment from 'moment';
@@ -14,6 +14,31 @@ import jsPDF from 'jspdf';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { Mailer } from 'nodemailer-react'
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import Select from '@mui/material/Select';
+import Checkbox from '@mui/material/Checkbox';
+import { MDBSelect } from 'mdb-react-ui-kit';
+import defaultLogo from '../../assets/images/Default_Image_Thumbnail.png'
+
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+const nodemailer = require("nodemailer");
+
+
 
 function InvoiceModal(props) {
 
@@ -26,6 +51,8 @@ function InvoiceModal(props) {
     const [SenderAddress, setSenderAddress] = useState("");
     const [AdditionalNotes, setAdditionalNotes] = useState("");
     const [TotalCostInvoice, setTotalCostInvoice] = useState("");
+    const [sendList, setsendList] = useState([]);
+    const [userList, setuserList] = useState([]);
     const [Arr, setArr] = React.useState([]);
 
     useEffect(() => {
@@ -40,10 +67,28 @@ function InvoiceModal(props) {
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
             });
+        axios.get(`userList/userList`)
+            .then((res) => {
+                setuserList(res.data)
+
+
+
+
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
             
             
 
     }, []);
+
+
+
+
+
+
+
     // const popover = (
     //     <Popover show="true" defaultShow="true" id="popover-basic">
     //         <Popover.Header as="h3">Popover right</Popover.Header>
@@ -122,24 +167,24 @@ function InvoiceModal(props) {
 
     }
 
-    function handleInvoiceRemove(index){
+    function handleInvoiceRemove(index) {
 
         var array = [...invoiceList]
         console.log('array', array)
-        
+
         if (index !== -1) {
             array.splice(index, 1);
             setinvoiceList(array);
-            
-          }
+
+        }
         // console.log("THESE VALUES", index, Arr)
-        
+
     }
     // handleInvoiceChange(index){
     //     invoiceList[index].InvoiceItem
     // }
     const [picture, setPicture] = useState(null);
-    const [imgData, setImgData] = useState('https://reactnativecode.com/wp-content/uploads/2018/02/Default_Image_Thumbnail.png');
+    const [imgData, setImgData] = useState(defaultLogo);
     const onChangePicture = e => {
         if (e.target.files[0]) {
             console.log("picture: ", e.target.files);
@@ -153,7 +198,30 @@ function InvoiceModal(props) {
 
         }
     };
-    function PrintPDF(e) {
+    const [personName, setPersonName] = React.useState([]);
+    const [Names, setNames] = useState([]);
+    const handleChange = (event) => {
+        const {
+            target: { value }, target: { id }
+        } = event;
+        setPersonName(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+
+        );
+
+
+
+        console.log("SEND", value)
+    };
+    // const [mailerState, setMailerState] = useState({
+    //     name: "",
+    //     email: "",
+    //     message: "",
+    // });
+
+
+    const PrintPDF = async (e) => {
         e.preventDefault();
         var doc = new jsPDF("p", "pt", "a0");
         doc.page = 1;
@@ -166,19 +234,128 @@ function InvoiceModal(props) {
         doc.deletePage()
         doc.addImage(imgData, 'JPEG', 2380, 400, 180, 180);
 
-        console.log('img DATA', imgData, doc.internal.pageSize.getWidth());
+        console.log('img DATA', doc, doc.internal.pageSize.getWidth());
         doc.html(document.querySelector('#content'), {
             callback: function (pdf) {
-                pdf.addImage(imgData, 'JPEG', 1300, 130, 150, 150);
+                // pdf.addImage(imgData, 'JPEG', 1300, 130, 150, 150);
                 var pageCount = doc.internal.getNumberOfPages();
                 pdf.deletePage(pageCount);
                 pdf.setFontSize(6);
                 pdf.save("Invoice.pdf");
             }
         });
+
+
+
+
+
+        // for (var i = 0; i < personName.length; i++) {
+        // console.log("SENT TO", personName[i])
+
+        // transporter.sendMail(mailOptions, function (err, info) {
+        //     if (err)
+        //         console.log(err);
+        //     else {
+        //         console.log("EMAILSENT", info)
+        //     }
+        // })
+
+
+        // }
+
     }
-    console.log('invoice-list', invoiceList)
-    console.log("THESE VALUES", Arr)
+    const mailerState = {
+        email: "stevenwallacejr@aol.com",
+        name: "Steven",
+        message: "Hello",
+    }
+    async function sendInvoiceEmail(e) {
+        e.preventDefault();
+        var doc = new jsPDF("p", "pt", "a0");
+        doc.page = 1;
+        var totalPages = 1;
+        var str = "Page " + doc.page + " of " + totalPages;
+        doc.setFontSize(9);// optional
+        doc.text(str, 250, doc.internal.pageSize.height - 10);
+        doc.text("Confidential", 490, doc.internal.pageSize.height - 10);
+        var pageCount = doc.internal.getNumberOfPages();
+        doc.deletePage(2)
+        doc.deletePage(3)
+        doc.addImage(imgData, 'JPEG', 2380, 400, 180, 180);
+
+        console.log('img DATA', doc, doc.internal.pageSize.getWidth());
+        doc.html(document.querySelector('#content'), {
+            callback: async function (pdf) {
+                // pdf.addImage(imgData, 'JPEG', 1300, 130, 150, 150);
+                var pageCount = doc.internal.getNumberOfPages();
+                pdf.deletePage(pageCount);
+                pdf.setFontSize(6);
+                // pdf.save("Invoice.pdf");
+                const out = pdf.output('datauristring');
+                for (var i = 0; i < personName.length; i++) {
+                    const mailOptions = {
+                        fromObject: 'Altbooks@gmail.com',
+                        toObject: personName[i],
+                        subjectObject: `${personName[i] + " - Altbooks Invoice"}`,
+                        textObject: `<p>Attached is your invoice from: <br/>${user.FullName} <br/> Date: ${moment().format('MMMM Do YYYY, h:mm:ss a')}</p>`,
+                        pdf: out.split('base64,')[1]
+                    }
+                    console.log("SENT TO", personName[i])
+
+                    const response = await fetch("http://localhost:8000/sendMail", {
+                        method: "POST",
+                        headers: {
+                            "Content-type": "application/json",
+                        },
+                        body: JSON.stringify({ mailOptions }),
+                    })
+                        .then((res) => {
+                            res.json()
+                            toast.success("Invoice Sent Successfully!", {
+                                className: "export-Toast",
+                                position: toast.POSITION.TOP_RIGHT,
+                                autoClose: 5000,
+                                theme: 'dark'
+                            });
+                        })
+                        .then((res) => {
+                            const resData = res;
+                            toast.success("Invoice Sent Successfully!", {
+                                position: toast.POSITION.TOP_RIGHT,
+                                autoClose: 5000,
+                                theme: 'dark'
+                            });
+                            console.log(resData);
+                            if (resData.status === "success") {
+                                console.log("Message Sent");
+                            } else if (resData.status === "fail") {
+                                console.log("Message failed to send");
+                            }
+                        })
+                        ;
+
+
+                }
+                console.log("PDF Output", pdf.output('datauristring'));
+            }
+        })
+
+        let transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'srw130@gmail.com',
+                pass: 'miami2002'
+            }
+        });
+
+
+
+
+        // console.log("RESPONSEEE", JSON.parse(JSON.stringify(mailOptions)), response);
+
+    }
+    // console.log('invoice-list', invoiceList)
+    // console.log("THESE VALUES", Arr)
     return (
         <div className='GL'>
 
@@ -189,32 +366,62 @@ function InvoiceModal(props) {
                 centered
                 dialogClassName="modal-width-invoice"
                 contentClassName="modal-height-invoice"
+                onHide={() =>{props.onHide();setPersonName([]);setAdditionalNotes("");setinvoiceList([]);setSenderName("");setSenderEmail("");setSenderPhone("");setSenderAddress("");setImgData(defaultLogo) }}
             >
                 <ToastContainer />
 
                 <Modal.Header closeButton>
                     <div className='invoice-header-container'>
-                        Invoice <FontAwesomeIcon className="project-done-icon" icon={faFileInvoice} size='1x' />
+                        Invoice <FontAwesomeIcon style={{ marginLeft: "1rem", marginTop: "5px" }} className="project-done-icon" icon={faFileInvoice} size='1x' />
                         <OverlayTrigger
                             placement="bottom"
-                            overlay={<Tooltip defaultShow="true" style={{fontSize:"15px"}}id="button-tooltip-2">This is where you can toggle between edit and preview mode. Once you are ready to generate the invoice, please go to the preview mode!!</Tooltip>}
+                            overlay={<Tooltip defaultShow="true" style={{ fontSize: "15px" }} id="button-tooltip-2">This is where you can toggle between edit and preview mode. Once you are ready to generate the invoice, please go to the preview mode!!</Tooltip>}
                         >
                             {editInvoiceMode ?
                                 (
-                                    <button className='change-invoice-view' onClick={(e) => previewModeFalse(e)} style={{ background: '#5fd35f', color: 'white' }}>
-                                        Preview Mode: {editInvoiceMode.toString().toLocaleUpperCase()}
-                                    </button>
+                                    <>
+                                        <button className='change-invoice-view' onClick={(e) => previewModeFalse(e)} style={{ background: 'linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);', color: 'white' }}>
+                                            Preview Mode: <FontAwesomeIcon style={{ color: '#1dc71d' }} className="pdf-invoice-icon" icon={faCheckCircle} size='1x' />
+                                        </button>
+                                    </>
                                 )
                                 :
                                 (
-                                    <button className='change-invoice-view' onClick={(e) => previewModeTrue(e)} style={{ background: '#d91919', color: 'white' }}>
-                                        Preview Mode: {editInvoiceMode.toString().toLocaleUpperCase()}
-                                    </button>
+                                    <>
+                                        <button className='change-invoice-view' onClick={(e) => previewModeTrue(e)} style={{ background: 'linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);', color: 'white' }}>
+                                            Preview Mode: <FontAwesomeIcon style={{ color: 'red' }} className="pdf-invoice-icon" icon={faXmarkCircle} size='1x' />
+                                        </button>
+                                        <FormControl sx={{ marginLeft: '1rem', width: 300 }}>
+                                            <InputLabel id="demo-multiple-checkbox-label">Send To: </InputLabel>
+                                            <Select
+                                                labelId="demo-multiple-checkbox-label"
+                                                id="demo-multiple-checkbox"
+                                                multiple
+                                                value={personName}
+                                                onChange={handleChange}
+                                                input={<OutlinedInput label="Send To: " />}
+                                                renderValue={(selected) => selected.join(', ')}
+                                                MenuProps={MenuProps}
+                                            >
+                                                {userList.map((name) => (
+                                                    <MenuItem key={name.Email} value={name.Email}>
+                                                        <Checkbox checked={personName.indexOf(name.Email) > -1} />
+                                                        <ListItemText primary={name.FullName} />
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                        <button className='change-invoice-view' onClick={sendInvoiceEmail} style={{ background: 'linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);', color: 'white' }}>
+                                            Send Invoice <FontAwesomeIcon className="pdf-invoice-icon" icon={faArrowCircleRight} size='1x' />
+                                        </button>
+                                    </>
                                 )
 
                             }
+
                         </OverlayTrigger>
                         {!editInvoiceMode ? (<button onClick={(e) => PrintPDF(e)} className='btn btn-success btn-lg pdf-invoice-btn'>Export <FontAwesomeIcon className="pdf-invoice-icon" icon={faFilePdf} size='1x' /></button>) : (<div></div>)}
+
                     </div>
                 </Modal.Header>
                 <Modal.Body>
@@ -296,7 +503,7 @@ function InvoiceModal(props) {
                                                         </td>
 
                                                         <td className="btncontainer">
-                                                            <button onClick={()=>handleInvoiceRemove(index)} className="add-invoice-btn" type="button"  >
+                                                            <button onClick={() => handleInvoiceRemove(index)} className="add-invoice-btn" type="button"  >
                                                                 <FontAwesomeIcon className="invoice-delete-icon" icon={faTrashCan} size='1x' />
                                                             </button>
 
@@ -391,7 +598,7 @@ function InvoiceModal(props) {
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={props.onHide}>Close</Button>
+                    <Button onClick={() =>{props.onHide();setPersonName([]);setAdditionalNotes("");setinvoiceList([]);setSenderName("");setSenderEmail("");setSenderPhone("");setSenderAddress("");setImgData(defaultLogo) }}>Close</Button>
                 </Modal.Footer>
             </Modal>
         </div>

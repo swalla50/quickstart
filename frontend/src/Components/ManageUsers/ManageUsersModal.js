@@ -284,7 +284,7 @@ function ManageUsersModal(props) {
                                         <td className="itemnum">
                                             <img style={{ height: '35px', borderRadius: '50%' }} src={`${'https://webapi20220126203702.azurewebsites.net/images/' + item.userPic}`} />
                                         </td>
-                                        <td className="itemtitle">{item.myUserId}</td>
+                                        <td className="itemtitle">{item.MyUserId}</td>
                                         <td className="itemnum">{item.FullName}</td>
                                         <td className="itemnum">{item.UserName}</td>
                                         <td className="itemprice"><FontAwesomeIcon className="project-done-icon" icon={faPhone} size='1x' />{item.PhoneNumber}</td>

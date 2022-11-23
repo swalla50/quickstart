@@ -74,7 +74,7 @@ form.invoice-table-container {
 input.invoice-edit-input{
     height: 30px;
     border: solid gray 1px;
-    color: black;
+    color: white;
     border-radius: 10px;
 }
 button.add-invoice-btn {
@@ -98,10 +98,33 @@ button.add-invoice-btn {
 }
 button.change-invoice-view {
     margin-left: 20px;
+    height:50px;
     border: none;
     border-radius: 10px;
     width: 200px;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
     box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 10%);
+}
+button.change-invoice-view:hover {
+    cursor: pointer;
+    transform: translateY(-5px);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+button.change-invoice-view:not(:hover) {
+    
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+button.btn.btn-success.btn-lg.pdf-invoice-btn:hover{
+    cursor: pointer;
+    transform: translateY(-5px);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+}
+button.btn.btn-success.btn-lg.pdf-invoice-btn:not(:hover){
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
 }
 h4.additional-notes-header {
     text-align: left;
@@ -131,7 +154,7 @@ svg.svg-inline--fa.fa-file-pdf.fa-2x.pdf-invoice-icon:hover {
     cursor: pointer;
 }
 button.btn.btn-success.btn-lg.pdf-invoice-btn {
-    background: red;
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
     margin-left: 20px;
     border-radius: 10px;
     border: none;
@@ -156,4 +179,17 @@ td.total-cost-final-field {
 }
 .modal-width-invoice {
     min-width: 100%;
+}
+p.invoice-edit-input {
+    color: white;
+    display: inline-flex;
+}
+/* label[data-shrink=false]+.MuiInputBase-formControl .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+    padding: 0px;
+} */
+fieldset.MuiOutlinedInput-notchedOutline.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+    border-radius: 10px;
+}
+p.sender-info-input {
+    height: 30px;
 }

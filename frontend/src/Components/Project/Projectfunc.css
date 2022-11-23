@@ -446,7 +446,7 @@ svg.svg-inline--fa.fa-trash-can.fa-1x.task-rmv-icon {
     margin-top: 20px;
 }
 .edit-tasks-container {
-    height: 50vh;
+    height: 30vh;
     overflow-y: scroll;
     overflow-x: hidden;
 }

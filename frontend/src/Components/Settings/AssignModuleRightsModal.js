@@ -31,7 +31,6 @@ function AssignModuleRightsModal(props) {
             .then((response) => {
                 setModule(response.data);
 
-                console.log('MODEUL: ', response.data.filter(item => (item.vendorId == props.Group.vendorId) && (item.Level != null)))
 
 
             })
@@ -47,7 +46,6 @@ function AssignModuleRightsModal(props) {
                     setMactch(matchesmade);
                 }
 
-                console.log('MORE MODEUL: ', matchesmade.filter((items) => !matchesmade.indexOf(Number(items.ModuleID))))
             })
             .catch((err) => {
                 console.log(err, "Unable to get vendor time info");
@@ -110,8 +108,7 @@ function AssignModuleRightsModal(props) {
         
       };
 
-console.log('modules select', checked)
-console.log('modules un-assign select', unchecked)
+
 
     // console.log("NEW GROUP",module,availableModule.filter((items) => match.indexOf(Number(items.ModuleID))))
     function getavailable() {
@@ -119,7 +116,6 @@ console.log('modules un-assign select', unchecked)
         .then((response) => {
             setModule(response.data);
 
-            console.log('MODEUL: ', response.data.filter(item => (item.vendorId == props.Group.vendorId) && (item.Level != null)))
 
 
         })
@@ -207,7 +203,6 @@ console.log('modules un-assign select', unchecked)
 
     function selectRightLevel(value) {
         setselectedRightLevel(value);
-        console.log(selectedRightLevel)
     }
 
 
@@ -221,7 +216,6 @@ console.log('modules un-assign select', unchecked)
             }
             axios.put('assignModuleRights/assignModuleRights', newGroupRights)
             .then(res => {
-                console.log("assigned right", res.data)
                 getavailable();
                 toast.success(`${props.Group.vendorName + ' now has the module ' + checked[i].ModuleName}`, {
                     position: toast.POSITION.TOP_RIGHT,
@@ -232,7 +226,6 @@ console.log('modules un-assign select', unchecked)
             .catch(err => {
                 console.log(err);
             })
-            console.log("ASSIGNED", newGroupRights)
         }  
         }
          else if(checked.length === 1 && selectedRightLevel != null){
@@ -242,7 +235,6 @@ console.log('modules un-assign select', unchecked)
             }
             axios.put('assignModuleRights/assignModuleRights', newGroupRights)
             .then(res => {
-                console.log("assigned right", res.data)
                 getavailable();
                 toast.success(`${props.Group.vendorName + ' now has the module ' + checked[0].ModuleName}`, {
                     position: toast.POSITION.TOP_RIGHT,
@@ -253,7 +245,6 @@ console.log('modules un-assign select', unchecked)
             .catch(err => {
                 console.log(err);
             })
-            console.log("ASSIGNED", newGroupRights)
         }
         else {
             toast.error("No Modules Selected.", {
@@ -261,7 +252,6 @@ console.log('modules un-assign select', unchecked)
             autoClose: 5000,
             theme: 'dark'
         });
-        console.log('Nothing inputed')
         }
         getavailable();
 
@@ -275,7 +265,6 @@ console.log('modules un-assign select', unchecked)
             }
             axios.put('assignModuleRights/assignModuleRights', newGroupRights)
             .then(res => {
-                console.log("assigned right", res.data)
                 getavailable();
                 toast.success(`${props.Group.vendorName + ' now has the module ' + unchecked[i].ModuleName + ' Removed'}`, {
                     position: toast.POSITION.TOP_RIGHT,
@@ -286,7 +275,6 @@ console.log('modules un-assign select', unchecked)
             .catch(err => {
                 console.log(err);
             })
-            console.log("ASSIGNED", newGroupRights)
         }  
         }
          else if(unchecked.length === 1){
@@ -296,7 +284,6 @@ console.log('modules un-assign select', unchecked)
             }
             axios.put('assignModuleRights/assignModuleRights', newGroupRights)
             .then(res => {
-                console.log("assigned right", res.data)
                 getavailable();
                 toast.success(`${props.Group.vendorName + ' now has the module ' + unchecked[0].ModuleName + ' Removed'}`, {
                     position: toast.POSITION.TOP_RIGHT,
@@ -307,7 +294,6 @@ console.log('modules un-assign select', unchecked)
             .catch(err => {
                 console.log(err);
             })
-            console.log("ASSIGNED", newGroupRights)
         }
         else {
             toast.error("No Modules Selected to unassign.", {
@@ -315,10 +301,35 @@ console.log('modules un-assign select', unchecked)
             autoClose: 5000,
             theme: 'dark'
         });
-        console.log('Nothing inputed')
         }
         getavailable();
 
+    }
+
+    function getModules(){
+        axios.get(`grouprights/getGroupRights`)
+            .then((response) => {
+                setModule(response.data);
+
+
+
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get vendor time info");
+            });
+
+        axios.get(`GetModuleList/getModule`)
+            .then((res) => {
+                setavailableModule(res.data);
+                for (var i = 0; i < res.data.length; i++) {
+                    matchesmade.push(res.data[i].ModuleID);
+                    setMactch(matchesmade);
+                }
+
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get vendor time info");
+            });
     }
 
     return (
@@ -331,6 +342,7 @@ console.log('modules un-assign select', unchecked)
                 dialogClassName="modal-width"
                 contentClassName="modal-height"
                 onHide={() => {props.onHide();resetValues()}}
+                onShow={() => getModules()}
                 
             >
                 <ToastContainer />

@@ -8,11 +8,58 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const cors = require('cors');
+const nodemailer = require('nodemailer')
+const app = express();
 
 const APP_PORT = process.env.APP_PORT || 8000;
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || 'sandbox';
+app.use(cors({
+  origin: "http://localhost:3000"
+}));
+app.use(express.json());
+let transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 465,
+  auth: {
+    user: 'srw130@gmail.com',
+    pass: 'vilkmditnuvfujys'
+  }
+});
+
+var receiver;
+var subject;
+var body;
+
+
+app.post("/sendMail", function (req, res) {
+  let mailOptionss = {
+    from: `${req.body.mailOptions.fromObject}`,
+    to: `${req.body.mailOptions.toObject}`,
+    subject: `${req.body.mailOptions.subjectObject}`,
+    html: `${req.body.mailOptions.textObject}`,
+    attachments: [
+      {
+        filename: 'Invoice.pdf',
+        content: `${req.body.mailOptions.pdf}`,
+        contentType: 'application/pdf',
+        encoding: 'base64'
+      }
+    ]
+  }
+  transporter.sendMail(mailOptionss, function (err, data) {
+
+    if (err) {
+      console.log("Error Occurss", err)
+    }
+    else {
+      console.log("Email Sent!!!!!!!", data, res.json)
+    }
+  })
+})
+
+
 
 // PLAID_PRODUCTS is a comma-separated list of products to use when initializing
 // Link. Note that this list must contain 'assets' in order for the app to be
@@ -26,7 +73,6 @@ const PLAID_PRODUCTS = (process.env.PLAID_PRODUCTS || 'transactions').split(
 const PLAID_COUNTRY_CODES = (process.env.PLAID_COUNTRY_CODES || 'US').split(
   ',',
 );
-
 // Parameters used for the OAuth redirect Link flow.
 //
 // Set PLAID_REDIRECT_URI to 'http://localhost:3000'
@@ -70,14 +116,14 @@ const configuration = new Configuration({
 
 const client = new PlaidApi(configuration);
 
-const app = express();
+
 app.use(
   bodyParser.urlencoded({
     extended: false,
   }),
 );
 app.use(bodyParser.json());
-app.use(cors());
+
 
 app.post('/api/info', function (request, response, next) {
   response.json({
@@ -440,14 +486,14 @@ app.get('/api/payment', function (request, response, next) {
 //TO-DO: This endpoint will be deprecated in the near future
 app.get('/api/income/verification/paystubs', function (request, response, next) {
   Promise.resolve()
-  .then(async function () {
-    const paystubsGetResponse = await client.incomeVerificationPaystubsGet({
-      access_token: ACCESS_TOKEN
-    });
-    prettyPrintResponse(paystubsGetResponse);
-    response.json({ error: null, paystubs: paystubsGetResponse.data})
-  })
-  .catch(next);
+    .then(async function () {
+      const paystubsGetResponse = await client.incomeVerificationPaystubsGet({
+        access_token: ACCESS_TOKEN
+      });
+      prettyPrintResponse(paystubsGetResponse);
+      response.json({ error: null, paystubs: paystubsGetResponse.data })
+    })
+    .catch(next);
 })
 
 app.use('/api', function (error, request, response, next) {

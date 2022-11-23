@@ -347,3 +347,12 @@ thead.inventory-log-header-table {
 .srlog-header{
     color: white;
 }
+
+thead.inventory-log-header-table {
+    position: sticky;
+    top: 0;
+}
+thead {
+    position: sticky;
+    top: 0;
+}

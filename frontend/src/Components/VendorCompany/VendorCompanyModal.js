@@ -12,6 +12,26 @@ import { faBuilding, faBuildingCircleArrowRight, faEnvelope, faPencil, faPhone, 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AddVenComModal from './AddVenComModal';
 import EditVenComModal from './EditVenComModal';
+import {
+    Grid,
+    TextField,
+    Card,
+    CardContent,
+    Typography,
+    Checkbox,
+    Autocomplete,
+    Chip,
+    FormControl,
+    InputLabel,
+    Select,
+    OutlinedInput,
+    MenuItem,
+    ListItemText,
+    Paper,
+    Stack
+} from "@mui/material";
+import { CheckBoxOutlineBlank } from '@material-ui/icons'
+import { CheckBoxOutlined } from '@material-ui/icons'
 
 function VendorCompanyModal(props) {
     const [user, setUser] = useState("");
@@ -21,14 +41,15 @@ function VendorCompanyModal(props) {
     const [vencomModal, setvencomModal] = useState(false);
     const [editvencomModal, seteditvencomModal] = useState(false);
     const [vendorObject, setvendorObject] = useState([]);
-
+    const [query, setQuery] = useState([]);
+    const [queryName, setQueryName] = useState([]);
 
     function handleshowvencom() {
         setvencomModal(false);
         axios.get(`getvendor/getvendorList`)
             .then((response) => {
                 setvendorlist(response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true));
-                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true))
+                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany==true))
             })
             .catch((err) => {
                 console.log(err, "Unable to get vendor time info");
@@ -39,7 +60,7 @@ function VendorCompanyModal(props) {
         axios.get(`getvendor/getvendorList`)
             .then((response) => {
                 setvendorlist(response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true));
-                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true))
+                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany==true))
                 // console.log('vendors: ', response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true))
             })
             .catch((err) => {
@@ -70,6 +91,9 @@ function VendorCompanyModal(props) {
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
             });
+            setcompanylist(companylist.filter(company => company.vendorId.toString().toLocaleLowerCase()?.includes(query)))
+            setcompanylist(companylist.filter(company => company.vendorName.toString().toLocaleLowerCase()?.includes(queryName)))
+            console.log("COMP LIST",companylist)
         handleshowvencom();
     }, [])
 
@@ -202,6 +226,52 @@ function VendorCompanyModal(props) {
     //     console.log("Sold:", Restock);
     //     props.onHide()
     // }
+    // var CompanyIDS = [];
+    // for (let i = 0; i < companylist.length; i++) {
+    //     CompanyIDS.push(companylist[i].vendorId)
+    //     let setOfValue = new Set(CompanyIDS)
+    //     //   //distinct building name values from array
+    //     let uniqueBuildingValues = [...setOfValue]
+    //     CompanyIDS = uniqueBuildingValues
+    // }
+
+    const [searchTextBox, setsearchTextBox] = useState("");
+    const [searchTextBoxName, setsearchTextBoxName] = useState("");
+    const [searchTextBoxType, setsearchTextBoxType] = useState("");
+    const [searchTextBoxEmail, setsearchTextBoxEmail] = useState("");
+    const [searchTextBoxNumber, setsearchTextBoxNumber] = useState("");
+    const [searchTextBoxContact, setsearchTextBoxContact] = useState("");
+    const icon = <CheckBoxOutlineBlank fontSize="small" />;
+    const checkedIcon = <CheckBoxOutlined fontSize="small" />;
+
+    const search = () => {
+
+        
+            return companylist.filter(company => company.vendorId.toString().toLocaleLowerCase()?.includes(query));
+        
+
+        
+        // ||  report.reportName?.toLocaleLowerCase().includes(query) || report.reportType?.includes(query) || report.reportType?.toLocaleLowerCase().includes(query) || report.reportCreation?.includes(query)
+    }
+    const searchName = () => {
+        return companylist.filter(company => company.vendorName.toString().toLocaleLowerCase()?.includes(queryName));
+        // ||  report.reportName?.toLocaleLowerCase().includes(query) || report.reportType?.includes(query) || report.reportType?.toLocaleLowerCase().includes(query) || report.reportCreation?.includes(query)
+    }
+    // else if(searchTextBoxName != ""){
+    //     return companylist.filter(company => company.vendorName.toString().toLocaleLowerCase()?.includes(queryName) && company.vendorId.toString().toLocaleLowerCase()?.includes(query));
+    // }
+    // else if(searchTextBoxType){
+    //     return companylist.filter(company => company.vendorType.toString().toLocaleLowerCase()?.includes(query));
+    // }
+    // else if (searchTextBoxEmail != ""){
+    //     return companylist.filter(company => company.vendorEmail.toString().toLocaleLowerCase()?.includes(query));
+    // }
+    // else if (searchTextBoxNumber != ""){
+    //     return companylist.filter(company => company.vendorPhone.toString().toLocaleLowerCase()?.includes(query));
+    // }
+    // else{
+    //     return companylist.filter(company => company.vendorContact.toString().toLocaleLowerCase()?.includes(query));
+    // }
     return (
         <div className='RestockModal'>
 
@@ -229,30 +299,36 @@ function VendorCompanyModal(props) {
 
                                 <thead>
                                     <tr className='inventory-table-headers'>
-                                        <th>
+                                        <th className='compnay-th'>
                                             Company ID
+                                            <input type="number" placeholder='Search Company ID' value={searchTextBox} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBox(e.target.value); }} />
                                         </th>
                                         <th>
                                             Company Name
+                                            <input type="text" placeholder='Search Company Name' value={searchTextBoxName} className='search-companyid' onChange={(e) => { setQueryName(e.target.value.toLocaleLowerCase()); setsearchTextBoxName(e.target.value);}} />
                                         </th>
                                         <th>
                                             Type
+                                            <input type="text" placeholder='Search Company Type' value={searchTextBoxType} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBoxType(e.target.value); }} />
                                         </th>
 
                                         <th>
                                             Email
+                                            <input type="text" placeholder='Search Company Email' value={searchTextBoxEmail} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBoxEmail(e.target.value); }} />
                                         </th>
                                         <th>
                                             Phone Number
+                                            <input type="number" placeholder='Search Company Phone Number' value={searchTextBoxNumber} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBoxNumber(e.target.value); }} />
                                         </th>
                                         <th>
                                             Contact
+                                            <input type="text" placeholder='Search Company Contact' value={searchTextBoxContact} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBoxContact(e.target.value); }} />
                                         </th>
                                         <th>
                                         </th>
                                     </tr>
                                 </thead>
-                                {companylist.map((item, index) => (
+                                {search(companylist).map((item, index) => (
                                     // <>
                                     //     {editInv === item.vendorId ? (
                                     //     <EditableRow item={item} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClickCompany} />
@@ -306,7 +382,7 @@ function VendorCompanyModal(props) {
                                         </th>
                                     </tr>
                                 </thead>
-                                {vendorlist.map((item,index) => (
+                                {vendorlist.map((item, index) => (
                                     // <>
                                     //     {editInv === item.vendorId ? (
                                     //         <EditableRow item={item} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClickVendor} />
@@ -325,7 +401,7 @@ function VendorCompanyModal(props) {
                                         <td className="itemtitle">{item.vendorContact}</td>
                                         <td className="btncontainer">
                                             <button className="cbbtn"><FontAwesomeIcon className="project-done-icon" icon={faTrashCan} size='1x' /></button>
-                                            <button onClick={()=>{setvendorObject(vendorlist[index]); seteditvencomModal(true); }} className="cbbtn"><FontAwesomeIcon className="project-done-icon" icon={faPencil} size='1x' /></button>
+                                            <button onClick={() => { setvendorObject(vendorlist[index]); seteditvencomModal(true); }} className="cbbtn"><FontAwesomeIcon className="project-done-icon" icon={faPencil} size='1x' /></button>
                                         </td>
                                     </tr>
                                 ))}
