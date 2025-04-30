@@ -34,3 +34,28 @@ label.edit-users-label.form-label {
     display: flex;
     justify-content: space-evenly;
 }
+button#dropdown-item-button-edit-user {
+    background: #2b2b2b1a;
+    border: none;
+    border-radius: 50px;
+    font-weight: bolder;
+}
+.dropdown-menu.show {
+    background: #4f86f6;
+}
+button#dropdown-item-button-edit-user::after {
+    display: none;
+}
+
+table#ContactTable {
+    border-radius: 1em;
+    overflow: hidden;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 15%);
+
+}
+table#UserTable {
+    border-radius: 1em;
+    overflow: hidden;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 15%);
+
+}

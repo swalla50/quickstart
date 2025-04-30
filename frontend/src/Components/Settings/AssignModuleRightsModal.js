@@ -217,7 +217,7 @@ function AssignModuleRightsModal(props) {
             axios.put('assignModuleRights/assignModuleRights', newGroupRights)
             .then(res => {
                 getavailable();
-                toast.success(`${props.Group.vendorName + ' now has the module ' + checked[i].ModuleName}`, {
+                toast.success(`${props.group.vendorName + ' now has the module ' + checked[i].ModuleName}`, {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 5000,
                     theme:'dark'
@@ -236,7 +236,7 @@ function AssignModuleRightsModal(props) {
             axios.put('assignModuleRights/assignModuleRights', newGroupRights)
             .then(res => {
                 getavailable();
-                toast.success(`${props.Group.vendorName + ' now has the module ' + checked[0].ModuleName}`, {
+                toast.success(`${props.group.vendorName + ' now has the module ' + checked[0].ModuleName}`, {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 5000,
                     theme:'dark'
@@ -266,7 +266,7 @@ function AssignModuleRightsModal(props) {
             axios.put('assignModuleRights/assignModuleRights', newGroupRights)
             .then(res => {
                 getavailable();
-                toast.success(`${props.Group.vendorName + ' now has the module ' + unchecked[i].ModuleName + ' Removed'}`, {
+                toast.success(`${props.group.vendorName + ' now has the module ' + unchecked[i].ModuleName + ' Removed'}`, {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 5000,
                     theme:'dark'
@@ -285,7 +285,7 @@ function AssignModuleRightsModal(props) {
             axios.put('assignModuleRights/assignModuleRights', newGroupRights)
             .then(res => {
                 getavailable();
-                toast.success(`${props.Group.vendorName + ' now has the module ' + unchecked[0].ModuleName + ' Removed'}`, {
+                toast.success(`${props.group.vendorName + ' now has the module ' + unchecked[0].ModuleName + ' Removed'}`, {
                     position: toast.POSITION.TOP_RIGHT,
                     autoClose: 5000,
                     theme:'dark'
@@ -348,7 +348,7 @@ function AssignModuleRightsModal(props) {
                 <ToastContainer />
 
                 <Modal.Header closeButton>
-                    Update Group: {props.Group.vendorName}
+                    Update Group: {props.group.vendorName}
                 </Modal.Header>
                 <Modal.Body>
                     <div className='module-rights-container'>
@@ -356,7 +356,7 @@ function AssignModuleRightsModal(props) {
                             <div className='rights-available'>
                                 <h5 className='module-assign-header'>Available</h5>
                                 <div className='available-module-container'>
-                                    {module.filter(module => module.vendorId == props.Group.vendorId && module.Level == null).map(item => (
+                                    {module.filter(module => module.vendorId == props.group.vendorId && module.Level == null).map(item => (
                                         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                                         {[0].map((value) => {
                                           const labelId = `checkbox-list-label-${item}`;
@@ -405,7 +405,7 @@ function AssignModuleRightsModal(props) {
                             <div className='rights-assigned'>
                                 <h5 className='module-assign-header'>Assigned</h5>
                                 <div className='available-module-container'>
-                                    {module.filter(module => module.vendorId == props.Group.vendorId && module.Level !== null).map((item) => (
+                                    {module.filter(module => module.vendorId == props.group.vendorId && module.Level !== null).map((item) => (
                                         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                                         {[0].map((value) => {
                                           const labelId = `checkbox-list-label-${item}`;

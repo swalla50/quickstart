@@ -47,7 +47,6 @@
 }
 
 .itemtitle {
-    color: white;
     overflow: hidden;
 
 }
@@ -68,7 +67,6 @@
 }
 
 .itemnum {
-    color: white;
     font-weight: 300;
 }
 
@@ -124,7 +122,7 @@ svg.svg-inline--fa.fa-dollar-sign.fa-1x.project-done-icon {
 button.Add-inv-btn {
     border-radius: 5px;
     border: none;
-    width: 100px;
+    width: 200px;
     height: 30px;
     color: white;
     background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);    margin-right: 20px;
@@ -235,7 +233,7 @@ button.btn.btn-secondary.btn-sm {
     margin-top: 10px;
     width: 100px;
     font-size: 12px;
-    height: 30px;
+    height: fit-content;
 }
 
 .second-row-inventory {
@@ -355,4 +353,84 @@ thead.inventory-log-header-table {
 thead {
     position: sticky;
     top: 0;
+}
+h4.metric {
+    display: flex;
+    height: 3rem;
+}
+.loading-animation-object-inventory {
+    transform: translate(2rem, -6rem);
+    height: 15rem;
+}
+ul.product-list {
+   
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto;
+    grid-gap: 1rem 1.75rem;
+    gap: 3rem 1.75rem;
+    padding: 5rem;
+}
+li.product-item {
+    display: flex;
+}
+.inventory-image {
+    width: 25%;
+}
+.inventory-info-sub {
+    display: flex;
+    place-content: space-around;
+}
+.inventoryinfo {
+    width: 75%;
+}
+li.product-item {
+    box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 21%);
+    background: white;
+    border-radius: 10px;
+    height: 8rem;
+}
+.Product-page-container {
+    background: #f0f0f0;
+    height: 78rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 21%);
+}
+li.product-item:hover {
+    box-shadow: 0px 6px 20px 0px rgb(0 0 0 / 21%);
+    background: white;
+    border-radius: 10px;
+    height: 8rem;
+}
+li.product-item:hover {
+    transform: scale(1.2);
+    -webkit-transition: all 1s ease;
+    transition: all 200ms ease-in-out;
+    cursor: pointer;
+
+}
+
+li.product-item:not(:hover) {
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor: pointer;
+
+}
+.Product-detail-form {
+    display: flex;
+}
+.product-detail-left {
+    width: 50%;
+    padding: 2rem;
+}
+.product-detail-right {
+    width: 50%;
+    padding: 2rem;
+}
+input.product-form-input.form-control {
+    margin-bottom: 3rem;
+}
+.Product-detail-form {
+    margin-top: 4rem;
 }

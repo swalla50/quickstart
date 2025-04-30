@@ -1,4 +1,4 @@
-import React, { Component,useState } from 'react'
+import React, { Component, useState } from 'react'
 import axios from 'axios'
 import Login from './Login';
 import Canvas from '../Components/Canvas';
@@ -17,7 +17,7 @@ import UserModal from '../Components/Settings/UserModal';
 export default class Home extends Component {
 
 
-  
+
   state = {}
   logout() {
     localStorage.removeItem('token');
@@ -37,21 +37,22 @@ export default class Home extends Component {
     }]
   }
 
-  
+
 
   render() {
-    
-      let navItemList;
+
+    let navItemList;
 
 
-      navItemList = (
-        <><li className='nav-list'>  <FontAwesomeIcon icon={faBriefcase} size='2x' /> <a href="home" className="nav-links">Business Overview</a> </li><li className='nav-list'>  <FontAwesomeIcon icon={faBuildingColumns} size='2x' /> <a className="nav-links" href="bank">Banking</a> </li><li className='nav-list'> <FontAwesomeIcon icon={faMoneyBill1Wave} size='2x' />  <a href="payroll" className="nav-links"> Payroll </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faReceipt} size='2x' /> <a className="nav-links">Bookkeeping </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faClock} size='2x' />  <a href="timesheet" className="nav-links">Time Sheet</a></li><button href='/' className='nav-list' onClick={this.handleLogout}> Logout </button></>
-      )
+    navItemList = (
+      <><li className='nav-list'>  <FontAwesomeIcon icon={faBriefcase} size='2x' /> <a href="home" className="nav-links">Business Overview</a> </li><li className='nav-list'>  <FontAwesomeIcon icon={faBuildingColumns} size='2x' /> <a className="nav-links" href="bank">Banking</a> </li><li className='nav-list'> <FontAwesomeIcon icon={faMoneyBill1Wave} size='2x' />  <a href="payroll" className="nav-links"> Payroll </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faReceipt} size='2x' /> <a className="nav-links">Bookkeeping </a> </li><li className='nav-list'> <FontAwesomeIcon icon={faClock} size='2x' />  <a href="timesheet" className="nav-links">Time Sheet</a></li><button href='/' className='nav-list' onClick={this.handleLogout}> Logout </button></>
+    )
 
-      return (
+    return (
 
-        <div>
-          <Canvas UserProfile={this.props.UserProfile} setUser={this.props.setUser} fullName={this.props.UserProfile.fullName} navItems={navItemList} userPic={this.props.UserProfile.userPic}>
+      <div>
+        <Canvas UserProfile={this.props.UserProfile} setUser={this.props.setUser} fullName={this.props.UserProfile.fullName} navItems={navItemList} userPic={this.props.UserProfile.userPic}>
+          <div className='home-container'>
             <div className='fin-overview'>
               <Tab className='BarChart' />
             </div>
@@ -63,16 +64,16 @@ export default class Home extends Component {
                 </div>
               </div>
               <div className='right-home'>
-                <DragnDrop/>
+                <DragnDrop />
               </div>
             </div>
-            
-          </Canvas>
-        </div>
+          </div>
+        </Canvas>
+      </div>
 
-      )
+    )
 
-    
+
 
 
 

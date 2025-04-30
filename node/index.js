@@ -8,13 +8,89 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const cors = require('cors');
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
+const e = require('express');
 const app = express();
 
 const APP_PORT = process.env.APP_PORT || 8000;
 const PLAID_CLIENT_ID = process.env.PLAID_CLIENT_ID;
 const PLAID_SECRET = process.env.PLAID_SECRET;
 const PLAID_ENV = process.env.PLAID_ENV || 'sandbox';
+const STRIPESK = process.env.STRIPESK
+
+const stripe = require('stripe')(STRIPESK);
+
+const server = app.listen(APP_PORT, function () {
+  console.log('plaid-quickstart server listening on port ' + APP_PORT);
+});
+//Socket IO
+const io = require('socket.io')(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    transports: ['websocket', 'polling'],
+    credentials: true
+  },
+  allowEIO3: true
+});
+
+io.on("connection", (socket) => {
+  console.log("connected to socket.io");
+
+  socket.on('setup', (userData) => {
+    socket.join(userData.myUserId);
+    socket.emit('connected');
+    console.log(userData.myUserId)
+
+  });
+  socket.on("join chat", (room) => {
+    socket.join(room.chatRoomId);
+    console.log("User Joined Room: " + room.chatRoomId);
+  });
+
+  socket.on("typing", (room) => {
+    // console.log("Room",room)
+    if (!room.users) return console.log('room.users not defined');
+ 
+      room.users.forEach(user => {
+      if (user.myUserId == room.receiverId) return;
+
+      socket.in(room.chatRoomId).emit("typing received", room);
+      // console.log("Message Received", newMessageReceived)
+
+    });
+  
+    
+
+  });
+  socket.on("stop typing", (room) => {
+    if (!room.users) return console.log('room.users not defined');
+    room.users.forEach(user => {
+      if (user.myUserId == room.receiverId) return;
+
+      socket.in(room.chatRoomId).emit("stop typing received", room);
+      // console.log("Message Received", newMessageReceived)
+
+    });
+  
+  });
+
+  socket.on('new message', (newMessageReceived) => {
+    var chat = newMessageReceived.chatRoomId;
+
+    if (!newMessageReceived.users) return console.log('chat.users not defined');
+    newMessageReceived.users.forEach(user => {
+      if (user.myUserId == newMessageReceived.receiverId) return;
+
+      socket.in(user.myUserId).emit("message received", newMessageReceived);
+      console.log("Message Received", newMessageReceived)
+
+    });
+  })
+
+})
+
 app.use(cors({
   origin: "http://localhost:3000"
 }));
@@ -501,9 +577,7 @@ app.use('/api', function (error, request, response, next) {
   response.json(formatError(error.response));
 });
 
-const server = app.listen(APP_PORT, function () {
-  console.log('plaid-quickstart server listening on port ' + APP_PORT);
-});
+
 
 const prettyPrintResponse = (response) => {
   console.log(util.inspect(response.data, { colors: true, depth: 4 }));

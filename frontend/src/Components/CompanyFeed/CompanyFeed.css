@@ -22,7 +22,9 @@
     width: 20%;
     transform: translate(-18px, -25px);
 }
-
+.user-name {
+    width: 45%;
+}
 .post-header {
     display: flex;
     height: 40px;
@@ -40,12 +42,15 @@
     margin-inline: 1rem;
     background: #4f86f68c;
     color: white;
+    height: 140px;
     border-radius: 5px;
     padding: 1rem;
 }
 
 p.post-message {
     color: white;
+    height: 82px;
+    overflow-y: scroll;
 }
 
 p.post-date-time {

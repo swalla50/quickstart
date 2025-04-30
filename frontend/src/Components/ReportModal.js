@@ -7,6 +7,8 @@ import { PowerBIEmbed } from 'powerbi-client-react';
 import { models } from 'powerbi-client';
 import moment from 'moment';
 import './Reportfunc.css'
+import { faFileExcel, faFilePdf } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // // Report Viewer source
 // import '@boldreports/javascript-reporting-controls/Scripts/bold.report-viewer.min';
 // import '@boldreports/javascript-reporting-controls/Content/material/bold.reports.all.min.css';
@@ -23,7 +25,7 @@ function ReportModal(props) {
     // const [invNum, setinvNum] = useState("");
     // const [currNum, setcurrNum] = useState("");
     // const [newNum, setnewNum] = useState("");
-    // const [user, setUser] = useState("");
+    const [user, setUser] = useState("");
     // const [srLog, setsrLog] = useState([]);
     // const generate =   {
     //     "datasets": [
@@ -51,36 +53,22 @@ function ReportModal(props) {
 
     // }
 
-    // useEffect(() => {
-    //     axios.get(`getinventory/getInventoryList`)
-    //         .then((response) => {
-    //             setinvList(response.data.filter(inv => inv.isDeleted == false));
-    //         })
-    //         .catch((err) => {
-    //             console.log(err, "Unable to get user time info");
-    //         });
-    //         axios.get(`UserProfile`)
-    //         .then((res) => {
-    //             setUser(res.data)
+    useEffect(() => {
+ 
+            axios.get(`UserProfile`)
+            .then((res) => {
+                setUser(res.data)
 
-    //             console.log(user)
+                console.log(user)
 
 
 
-    //         })
-    //         .catch((err) => {
-    //             console.log(err, "Unable to get user time info");
-    //         });
-    //         axios.get(`getSRLog/getSRLog`)
-    //         .then((response) => {
-    //             setsrLog(response.data);
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
 
-
-    //         })
-    //         .catch((err) => {
-    //             console.log(err, "Unable to get user time info");
-    //         });
-    // }, [])
+    }, [])
 
     // function onRestockIDChange( currentNum) {
 
@@ -153,6 +141,15 @@ function ReportModal(props) {
     //     console.log("Sold:", Restock);
     //     props.onHide()
     // }
+    function downloadReport(URL){
+        window.location.href = `${props.URL +URL+'/'+user.UserRole+'/'+user.myUserId}`
+        toast.success(`${"Dowloaded Report!"}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            autoClose: 5000,
+            theme: 'dark'
+        });
+        props.onHide();
+      }
 
     return (
         <div className='ReportModal'>
@@ -162,12 +159,11 @@ function ReportModal(props) {
                 size="xl"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
-                dialogClassName="modal-width"
-                contentClassName="modal-height"
+                dialogClassName="modal-width-report"
+                contentClassName="modal-height-report"
             >
 
-                <Modal.Header closeButton>
-                    Restock Items
+                <Modal.Header className='report-type-header' closeButton>
                 </Modal.Header>
                 <Modal.Body>
                     {/* <PowerBIEmbed
@@ -207,8 +203,20 @@ function ReportModal(props) {
                     {/* <iframe  src="https://app1665116455.boldreports.com/reporting/reports/3af446dd-aeb3-457b-8bfb-4abc5e799273/Altbook/UserSummaryReport?showmyreports=1"  /> */}
                     {/* SECRET: aIMqR2ftbSmuiwsTumJ2wFPxHV80q1U */}
 
-                    <iframe src='https://app1665116455.boldreports.com/reporting/reports/5de0af0e-2be0-46b7-9b17-4971b3b618b3/Altbook/UserReport?isembed=true' id='report-frame' width='100%' height='720px' allowFullscreen frameBorder='0'></iframe>                    </Modal.Body>
-                <Modal.Footer>
+                    {/* <iframe src='https://app1665116455.boldreports.com/reporting/reports/5de0af0e-2be0-46b7-9b17-4971b3b618b3/Altbook/UserReport?isembed=true' id='report-frame' width='100%' height='720px' allowFullscreen frameBorder='0'></iframe>                    */}
+                    {/* <div className='export-type-container'>
+                        <div style={{color:'green'}} onClick ={() => downloadReport(1)}className='Excel-btn-export'>
+                            <FontAwesomeIcon icon={faFileExcel} size='4x' />
+                            <p>Excel File</p>
+                        </div>
+                        <div style={{color:'red'}} onClick ={() => downloadReport(2)}className='Pdf-btn-export'>
+                            <FontAwesomeIcon icon={faFilePdf} size='4x' />
+                            <p>PDF File</p>
+                        </div>
+                    </div> */}
+                    <iframe src={props.URL} />
+                </Modal.Body>
+                <Modal.Footer className='choose-report-type'>
                     <Button onClick={props.onHide}>Close</Button>
                 </Modal.Footer>
             </Modal>

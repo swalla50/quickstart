@@ -270,7 +270,7 @@ function TimeSheetfunc(props) {
                                 
                                 <tbody>
                                     
-                                    {timesheet.filter(timesheet => timesheet.myUserId == user.MyUserId).map(time => (
+                                    {timesheet.filter(timesheet => timesheet.myUserId == user.myUserId).map(time => (
                                         <>
                                             {editTime === time.sheetId ? (
                                                 <EditableRow time={time} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClick} />

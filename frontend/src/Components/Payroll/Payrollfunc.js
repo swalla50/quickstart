@@ -125,7 +125,7 @@ function Payrollfunc(props) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {pay.filter(pay => pay.myUserId == user.MyUserId).map(pay => (
+                                {pay.map(pay => (
                                     <ReadOnlyRow pay={pay} />
                                 ))}
                             </tbody>

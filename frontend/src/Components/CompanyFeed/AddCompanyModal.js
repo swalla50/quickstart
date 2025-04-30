@@ -39,7 +39,8 @@ function AddCompanyModal(props) {
             FullName: newFullName,
             postTime:  moment().format('l'),
             postSubject: newpostSubject,
-            postUserPic: newpostUserPic
+            postUserPic: newpostUserPic,
+            isActive: true
         }
 
         console.log("NEW POST", newPost)
@@ -47,16 +48,16 @@ function AddCompanyModal(props) {
         axios.post('addCP/addCPitem', newPost)
         .then(res => {
             var newpostdata = res.data;
-            
-        })
-        .catch(err => {
-            console.log(err);
-        })
-toast.success(`${"You added a new post!"}`, {
+            toast.success(`${"You added a new post!"}`, {
                 position: toast.POSITION.TOP_RIGHT,
                 autoClose: 5000,
                 theme: 'dark'
             });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
         setnewFullName(null);
         setnewpostUserPic(null);
         props.onHide();
@@ -70,7 +71,9 @@ toast.success(`${"You added a new post!"}`, {
                 centered
                 dialogClassName="modal-width-Restock"
                 contentClassName="modal-height-Restock"
+                onHide={()=>{props.onHide()}}
             >
+                <ToastContainer/>
 
                 <Modal.Header closeButton>
                     Add a new post!

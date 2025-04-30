@@ -10,14 +10,15 @@ function EditableUserModal(props) {
 
     const [vendorList, setvendorlist] = useState([]);
     useEffect(() => {
-        axios.get(`getVendor/getvendorList`)
+        axios.get(`getVendor/getvendorList2`)
             .then((response) => {
-                setvendorlist(response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == false));
+                setvendorlist(response.data.filter(ven => ven.isActiveVendor == true));
             })
             .catch((err) => {
                 console.log(err, "Unable to get vendor time info");
             });
-    }, [])
+            console.log("MODAL CONTACT",props.Item)
+    }, [props.show])
 
 
     return (
@@ -34,14 +35,14 @@ function EditableUserModal(props) {
             >
 
                 <Modal.Header closeButton>
-                    Edit information for user: <div style={{ marginLeft: '2rem', color: "#4f86f6" }}>{props.Item.FullName} </div><img style={{ height: '35px', borderRadius: '50%' }} className='edit-user-picture' src={`${'https://webapi20220126203702.azurewebsites.net/images/' + props.Item.userPic}`} />
+                    Edit information for user: <div style={{ marginLeft: '2rem', color: "#4f86f6" }}>{props.Item.FullName} </div><img style={{ height: '35px', borderRadius: '50%' }} className='edit-user-picture' src={`${'https://webapi20220126203702.azurewebsites.net/api/blobexplorer/GetBlobFile?url=' + props.Item.userPic}`} />
                 </Modal.Header>
                 <Modal.Body>
                     <Form className="sell-form-container" >
 
                         <div className='editusers-form'>
                             <Form.Label>User ID</Form.Label>
-                            <Form.Control defaultValue={props.Item.MyUserId} type="text" className='user-myUserID' />
+                            <Form.Control disabled defaultValue={props.Item.MyUserId} type="text" className='user-myUserID' />
                             <Form.Label>Name</Form.Label>
                             <Form.Control defaultValue={props.Item.FullName} type="text" className='user-FullName' />
                             <Form.Label>User Name</Form.Label>
@@ -50,9 +51,9 @@ function EditableUserModal(props) {
                         <div className='editusers-form-row2'>
                             <div className='row2-left-edituser'>
                                 <Form.Label className='edit-users-label'>Phone Number</Form.Label>
-                                <Form.Control defaultValue={props.Item.PhoneNumber} type="phone" className='user-PhoneNumber' />
-                                <Form.Label className='edit-users-label'>Organization</Form.Label>
-                                <Form.Select className='edit-user-dropdown' type='text' defaultValue={props.Item.Company} >
+                                <Form.Control  defaultValue={props.Item.PhoneNumber} type="phone" className='user-PhoneNumber' />
+                                <Form.Label  className='edit-users-label'>Company</Form.Label>
+                                <Form.Select defaultValue={props.Item.Company} className='edit-user-dropdown' type='text'  >
                                     {vendorList.map((item) => (
                                         <option value={item.vendorId}>{item.vendorName}</option>
                                     ))}

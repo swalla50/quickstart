@@ -18,7 +18,9 @@
     "ejs": "2.5.x",
     "express": "4.16.x",
     "moment": "2.22.x",
+    "nodemailer": "^6.8.0",
     "nodemon": "^2.0.5",
-    "plaid": "^9.9.0"
+    "plaid": "^9.9.0",
+    "stripe": "^11.6.0"
   }
 }

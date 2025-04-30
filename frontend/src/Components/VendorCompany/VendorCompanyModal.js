@@ -8,10 +8,13 @@ import moment from 'moment';
 import { EditableRow } from './EditableRow'
 import ReadOnlyRow from './ReadOnlyRow'
 import './VendorCompanyModal.css'
-import { faBuilding, faBuildingCircleArrowRight, faEnvelope, faPencil, faPhone, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight, faBuilding, faBuildingCircleArrowRight, faEnvelope, faPencil, faPhone, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AddVenComModal from './AddVenComModal';
 import EditVenComModal from './EditVenComModal';
+import animationData from '../../assets/animations/3741-white-loading.json'
+
+import { useTheme } from '@mui/material/styles';
 import {
     Grid,
     TextField,
@@ -28,28 +31,62 @@ import {
     MenuItem,
     ListItemText,
     Paper,
-    Stack
+    Stack,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails
 } from "@mui/material";
-import { CheckBoxOutlineBlank } from '@material-ui/icons'
+import { CheckBoxOutlineBlank, ExpandMoreOutlined } from '@material-ui/icons'
 import { CheckBoxOutlined } from '@material-ui/icons'
+import ClientInventoryChart from '../ChartJS/ClientInventoryChart';
+import ClientTaskProgress from '../ChartJS/ClientTaksProgress';
+import ClientProjectProgress from '../ChartJS/ClientProjectProgress';
+import ClientProjectTable from './ClientProjectTable';
+import AddContactModal from './AddContactModal';
+import EditableContactModal from './EditableContactModal';
+import Lottie from 'react-lottie-player';
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
 
+function getStyles(name, personName, theme) {
+    return {
+        fontWeight:
+            personName.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    };
+}
 function VendorCompanyModal(props) {
     const [user, setUser] = useState("");
+    const [userList, setUserList] = useState([]);
+    const [venUserList, setvenUserList] = useState([]);
     const [vendorlist, setvendorlist] = useState([]);
     const [companylist, setcompanylist] = useState([]);
     const [editMode, setEditMode] = useState(true);
     const [vencomModal, setvencomModal] = useState(false);
     const [editvencomModal, seteditvencomModal] = useState(false);
     const [vendorObject, setvendorObject] = useState([]);
+    const [projectList, setProjectList] = useState([]);
+    const [loading, setloading] = useState(true);
     const [query, setQuery] = useState([]);
     const [queryName, setQueryName] = useState([]);
-
+    const [addcontactModal, setaddcontactModal] = useState(false);
+    const [editcontactModal, seteditcontactModal] = useState(false);
+    const [targetContact, settargetClient] = useState([]);
     function handleshowvencom() {
         setvencomModal(false);
-        axios.get(`getvendor/getvendorList`)
+        axios.get(`getvendor/getvendorList2`)
             .then((response) => {
                 setvendorlist(response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true));
-                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany==true))
+                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany == true))
             })
             .catch((err) => {
                 console.log(err, "Unable to get vendor time info");
@@ -57,45 +94,117 @@ function VendorCompanyModal(props) {
     }
     function handleshoweditvencom() {
         seteditvencomModal(false);
-        axios.get(`getvendor/getvendorList`)
+        axios.get(`getvendor/getvendorList2`)
             .then((response) => {
                 setvendorlist(response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true));
-                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany==true))
+                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany == true))
                 // console.log('vendors: ', response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true))
             })
             .catch((err) => {
                 console.log(err, "Unable to get vendor time info");
             });
+
     }
 
-
-    useEffect(() => {
-        axios.get(`getvendor/getvendorList`)
+    function handleshowaddcontact() {
+        setaddcontactModal(false);
+        axios.get(`getvendor/getvendorList2`)
             .then((response) => {
                 setvendorlist(response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true));
-                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true))
+                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany == true))
                 // console.log('vendors: ', response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true))
             })
             .catch((err) => {
                 console.log(err, "Unable to get vendor time info");
             });
-        axios.get(`UserProfile`)
-            .then((res) => {
-                setUser(res.data)
+        // axios.get(`userList/userlist`)
+        // .then((res) => {
+        //     setUserList(res.data.filter(comp => comp.Company === parseInt(personName) && comp.isContact == true))
+        //     setvenUserList(res.data.filter(comp => comp.Company === parseInt(personName) && comp.isContact == true))
 
-                // console.log(user)
+        //     console.log("User List", res.data, personName)
 
 
 
+        // })
+        // .catch((err) => {
+        //     console.log(err, "Unable to get user time info");
+        // });
+    }
+    function handleshoweditcontact() {
+        seteditcontactModal(false);
+        axios.get(`getvendor/getvendorList2`)
+            .then((response) => {
+                setvendorlist(response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true));
+                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany == true))
+                // console.log('vendors: ', response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true))
             })
             .catch((err) => {
-                console.log(err, "Unable to get user time info");
+                console.log(err, "Unable to get vendor time info");
             });
-            setcompanylist(companylist.filter(company => company.vendorId.toString().toLocaleLowerCase()?.includes(query)))
-            setcompanylist(companylist.filter(company => company.vendorName.toString().toLocaleLowerCase()?.includes(queryName)))
-            console.log("COMP LIST",companylist)
-        handleshowvencom();
-    }, [])
+        // axios.get(`userList/userlist`)
+        // .then((res) => {
+        //     setUserList(res.data.filter(comp => comp.Company === parseInt(personName) && comp.isContact == true))
+        //     setvenUserList(res.data.filter(comp => comp.Company === parseInt(personName) && comp.isContact == true))
+
+        //     console.log("User List", res.data, personName)
+
+
+
+        // })
+        // .catch((err) => {
+        //     console.log(err, "Unable to get user time info");
+        // });
+    }
+
+    useEffect(() => {
+        if (props.show != false) {
+            setloading(true)
+
+            setTimeout(() => {
+
+                axios.get(`getvendor/getvendorList2`)
+                    .then((response) => {
+                        setvendorlist(response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true));
+                        setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany == true))
+                        // console.log('vendors: ', response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true))
+                        setloading(false)
+                    })
+                    .catch((err) => {
+                        console.log(err, "Unable to get vendor time info");
+                    });
+                axios.get(`userList/userlist`)
+                    .then((res) => {
+                        setUserList(res.data.filter(comp => comp.Company === parseInt(personName) && comp.isContact == true))
+                        setvenUserList(res.data.filter(comp => comp.Company === parseInt(personName2) && comp.isContact == true))
+
+                        console.log("User List", res.data, personName)
+                    })
+                    .catch((err) => {
+                        console.log(err, "Unable to get user time info");
+                    });
+
+
+                axios.get(`UserProfile`)
+                    .then((res) => {
+                        setUser(res.data)
+
+                        // console.log(user)
+
+
+
+                    })
+                    .catch((err) => {
+                        console.log(err, "Unable to get user time info");
+                    });
+                setcompanylist(companylist.filter(company => company.vendorId.toString().toLocaleLowerCase()?.includes(query)))
+                setcompanylist(companylist.filter(company => company.vendorName.toString().toLocaleLowerCase()?.includes(queryName)))
+                console.log("COMP LIST", companylist)
+                handleshowvencom();
+
+            }, 3500)
+        }
+    }, [props.show, addcontactModal, editcontactModal])
 
     const [editInv, setEditInv] = useState(null);
     const [editFormData, setEditFormData] = useState({
@@ -133,7 +242,7 @@ function VendorCompanyModal(props) {
     }
     const handleCancelClickVendor = () => {
         setEditInv(null);
-        axios.get(`getvendor/getvendorlist`)
+        axios.get(`getvendor/getvendorlist2`)
             .then((response) => {
                 setvendorlist(response.data.filter(inv => inv.isActiveVendor == true && inv.isVendor == true));
 
@@ -145,7 +254,7 @@ function VendorCompanyModal(props) {
     };
     const handleCancelClickCompany = () => {
         setEditInv(null);
-        axios.get(`getvendor/getvendorlist`)
+        axios.get(`getvendor/getvendorlist2`)
             .then((response) => {
                 setcompanylist(response.data.filter(inv => inv.isActiveVendor == true));
                 // console.log('this is a test', response.data.filter(inv => inv.isActiveVendor == true))
@@ -246,11 +355,11 @@ function VendorCompanyModal(props) {
 
     const search = () => {
 
-        
-            return companylist.filter(company => company.vendorId.toString().toLocaleLowerCase()?.includes(query));
-        
 
-        
+        return companylist.filter(company => company.vendorId.toString().toLocaleLowerCase()?.includes(query) || company.vendorName.toString().toLocaleLowerCase().includes(query));
+
+
+
         // ||  report.reportName?.toLocaleLowerCase().includes(query) || report.reportType?.includes(query) || report.reportType?.toLocaleLowerCase().includes(query) || report.reportCreation?.includes(query)
     }
     const searchName = () => {
@@ -272,6 +381,56 @@ function VendorCompanyModal(props) {
     // else{
     //     return companylist.filter(company => company.vendorContact.toString().toLocaleLowerCase()?.includes(query));
     // }
+
+    const theme = useTheme();
+    const [personName, setPersonName] = useState([]);
+
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setPersonName(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+        axios.get(`userList/userlist`)
+            .then((res) => {
+                setUserList(res.data.filter(comp => comp.Company === parseInt(value)))
+
+                console.log("User List", value, res.data.filter(comp => comp.Company === parseInt(value)))
+
+
+
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
+
+    };
+    const [personName2, setPersonName2] = useState([]);
+
+    const handleChange2 = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setPersonName2(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+        axios.get(`userList/userlist`)
+            .then((res) => {
+                setvenUserList(res.data.filter(comp => comp.Company === parseInt(value)))
+
+                console.log("User List2", value, res.data.filter(comp => comp.Company === parseInt(value)))
+
+
+
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
+        console.log("Value", personName2[0])
+    };
     return (
         <div className='RestockModal'>
 
@@ -282,130 +441,328 @@ function VendorCompanyModal(props) {
                 centered
                 dialogClassName="modal-width"
                 contentClassName="modal-height"
+                onHide={() => { props.onHide(); setPersonName([]); }}
             >
                 <ToastContainer />
-                <Modal.Header closeButton>
-                    Company and Vendors
+                <Modal.Header>
+                    Clients and Vendors
                     <div className='add-vendor-btn-container'>
-                        <Button className='add-vendor-btn' onClick={() => setvencomModal(true)}> Add Company/Vendor <FontAwesomeIcon className="vendor-add-icon" icon={faPlus} size='2x' /> </Button>
+                        <Button className='add-vendor-btn' onClick={() => setvencomModal(true)}> Add Client/Vendor <FontAwesomeIcon className="vendor-add-icon" icon={faPlus} size='2x' /> </Button>
                     </div>
 
                 </Modal.Header>
                 <Modal.Body>
+                    {/* <input type="text" placeholder='Search Company ID' value={searchTextBox} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBox(e.target.value); }} /> */}
 
                     <Tabs className='bookkeeping-tabs' defaultActiveKey="CashReciepts" id="uncontrolled-tab-example" >
-                        <Tab eventKey="CashReciepts" title={<><p className='vendor-tab-title'>Company</p><FontAwesomeIcon className="company-icon" icon={faBuilding} size='1x' /></>} className="Grid-tab">
-                            <table className='inventory table'>
+                        <Tab eventKey="CashReciepts" title={<><p className='vendor-tab-title'>Client</p><FontAwesomeIcon className="company-icon" icon={faBuilding} size='1x' /></>} className="Grid-tab">
+                            <div className='client-dropdown-container' >
 
-                                <thead>
-                                    <tr className='inventory-table-headers'>
-                                        <th className='compnay-th'>
-                                            Company ID
-                                            <input type="number" placeholder='Search Company ID' value={searchTextBox} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBox(e.target.value); }} />
-                                        </th>
-                                        <th>
-                                            Company Name
-                                            <input type="text" placeholder='Search Company Name' value={searchTextBoxName} className='search-companyid' onChange={(e) => { setQueryName(e.target.value.toLocaleLowerCase()); setsearchTextBoxName(e.target.value);}} />
-                                        </th>
-                                        <th>
-                                            Type
-                                            <input type="text" placeholder='Search Company Type' value={searchTextBoxType} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBoxType(e.target.value); }} />
-                                        </th>
+                                {loading == true ?
+                                    (
+                                        <FormControl sx={{ m: 1, width: 300 }} disabled>
+                                            <InputLabel id="demo-multiple-name-label">Choose A Client</InputLabel>
+                                            <Select
+                                                labelId="demo-multiple-name-label"
+                                                id="demo-multiple-name"
+                                                value={personName}
+                                                onChange={handleChange}
+                                                input={<OutlinedInput label="Choose A Client" />}
+                                                MenuProps={MenuProps}
+                                            >
+                                                {companylist.sort((a, b) => a.vendorName.localeCompare(b.vendorName)).map((name) => (
+                                                    <MenuItem
+                                                        key={name.vendorId}
+                                                        value={name.vendorId.toString()}
+                                                        style={getStyles(name.vendorName, personName, theme)}
+                                                    >
+                                                        {name.vendorName}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    )
+                                    :
+                                    (
+                                        <FormControl sx={{ m: 1, width: 300 }}>
+                                            <InputLabel id="demo-multiple-name-label">Choose A Client</InputLabel>
+                                            <Select
+                                                labelId="demo-multiple-name-label"
+                                                id="demo-multiple-name"
+                                                value={personName}
+                                                onChange={handleChange}
+                                                input={<OutlinedInput label="Choose A Client" />}
+                                                MenuProps={MenuProps}
+                                            >
+                                                {companylist.map((name) => (
+                                                    <MenuItem
+                                                        key={name.vendorId}
+                                                        value={name.vendorId.toString()}
+                                                        style={getStyles(name.vendorName, personName, theme)}
+                                                    >
+                                                        {name.vendorName}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    )
 
-                                        <th>
-                                            Email
-                                            <input type="text" placeholder='Search Company Email' value={searchTextBoxEmail} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBoxEmail(e.target.value); }} />
-                                        </th>
-                                        <th>
-                                            Phone Number
-                                            <input type="number" placeholder='Search Company Phone Number' value={searchTextBoxNumber} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBoxNumber(e.target.value); }} />
-                                        </th>
-                                        <th>
-                                            Contact
-                                            <input type="text" placeholder='Search Company Contact' value={searchTextBoxContact} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBoxContact(e.target.value); }} />
-                                        </th>
-                                        <th>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                {search(companylist).map((item, index) => (
-                                    // <>
-                                    //     {editInv === item.vendorId ? (
-                                    //     <EditableRow item={item} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClickCompany} />
-                                    // ) : (
-                                    <tr style={{ height: "50px" }} id={item.vendorId} className="content-bar">
-                                        <td className="itemnum">{item.vendorId}</td>
-                                        <td className="itemtitle">{item.vendorName}</td>
-                                        <td className="itemtitle">{item.vendorType}</td>
-                                        <td className="itemprice"><FontAwesomeIcon className="project-done-icon" icon={faEnvelope} size='1x' />{item.vendorEmail}</td>
-                                        <td className="itemstock"><p className='numinstock'><FontAwesomeIcon className="project-done-icon" icon={faPhone} size='1x' />{item.vendorPhone}</p></td>
-                                        <td className="itemtitle">{item.vendorContact}</td>
-                                        <td className="btncontainer">
-                                            <button className="cbbtn"><FontAwesomeIcon className="project-done-icon" icon={faTrashCan} size='1x' /></button>
-                                            <button onClick={() => { setvendorObject(companylist[index]); seteditvencomModal(true) }} className="cbbtn"><FontAwesomeIcon className="project-done-icon" icon={faPencil} size='1x' /></button>
-                                        </td>
-                                    </tr>
-                                    // <ReadOnlyRow item={item} handleEditClick={() => {handleEditClick(item);setvendorObject(companylist[index]); seteditvencomModal(true)}} />
-                                    // )}
-                                    // </>
-                                ))}
-                            </table>
+                                }
+
+                                {/* <input type="text" placeholder='Search Company ID' value={searchTextBox} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBox(e.target.value); }} /> */}
+                                <div className='Client-Name-Head'>
+                                    {personName != "" ?
+                                        (
+                                            <div style={{ display: 'flex' }}>
+                                                <div style={{ width: '50%' }} className='sender-logo1'>
+                                                    <img style={{ borderRadius: '50px', border: 'solid #0d6efd 3px', boxShadow: '0px 6px 20px 0px rgb(0 0 0 / 30%)' }} id="profile-image1" className='sender-logo-img' src={'https://webapi20220126203702.azurewebsites.net/api/blobexplorer/GetBlobFile?url=' + companylist.filter(comp => comp.vendorId === parseInt(personName[0])).map(item => item.vendorPic)} />
+                                                </div>
+                                                <div style={{ alignSelf: 'center' }} className='chosen-client'>
+                                                    <h2>
+                                                        {companylist.filter(comp => comp.vendorId === parseInt(personName[0])).map(item => item.vendorName.toUpperCase())}
+                                                    </h2>
+                                                </div>
+
+
+                                            </div>
+                                        )
+                                        :
+                                        (
+                                            <div>
+
+                                            </div>
+
+                                        )
+                                    }
+
+                                </div>
+                                <div className='edit-client-btn-container'>
+                                    {personName != "" ?
+                                        (
+                                            <Button className='edit-client-btn'>
+                                                <FontAwesomeIcon onClick={() => { setvendorObject(...companylist.filter(comp => comp.vendorId === parseInt(personName[0])).map(item => item)); seteditvencomModal(true); console.log('CHOSEN', ...companylist.filter(comp => comp.vendorId === parseInt(personName[0]))) }} className="edit-client-icon" icon={faPencil} size='2x' />
+                                            </Button>
+                                        )
+                                        :
+                                        (
+                                            <div></div>
+
+                                        )
+                                    }
+
+                                </div>
+                            </div>
+                            <div className='client-grid-container'>
+                                <div className='client-upper'>
+                                    <div className='client-contact-list-container'>
+                                        <h4 className='client-contact-container-head'>
+                                            Client Contacts {personName != "" ? <Button onClick={() => { setaddcontactModal(true); setvendorObject(...companylist.filter(comp => comp.vendorId === parseInt(personName[0])).map(item => item)) }} className='add-new-contact-btn'>Add Contact <FontAwesomeIcon style={{ color: 'white' }} className="goInv-icon" icon={faPlus} size='1x' /> </Button> : <div></div>}
+                                        </h4>
+                                        <ul className='list-of-client-contacts'>
+                                            {loading == true ?
+                                                (
+                                                    <Lottie
+                                                        loop
+                                                        className='loading-animation-object-contact'
+                                                        animationData={animationData}
+                                                        play
+                                                        style={{ height: '30rem' }}
+                                                    />
+                                                )
+                                                :
+                                                (
+                                                    (userList != "" ?
+                                                        (
+                                                            (userList.map(contact => (
+                                                                <li className='contact-item'>
+                                                                    <table className='inventory table'>
+
+                                                                        <tr >
+                                                                            <div className='client-contact-info'>
+                                                                                <td className="client-contact-id"><img style={{ height: '20px', width: '20px', borderRadius: '50px' }} src={'https://webapi20220126203702.azurewebsites.net/api/blobexplorer/GetBlobFile?url=' + contact.userPic}></img></td>
+                                                                                <td className="client-contact-id">{contact.myUserId}</td>
+                                                                                <td className="client-contact-name">{contact.FullName}</td>
+                                                                                <td className="client-contact-phone">{contact.PhoneNumber}</td>
+                                                                                <td className="client-contact-phone">{contact.Email}</td>
+                                                                            </div>
+                                                                            <td className="className='button-contact-edit">
+                                                                                <Button onClick={() => { seteditcontactModal(true); settargetClient(contact); console.log("TARGETED CLIENT", contact) }} className='edit-class-btn'>
+                                                                                    <FontAwesomeIcon className="project-done-icon" icon={faPencil} size='1x' />
+                                                                                </Button>
+                                                                            </td>
+                                                                        </tr></table>
+                                                                    {/* <div className='client-contact-info'>
+                                                                <p className='client-contact-id'>({contact.myUserId})</p>
+                                                                <p className='client-contact-name'>{contact.FullName}</p>
+                                                                <p className='client-contact-phone'>{contact.PhoneNumber}</p>
+                                                            </div>
+                                                            <div className='button-contact-edit'>
+
+                                                            </div> */}
+
+                                                                </li>
+                                                            ))
+                                                            )
+                                                        )
+                                                        :
+                                                        (
+                                                            <h5>No Contacts For This Client</h5>
+                                                        )
+                                                    )
+                                                )
+
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div className='client-information-container'>
+                                        <h4 className='client-contact-container-head'>
+                                            Client Projects <Button href='project' className='gotoInventory-btn'>Go To Projects <FontAwesomeIcon style={{ color: 'white' }} className="goInv-icon" icon={faArrowRight} size='1x' /> </Button>
+                                        </h4>
+                                        <div className='client-inventory-chart'>
+                                            {/* <ClientInventoryChart Vendor={personName[0]} className='PieChartClientInventory' /> */}
+                                            <div className='project-metric-client'>
+                                                <ClientTaskProgress Id={personName[0]} className='PieChartClientTask' />
+                                                <ClientProjectProgress Id={personName[0]} className='PieChartClientProject' />
+                                            </div>
+                                            <div className='client-project-details'>
+                                                <ClientProjectTable className='project-table-client' clientId={personName[0]} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='client-lower'>
+
+                                </div>
+                            </div>
                         </Tab>
                         <Tab eventKey="Dispersments" title={<><p className='vendor-tab-title'>Vendor</p><FontAwesomeIcon className="company-icon" icon={faBuildingCircleArrowRight} size='1x' /></>} className="list-tab">
 
-                            <table className='inventory table'>
+                            <div className='client-dropdown-container' >
+                                <FormControl sx={{ m: 1, width: 300 }}>
+                                    <InputLabel id="demo-multiple-name-label">Choose A Vendor</InputLabel>
+                                    <Select
 
-                                <thead>
-                                    <tr className='inventory-table-headers'>
-                                        <th>
-                                            Vendor ID
-                                        </th>
-                                        <th>
-                                            Vendor
-                                        </th>
-                                        <th>
-                                            Type
-                                        </th>
-                                        <th>
-                                            Code
-                                        </th>
-                                        <th>
-                                            Email
-                                        </th>
-                                        <th>
-                                            Phone Number
-                                        </th>
-                                        <th>
-                                            Contact
-                                        </th>
-                                        <th>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                {vendorlist.map((item, index) => (
-                                    // <>
-                                    //     {editInv === item.vendorId ? (
-                                    //         <EditableRow item={item} editFormData={editFormData} handleEditFormChange={handleEditFormChange} handleCancelClick={handleCancelClickVendor} />
-                                    //     ) : (
+                                        labelId="demo-multiple-name-label"
+                                        id="demo-multiple-name"
+                                        value={personName2}
+                                        onChange={handleChange2}
+                                        input={<OutlinedInput label="Choose A Client" />}
+                                        MenuProps={MenuProps}
+                                    >
+                                        {vendorlist.map((name) => (
+                                            <MenuItem
+                                                key={name.vendorId}
+                                                value={name.vendorId.toString()}
+                                                style={getStyles(name.vendorName, personName2, theme)}
+                                            >
+                                                {name.vendorName}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                                {/* <input type="text" placeholder='Search Company ID' value={searchTextBox} className='search-companyid' onChange={(e) => { setQuery(e.target.value.toLocaleLowerCase()); setsearchTextBox(e.target.value); }} /> */}
+                                <div className='Client-Name-Head'>
+                                    {personName2 != "" ?
+                                        (
+                                            <div style={{ display: 'flex' }}>
+                                                <div style={{ width: '50%' }} className='sender-logo1'>
+                                                    <img style={{ borderRadius: '50px', border: 'solid #0d6efd 3px', boxShadow: '0px 6px 20px 0px rgb(0 0 0 / 30%)' }} id="profile-image1" className='sender-logo-img' src={'https://webapi20220126203702.azurewebsites.net/api/blobexplorer/GetBlobFile?url=' + vendorlist.filter(comp => comp.vendorId === parseInt(personName2[0])).map(item => item.vendorPic)} />
+                                                </div>
+                                                <div style={{ alignSelf: 'center' }} className='chosen-client'>
+                                                    <h2>
+                                                        {vendorlist.filter(comp => comp.vendorId === parseInt(personName2[0])).map(item => item.vendorName.toUpperCase())}
+                                                    </h2>
+                                                </div>
 
-                                    //         <ReadOnlyRow item={item} handleEditClick={handleEditClick} />
-                                    //     )}
-                                    // </>
-                                    <tr style={{ height: "50px" }} id={item.vendorId} className="content-bar">
-                                        <td className="itemnum">{item.vendorId}</td>
-                                        <td className="itemtitle">{item.vendorName}</td>
-                                        <td className="itemtitle">{item.vendorType}</td>
-                                        <td className="itemnum">{item.itemCode}</td>
-                                        <td className="itemprice"><FontAwesomeIcon className="project-done-icon" icon={faEnvelope} size='1x' />{item.vendorEmail}</td>
-                                        <td className="itemstock"><p className='numinstock'><FontAwesomeIcon className="project-done-icon" icon={faPhone} size='1x' />{item.vendorPhone}</p></td>
-                                        <td className="itemtitle">{item.vendorContact}</td>
-                                        <td className="btncontainer">
-                                            <button className="cbbtn"><FontAwesomeIcon className="project-done-icon" icon={faTrashCan} size='1x' /></button>
-                                            <button onClick={() => { setvendorObject(vendorlist[index]); seteditvencomModal(true); }} className="cbbtn"><FontAwesomeIcon className="project-done-icon" icon={faPencil} size='1x' /></button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </table>
+
+                                            </div>
+                                        )
+                                        :
+                                        (
+                                            <div>
+
+                                            </div>
+
+                                        )
+                                    }
+
+                                </div>
+                                <div className='edit-client-btn-container'>
+                                    {personName2 != "" ?
+                                        (
+                                            <Button className='edit-client-btn'>
+                                                <FontAwesomeIcon onClick={() => { setvendorObject(...vendorlist.filter(comp => comp.vendorId === parseInt(personName2[0])).map(item => item)); seteditvencomModal(true); console.log('CHOSEN', ...vendorlist.filter(comp => comp.vendorId === parseInt(personName2[0]))) }} className="edit-client-icon" icon={faPencil} size='2x' />
+                                            </Button>
+                                        )
+                                        :
+                                        (
+                                            <div></div>
+
+                                        )
+                                    }
+
+                                </div>
+                            </div>
+                            <div className='client-grid-container'>
+                                <div className='client-upper'>
+                                    <div className='client-contact-list-container'>
+                                        <h4 className='client-contact-container-head'>
+                                            Vendor Contacts {personName2 != "" ? <Button onClick={() => { setaddcontactModal(true); setvendorObject(...companylist.filter(comp => comp.vendorId === parseInt(personName2[0])).map(item => item)) }} className='add-new-contact-btn'> Add Contact <FontAwesomeIcon style={{ color: 'white' }} className="goInv-icon" icon={faPlus} size='1x' /> </Button> : <div></div>}
+                                        </h4>
+                                        <ul className='list-of-client-contacts'>
+                                            {venUserList != "" ?
+                                                (
+                                                    (venUserList.map(contact => (
+                                                        <li className='contact-item'>
+                                                            <table className='inventory table'>
+
+                                                                <tr >
+                                                                    <div className='client-contact-info'>
+                                                                        <td className="client-contact-id"><img style={{ height: '20px', width: '20px', borderRadius: '50px' }} src={'https://webapi20220126203702.azurewebsites.net/api/blobexplorer/GetBlobFile?url=' + contact.userPic}></img></td>
+                                                                        <td className="client-contact-id">{contact.myUserId}</td>
+                                                                        <td className="client-contact-name">{contact.FullName}</td>
+                                                                        <td className="client-contact-phone">{contact.PhoneNumber}</td>
+                                                                        <td className="client-contact-phone">{contact.Email}</td>
+                                                                    </div>
+                                                                    <td className="className='button-contact-edit">
+                                                                        <Button className='edit-class-btn'>
+                                                                            <FontAwesomeIcon className="project-done-icon" icon={faPencil} size='1x' />
+                                                                        </Button>
+                                                                    </td>
+                                                                </tr></table>
+                                                            {/* <div className='client-contact-info'>
+                                                                <p className='client-contact-id'>({contact.myUserId})</p>
+                                                                <p className='client-contact-name'>{contact.FullName}</p>
+                                                                <p className='client-contact-phone'>{contact.PhoneNumber}</p>
+                                                            </div>
+                                                            <div className='button-contact-edit'>
+
+                                                            </div> */}
+
+                                                        </li>
+                                                    ))
+                                                    )
+                                                )
+                                                :
+                                                (
+                                                    <h5>No Contacts For This Vendor</h5>
+                                                )
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div className='client-information-container'>
+                                        <h4 className='client-contact-container-head'>
+                                            Vendor Inventory <Button href='bookkeeping/inventory' className='gotoInventory-btn'>Go To Inventory <FontAwesomeIcon style={{ color: 'white' }} className="goInv-icon" icon={faArrowRight} size='1x' /> </Button>
+                                        </h4>
+                                        <div className='client-inventory-chart'>
+                                            <ClientInventoryChart Vendor={personName2[0]} className='PieChartClientInventory' />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='client-lower-vendor'>
+
+                                </div>
+                            </div>
                         </Tab>
                     </Tabs>
                 </Modal.Body>
@@ -420,6 +777,16 @@ function VendorCompanyModal(props) {
                     show={editvencomModal}
                     onHide={handleshoweditvencom}
                     object={vendorObject}
+                />
+                <AddContactModal id="Vendor-modal-modal"
+                    show={addcontactModal}
+                    onHide={handleshowaddcontact}
+                    object={vendorObject}
+                />
+                <EditableContactModal id="Vendor-modal-modal"
+                    show={editcontactModal}
+                    onHide={handleshoweditcontact}
+                    object={targetContact}
                 />
             </Modal>
         </div >

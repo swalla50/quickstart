@@ -17,11 +17,11 @@ function EditGroupModal(props) {
     // const [venEmail, setvenEmail] = useState("");
     // const [venphone, setvenphone] = useState("");
     // const [venContact, setvenContact] = useState("");
-    var vendorbool = props.Group.isVendor;
-    var companybool = props.Group.isCompany;
+    var vendorbool = props.group.isVendor;
+    var companybool = props.group.isCompany;
 
-    var parGroup = props.Group.parentGroup;
-    var groupName = props.Group.vendorName;
+    var parGroup = props.group.parentGroup;
+    var groupName = props.group.vendorName;
     const [groupListL1, setGroupListL1] = useState([]);
     var listGroup;
 
@@ -85,7 +85,7 @@ function EditGroupModal(props) {
         }
         else if ( parGroup==0) {
             const newcomven = {
-                vendorId: props.Group.vendorId,
+                vendorId: props.group.vendorId,
                 vendorName: groupName,
                 parentGroup: null,
                 isGroup:true,
@@ -114,7 +114,7 @@ function EditGroupModal(props) {
             console.log('parent group is ', parGroup)
             var newLevel = groupListL1.filter((items) => items.vendorId == parGroup);
             const newcomven1 = {
-                vendorId: props.Group.vendorId,
+                vendorId: props.group.vendorId,
                 vendorName: groupName,
                 parentGroup: parseInt(parGroup),
                 isGroup:true,
@@ -214,7 +214,7 @@ function EditGroupModal(props) {
                 {/* <ToastContainer /> */}
 
                 <Modal.Header closeButton>
-                    Edit Group: {props.Group.vendorName} <FontAwesomeIcon style={{ marginLeft: '1rem' }} className="excel-icon" icon={faPeopleGroup} size='1x' />
+                    Edit Group: {props.group.vendorName} <FontAwesomeIcon style={{ marginLeft: '1rem' }} className="excel-icon" icon={faPeopleGroup} size='1x' />
                 </Modal.Header>
                 <Modal.Body>
                     <Form className='addcomven-form'>
@@ -223,9 +223,9 @@ function EditGroupModal(props) {
                         </div>
                         <div className='addvencom-inputs-container'>
                             <Form.Label className='addvencom-label'> Group Name <FontAwesomeIcon className="excel-icon" icon={faUserGroup} size='1x' /></Form.Label>
-                            <Form.Control defaultValue={props.Group.vendorName} onChange={(e) => { ongroupNameChange(e.target.value) }} type='text' className='addvencom-input'></Form.Control>
+                            <Form.Control defaultValue={props.group.vendorName} onChange={(e) => { ongroupNameChange(e.target.value) }} type='text' className='addvencom-input'></Form.Control>
                             <Form.Label className='addvencom-label'> Parent Group <FontAwesomeIcon className="excel-icon" icon={faLayerGroup} size='1x' /> </Form.Label>
-                            <Form.Select defaultValue={props.Group.parentGroup} onChange={(e) => onparGroupChange(e.target.value)} type='text' className='addvencom-input'>
+                            <Form.Select defaultValue={props.group.parentGroup} onChange={(e) => onparGroupChange(e.target.value)} type='text' className='addvencom-input'>
                                 <option value={0}>None</option>
                                 {groupListL1.map(item => (
                                     <option value={item.vendorId}> ({item.vendorId}) {item.vendorName} [L{item.groupLevel}]</option>
@@ -245,9 +245,9 @@ function EditGroupModal(props) {
                                 ))}
                             </Form.Select> */}
                             <Form.Label className='addvencom-label'> Make Group a Vendor <FontAwesomeIcon className="excel-icon" icon={faBuildingCircleCheck} size='1x' /> </Form.Label>
-                            <Form.Check defaultChecked={props.Group.isVendor} onChange={(e) => onisvendorChange(e.target.checked)} type='checkbox' className='addvencom-input'></Form.Check>
+                            <Form.Check defaultChecked={props.group.isVendor} onChange={(e) => onisvendorChange(e.target.checked)} type='checkbox' className='addvencom-input'></Form.Check>
                             <Form.Label className='addvencom-label'> Make Group a Company <FontAwesomeIcon className="excel-icon" icon={faBuildingCircleCheck} size='1x' /> </Form.Label>
-                            <Form.Check defaultChecked={props.Group.isCompany} onChange={(e) => onisCompanyChange(e.target.checked)} type='checkbox' className='addvencom-input'></Form.Check>
+                            <Form.Check defaultChecked={props.group.isCompany} onChange={(e) => onisCompanyChange(e.target.checked)} type='checkbox' className='addvencom-input'></Form.Check>
                             <Button onClick={submitnewVenCom} className='addnewVendCom-btn'>Submit</Button>
 
                         </div>

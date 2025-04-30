@@ -6,7 +6,7 @@
     margin-left: 13px;
     box-shadow: 0 25px 15px 0 rgb(0 0 0 / 45%);
     padding-inline: 5%;
-    overflow-y: scroll;
+    overflow-y: hidden;
     width: 100%;
     text-align: left;
 }
@@ -36,11 +36,12 @@ button#dropdownMenuButton:after {
 }
 
 img.profile-pic {
-    transform: translate(-9px, -4px);
+    transform: translate(-8px, -4px);
 }
 
 div#user-pic-drpdwn {
     margin-left: 15px;
+    display: contents;
 }
 .dropdown-item{
     font-size: 15px;

@@ -20,7 +20,7 @@ function AssignGroupUsers(props) {
     const [user, setUser] = useState([]);
 
 
-    var match = props.Group.vendorId;
+    var match = props.group.vendorId;
     const [userListAvailable, setuserListAvailable] = useState([]);
     const [userListAssigned, setuserListAssigned] = useState([]);
     const [groupUserRights, setgroupUserRights] = useState([]);
@@ -36,7 +36,7 @@ function AssignGroupUsers(props) {
         axios.get(`getGroupUsers/getGroupUsers`)
             .then((response) => {
                 setuserListAvailable(response.data);
-                console.log('GROUP RIGHTS NOW', (response.data.filter(item => item.groupId == props.Group.vendorId)));
+                console.log('GROUP RIGHTS NOW', (response.data.filter(item => item.groupId == props.group.vendorId)));
 
 
             })
@@ -319,7 +319,7 @@ function AssignGroupUsers(props) {
 
     }
 
-    console.log("FINAL USER LIST", userListAvailable)
+    // console.log("FINAL USER LIST", userListAvailable)
     return (
         <div className='AssignModuleRights'>
             <Modal
@@ -336,7 +336,7 @@ function AssignGroupUsers(props) {
                 <ToastContainer />
 
                 <Modal.Header closeButton>
-                    Update Group: {props.Group.vendorName}
+                    Update Group: {props.group.vendorName}
                 </Modal.Header>
                 <Modal.Body>
                     <div className='module-rights-container'>
@@ -369,7 +369,7 @@ function AssignGroupUsers(props) {
                                                                     disableRipple
                                                                     inputProps={{ 'aria-labelledby': labelId }}
                                                                 />
-                                                                <img style={{ height: '30px', borderRadius: '50px' }} className='user-assign-group-img' src={`${'https://webapi20220126203702.azurewebsites.net/images/' + item.userPic}`} />
+                                                                <img style={{ height: '30px',width:'30px', borderRadius: '50px' }} className='user-assign-group-img' src={`${'https://webapi20220126203702.azurewebsites.net/api/blobexplorer/GetBlobFile?url=' + item.userPic}`} />
                                                             </ListItemIcon>
                                                             <ListItemText id={labelId} primary={`${'(' + item.MyUserId + ')' + ' ' + item.FullName}`} />
                                                         </ListItemButton>
@@ -394,7 +394,7 @@ function AssignGroupUsers(props) {
                             <div className='rights-assigned'>
                                 <h5 className='module-assign-header'>Assigned</h5>
                                 <div className='available-module-container'>
-                                    {userListAvailable.filter(item => item.groupId == props.Group.vendorId && item.inGroup == true).map((item) => (
+                                    {userListAvailable.filter(item => item.groupId == props.group.vendorId && item.inGroup == true).map((item) => (
                                         <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                                             {[0].map((value) => {
                                                 const labelId = `checkbox-list-label-${item}`;
@@ -419,7 +419,7 @@ function AssignGroupUsers(props) {
                                                                     disableRipple
                                                                     inputProps={{ 'aria-labelledby': labelId }}
                                                                 />
-                                                                <img style={{ height: '30px', borderRadius: '50px' }} className='user-assign-group-img' src={`${'https://webapi20220126203702.azurewebsites.net/images/' + item.userPic}`} />
+                                                                <img style={{ height: '30px',width:'30px',  borderRadius: '50px' }} className='user-assign-group-img' src={`${'https://webapi20220126203702.azurewebsites.net/api/blobexplorer/GetBlobFile?url=' + item.userPic}`} />
                                                             </ListItemIcon>
                                                             <ListItemText id={labelId} primary={`${'(' + item.MyUserId + ')' + ' ' + item.FullName}`} />
                                                         </ListItemButton>

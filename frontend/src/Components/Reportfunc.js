@@ -5,7 +5,9 @@ import './Reportfunc.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import axios, { Axios } from 'axios';
 import Form from 'react-bootstrap/Form';
-import { Button, Modal } from 'react-bootstrap'
+import { Button, Modal, OverlayTrigger, Tooltip } from 'react-bootstrap'
+import { ToastContainer, toast, Zoom } from 'react-toastify';
+
 import {
     Grid,
     TextField,
@@ -75,6 +77,7 @@ const checkedIcon = <CheckBoxOutlined fontSize="small" />;
 // ]
 // ;
 
+
 function Reportfunc(props) {
     const [reportList, setReportList] = useState([]);
     const [query, setQuery] = useState([]);
@@ -84,6 +87,7 @@ function Reportfunc(props) {
     const [Options, setOptions] = useState([]);
     const [name, setName] = useState('');
     const [reportModal2, setreportModal2] = useState(false);
+    const [URL, setURL] = useState("");
 
     var option = []
     function clearFilter() {
@@ -186,11 +190,32 @@ const [Token, setToken] = useState("");
 
     var finalReportType = [...new Set(ReportTypes)]
     var finalReportName = [...new Set(ReportNames)]
-
+    setTimeout( () => {
+        const close =  document.getElementsByClassName(
+          "MuiAutocomplete-clearIndicator"
+        )[0];
+        if(close != null){
+            close.addEventListener("click", () => {
+                setQuery([]);
+                setsearchTextBox("");
+        });
+        }
+        
+      }, 100);
+      function downloadReport(){
+        window.location.href = 'http://localhost:5000/userreport'
+        return
+      }
+        const renderTooltip = (props) => (
+          <Tooltip id="button-tooltip" {...props}>
+            <p style={{fontSize:'15px',color:'white'}}>{props}</p>
+          </Tooltip>
+        );
     return (
         <div className='reportsfunc'>
+            <ToastContainer />
             <h2 className='Reports-list-header'>REPORTS <FontAwesomeIcon icon={faPieChart} size='1x' /></h2>
-
+            <div className='report-page-container-scroll'>
             <div className='Report-page-metric-container'>
                 <div className='Report-metric-top'>
                     <div className='Report-count-container'>
@@ -211,6 +236,7 @@ const [Token, setToken] = useState("");
                         <div className='filters'>
                             <input type="text" placeholder='Search...' value ={searchTextBox} className='search-reports' onChange={(e) => {setQuery(e.target.value.toLocaleLowerCase());setsearchTextBox(e.target.value);}} />
                             <Autocomplete
+                            clear
                                 id="checkboxes-tags-demo"
                                 options={finalReportType}
                                 onChange={(e, value) => setQuery(value)}
@@ -322,18 +348,25 @@ const [Token, setToken] = useState("");
                             <Button className="clear" title="Clear" aria-label="Clear" onClick={clearFilter}>
                                 Clear Filter <FontAwesomeIcon icon={faFilter} size='2x' />
                             </Button>
-                            <div className='report-return-count-container'><h5 className='report-return-count'>Reports: </h5><h5 className='search-number-count'>{search(reportList).length}</h5></div>
+                            <div className='report-return-count-container'><h5 className='report-return-count'>Filtered Reports: </h5><h5 className='search-number-count'>{search(reportList).length}</h5></div>
                         </div>
                     </div>
                 </div>
             </div>
+            </div>
             <div className='report-list-container'>
                 {search(reportList).map(item => (
-                    <div onClick={() => setreportModal2(true)} className='report-item' key={item.reportID}>
+                    <OverlayTrigger
+                    placement="top"
+                    delay={{ show: 250, hide: 400 }}
+                    overlay={renderTooltip(item.reportDetail)}
+                  >
+                    <div onClick={() => {setreportModal2(true); setURL(item.reportURL)}} className='report-item' key={item.reportID}>
                         <h5 className='report-name'>{item.reportName}</h5>
                         <p className='report-date'>{item.reportCreation}</p>
                         <p className='report-type'>{item.reportType}</p>
                     </div>
+                    </OverlayTrigger>
                 ))}
                 {reportList == "" && [1,2,3,4,5,6,7,8,9].map((n) => <SkeletonReport theme="dark" key={n}/>)}
             </div>
@@ -341,6 +374,7 @@ const [Token, setToken] = useState("");
                 show={reportModal2}
                 onHide={handleshowreport}
                 Token={Token}
+                URL={URL}
             />
         </div>
     )

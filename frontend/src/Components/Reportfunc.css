@@ -64,7 +64,7 @@ h6.report-count-header {
     cursor:pointer;
  }
 .report-list-container {
-    height: 60rem;
+    height: 44vh;
     padding: 10px;
     border-radius: 5px;
     background-color: white;
@@ -152,4 +152,62 @@ button.clear.btn.btn-primary:hover {
 }
 .report-count-circle{
     height: 100px;
+}
+.modal-content.modal-height-report {
+    background: transparent !important;
+}
+.modal-height-report {
+    height: 90vh;
+    padding: 6rem !important;
+    border: none;
+}
+.modal-width-report {
+    width: 100%;
+}
+.export-type-container {
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: space-evenly;
+}
+.Excel-btn-export {
+    background: white;
+    padding: 8rem;
+    border-radius: 10px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+}
+.Excel-btn-export:hover {
+    transform: translateY(5px);    
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor:pointer;
+}
+.Excel-btn-export:not(:hover) {
+    transform: translateY(0px);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+}
+
+.Pdf-btn-export {
+    background: white;
+    padding: 8rem;
+    border-radius: 10px;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+}
+.Pdf-btn-export:hover {
+    transform: translateY(5px);    
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+    cursor:pointer;
+}
+.Pdf-btn-export:not(:hover) {
+    transform: translateY(0px);
+    -webkit-transition: all 1s ease;
+    transition: all 300ms ease-in-out;
+}
+.report-type-header.modal-header {
+    border-bottom: none !important;
+}
+.choose-report-type.modal-footer {
+    border-top: none;
 }

@@ -24,47 +24,17 @@ function DeleteConfirmModal(props) {
     var parGroup;
     var groupName;
     const [groupListL1, setGroupListL1] = useState([]);
-    var listGroup;
+    var listGroup = props.group;
 
 
 
-    // useEffect(() => {
+    useEffect(() => {
 
-    //     axios.get(`getvendor/getvendorList`)
-    //         .then((response) => {
-    //             setGroupListL1(response.data.filter(gr => gr.isActiveVendor == true && gr.isGroup == true));
-    //             // setGroupListL2(response.data.filter(gr => gr.isActiveVendor == true && gr.isVendor == false && gr.isGroup == true));
-
-    //             console.log('GROUP: ', response.data.filter(gr => gr.isActiveVendor == true && gr.isVendor == false && gr.isGroup == true))
-    //         })
-    //         .catch((err) => {
-    //             console.log(err, "Unable to get vendor time info");
-    //         });
-    //     axios.get(`getmoduleList/getModule`)
-    //         .then((response) => {
-    //             setmoduleList(response.data);
-    //             // setGroupListL2(response.data.filter(gr => gr.isActiveVendor == true && gr.isVendor == false && gr.isGroup == true));
-
-    //             console.log('List Of Modules: ', response.data)
-    //         })
-    //         .catch((err) => {
-    //             console.log(err, "Unable to get vendor time info");
-    //         });
-
-    //     axios.get(`UserProfile`)
-    //         .then((res) => {
-    //             setUser(res.data)
-
-
-    //         })
-    //         .catch((err) => {
-    //             console.log(err, "Unable to get user time info");
-    //         });
+setGroupListL1(props.group)
 
 
 
-
-    // }, []);
+    }, []);
 
     // const ongroupNameChange = (e) => {
     //     groupName = e;
@@ -121,7 +91,7 @@ function DeleteConfirmModal(props) {
     //                     axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
     //                     .then((response) => {
     //                         console.log('new right POST', response.data)
-                            
+
     //                     })
     //                     .catch((err) => {
     //                         console.log(err, "Unable to get vendor time info");
@@ -165,7 +135,7 @@ function DeleteConfirmModal(props) {
     //                     axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
     //                     .then((response) => {
     //                         console.log('new right POST', response.data)
-                            
+
     //                     })
     //                     .catch((err) => {
     //                         console.log(err, "Unable to get vendor time info");
@@ -209,7 +179,7 @@ function DeleteConfirmModal(props) {
     //                     axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
     //                     .then((response) => {
     //                         console.log('new right POST', response.data)
-                            
+
     //                     })
     //                     .catch((err) => {
     //                         console.log(err, "Unable to get vendor time info");
@@ -252,7 +222,7 @@ function DeleteConfirmModal(props) {
     //                     axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
     //                     .then((response) => {
     //                         console.log('new right POST', response.data)
-                            
+
     //                     })
     //                     .catch((err) => {
     //                         console.log(err, "Unable to get vendor time info");
@@ -294,7 +264,7 @@ function DeleteConfirmModal(props) {
     //                     axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
     //                     .then((response) => {
     //                         console.log('new right POST', response.data)
-                            
+
     //                     })
     //                     .catch((err) => {
     //                         console.log(err, "Unable to get vendor time info");
@@ -337,7 +307,7 @@ function DeleteConfirmModal(props) {
     //                     axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
     //                     .then((response) => {
     //                         console.log('new right POST', response.data)
-                            
+
     //                     })
     //                     .catch((err) => {
     //                         console.log(err, "Unable to get vendor time info");
@@ -413,7 +383,9 @@ function DeleteConfirmModal(props) {
                 <ToastContainer />
 
                 <Modal.Header closeButton>
-                    Are You Sure You Want To Delete Group : {props.Group.vendorName} <FontAwesomeIcon className="excel-icon" icon={faQuestionCircle} size='1x' />
+                    <div className='delete-modal-header'>
+                        Are You Sure You Want To Delete The Group(s)<FontAwesomeIcon style={{marginLeft:'1rem'}}className="excel-icon" icon={faQuestionCircle} size='4x' />
+                    </div>
                 </Modal.Header>
                 <Modal.Body>
                     {/* <Form className='addcomven-form'>
@@ -432,18 +404,18 @@ function DeleteConfirmModal(props) {
                             </Form.Select>
                             {/* <Form.Label className='addvencom-label'> Item Code <FontAwesomeIcon className="excel-icon" icon={faCode} size='1x' /></Form.Label>
                             <Form.Control onChange={(e) => setcodeItem(e.target.value)} type='text' className='addvencom-input'></Form.Control> */}
-                            {/* <Form.Label className='addvencom-label'> Email <FontAwesomeIcon className="excel-icon" icon={faVoicemail} size='1x' /> </Form.Label>
+                    {/* <Form.Label className='addvencom-label'> Email <FontAwesomeIcon className="excel-icon" icon={faVoicemail} size='1x' /> </Form.Label>
                             <Form.Control onChange={(e) => setvenEmail(e.target.value)} type='email' className='addvencom-input'></Form.Control> */}
-                            {/* <Form.Label className='addvencom-label'> Phone <FontAwesomeIcon className="excel-icon" icon={faPhoneSquare} size='1x' /></Form.Label>
+                    {/* <Form.Label className='addvencom-label'> Phone <FontAwesomeIcon className="excel-icon" icon={faPhoneSquare} size='1x' /></Form.Label>
                             <Form.Control onChange={(e) => setvenphone(e.target.value)} type='phone' className='addvencom-input'></Form.Control> */}
-                            {/* <Form.Label className='addvencom-label'> Contact <FontAwesomeIcon className="excel-icon" icon={faContactBook} size='1x' /></Form.Label>
+                    {/* <Form.Label className='addvencom-label'> Contact <FontAwesomeIcon className="excel-icon" icon={faContactBook} size='1x' /></Form.Label>
                             <Form.Select defaultValue={'1'} onChange={(e) => setvenContact(e.target.value)} type='text' className='addvencom-input'>
                                 <option value='1'>Please Choose A Contact</option>
                                 {contactList.map((item) => (
                                     <option value={item.FullName}>{item.FullName}</option>
                                 ))}
                             </Form.Select> */}
-                            {/* <Form.Label className='addvencom-label'> Make Group a Vendor <FontAwesomeIcon className="excel-icon" icon={faBuildingCircleCheck} size='1x' /> </Form.Label>
+                    {/* <Form.Label className='addvencom-label'> Make Group a Vendor <FontAwesomeIcon className="excel-icon" icon={faBuildingCircleCheck} size='1x' /> </Form.Label>
                             <Form.Check defaultValue={false} defaulChecked={false} onChange={(e) => onisvendorChange(e.target.checked)} type='checkbox' className='addvencom-input'></Form.Check>
                             <Form.Label defaultValue={false} defaultChecked={false} className='addvencom-label'> Make Group a Company <FontAwesomeIcon className="excel-icon" icon={faBuildingCircleCheck} size='1x' /> </Form.Label>
                             <Form.Check onChange={(e) => onisCompanyChange(e.target.checked)} type='checkbox' className='addvencom-input'></Form.Check>
@@ -452,13 +424,18 @@ function DeleteConfirmModal(props) {
 
                         </div>
 
-                    </Form> */} 
+                    </Form> */}
                     <div className='button-delete-container'>
+                        <ul style={{ display: 'flex', flexDirection: 'column' }}>
+                            {[...listGroup].map(item =>(
+                            <li key={item.vendorId}>({item.vendorId}) {item.vendorName}</li>
+                        ))}
+                        </ul>
                         <Button className='confirmDelete-Btn' onClick={props.deleteFunc}>
-                            Yes <FontAwesomeIcon style={{color:'#08a908',marginLeft:'1rem'}} className="excel-icon" icon={faCheckCircle} size='2x' />
+                            Yes <FontAwesomeIcon style={{ color: '#08a908', marginLeft: '1rem' }} className="excel-icon" icon={faCheckCircle} size='2x' />
                         </Button>
-                        <Button className='confirmDelete-Btn'  onClick={props.onHide}>
-                            No <FontAwesomeIcon style={{color:'red',marginLeft:'1rem'}}className="excel-icon" icon={faXmarkCircle} size='2x' />
+                        <Button className='confirmDelete-Btn' onClick={props.onHide}>
+                            No <FontAwesomeIcon style={{ color: 'red', marginLeft: '1rem' }} className="excel-icon" icon={faXmarkCircle} size='2x' />
                         </Button>
                     </div>
                 </Modal.Body>

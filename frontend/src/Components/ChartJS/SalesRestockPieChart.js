@@ -4,6 +4,7 @@ import moment, { min } from 'moment';
 import './LineChartMonth.css'
 import { Chart as ChartJS, registerables, CategoryScale } from 'chart.js';
 import 'chartjs-adapter-moment';
+import { Bar, Doughnut } from 'react-chartjs-2';
 import './SalesRestockPieChast.css'
 import {
 
@@ -14,7 +15,7 @@ import {
     Legend,
 } from 'chart.js'
 
-import { Bar } from 'react-chartjs-2';
+// import { Bar } from 'react-chartjs-2';
 
 // ChartJS.register(
 //   CategoryScale,
@@ -25,20 +26,23 @@ import { Bar } from 'react-chartjs-2';
 //   Legend
 // )
 
-ChartJS.register(...registerables);
-function SalesRestockPieChart() {
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+function SalesRestockPieChart(props) {
     const weekArray = moment.weekdays();
-    const [data, setData] = useState([]);
     const [dataRestock, setdataRestock] = useState([]);
     const [itemname, setitemname] = useState([]);
     var totalSales = 0;
     var totalRestocks = 0;
-    const [chartData, setChartData] = useState({
+
+    const [data, setData] = useState([]);
+    const [chartData, setchartData] = useState({
         datasets: [],
-    })
+    });
+    const [chartOptions, setChartOptions] = useState({});
 
 
     useEffect(() => {
+        console.log("PROPS CHANGE",props.refresh)
         axios.get(`getSRLog/getSRLog`)
             .then((res) => {
                 const SRLOGDATA = res.data;
@@ -71,7 +75,39 @@ var datas;
                   datasr = totalRestocks
                 }
 
+                // const INPROGRESSDATA = res.data.filter(proj => proj.isDeleted == false && proj.isDeleted == false);
+    
+                // console.log("VENDOR CHART DATA2", data)
+                setchartData({
+                    labels: ['Resotcks','Sales'],
+                    datasets: [
 
+                        {
+                            label:'Sales',
+                            data: [datasr,datas],
+                            borderColor: ['#1976d2cc','#4ff68a'],
+                            backgroundColor: ['#1976d2cc','#4ff68a'],
+                            borderWidth: 1,
+                            hoverBorderWidth: 3,
+                            barThickness: 10,
+                            borderRadius: 10
+                        },
+                     
+                    ]
+                });
+                setChartOptions(
+                {
+                    responsive: true,
+
+                    plugins: {
+                        legend: {
+                            display: true,
+                            labels: {
+                                color: 'black'
+                            }
+                        }
+                    }
+                })
 
                 // let thismonth = currmonth.toLocaleString('en-US', { month: 'long' });
 
@@ -115,47 +151,48 @@ var datas;
                 //      localStorage.setItem("netDiff",diffsum.toString())
                 //    }
 
-                console.log("TOTAL SALES CHART", datas)
-                let chart1 = [];
-                const ctx1 = document.getElementById('myChart1SalesandRestock');
+                // console.log("TOTAL SALES CHART", datas)
+                // let chart1 = [];
+                // const ctx1 = document.getElementById('myChart1SalesandRestock');
 
-                const myChart1 = new ChartJS(ctx1, {
-                    type: 'doughnut',
-                    data: {
-                         labels: ['Resotcks','Sales'],
-                        datasets: [
+                // const myChart1 = new ChartJS(ctx1, {
+                //     type: 'doughnut',
+                //     data: {
+                //          labels: ['Resotcks','Sales'],
+                //         datasets: [
 
-                            {
-                                label:'Sales',
-                                data: [datasr,datas],
-                                borderColor: ['#1976d2cc','#4ff68a'],
-                                backgroundColor: ['#1976d2cc','#4ff68a'],
-                                borderWidth: 1,
-                                hoverBorderWidth: 3,
-                                barThickness: 10,
-                                borderRadius: 10
-                            },
+                //             {
+                //                 label:'Sales',
+                //                 data: [datasr,datas],
+                //                 borderColor: ['#1976d2cc','#4ff68a'],
+                //                 backgroundColor: ['#1976d2cc','#4ff68a'],
+                //                 borderWidth: 1,
+                //                 hoverBorderWidth: 3,
+                //                 barThickness: 10,
+                //                 borderRadius: 10
+                //             },
                          
-                        ]
-                    },
-                    options: {
-                        responsive: true,
+                //         ]
+                //     },
+                //     options: {
+                //         responsive: true,
 
-                        plugins: {
-                            legend: {
-                                display: true,
-                                labels: {
-                                    color: 'black'
-                                }
-                            }
-                        }
-                    }
-                })
+                //         plugins: {
+                //             legend: {
+                //                 display: true,
+                //                 labels: {
+                //                     color: 'black'
+                //                 }
+                //             }
+                //         }
+                //     }
+                // })
+                // myChart1.update();
             })
             .catch((err) => {
                 console.log(err, "Unable to get user pay info");
             });
-    }, [])
+    }, [props.refresh])
     return (
         <>
         {data.length === 0 && dataRestock.length === 0?
@@ -163,7 +200,7 @@ var datas;
             (<div className='no-srdata'>NO SALES OR RESTOCKS TODAY</div>)
             :
             (<div className='PieChart'>
-            <canvas height="200" id="myChart1SalesandRestock"></canvas>
+            <Doughnut options={chartOptions} height={10} data={chartData} />
         </div>)
         }
         </>

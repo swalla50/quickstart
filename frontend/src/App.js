@@ -29,6 +29,7 @@ import '@boldreports/javascript-reporting-controls/Scripts/data-visualization/ej
 //Reports react base
 import '@boldreports/react-reporting-components/Scripts/bold.reports.react.min';
 import AuthenticatedRoute from "./AuthenticatedRoute";
+import Bookkeepingfunc from "./Components/Bookkeeping/Bookkeepingfunc";
 
 
 export default class App extends Component {
@@ -80,6 +81,7 @@ export default class App extends Component {
         <Route exact path="home" element={isAuthenticated? <Home UserProfile={this.state.UserProfile} setUser={this.setUser} /> : <Navigate to='/'/>} />
         <Route exact path="timesheet" element={isAuthenticated? <TimeSheet UserProfile={this.state.UserProfile} setUser={this.setUser} /> :<Navigate to='/'/> } />
         <Route exact path="project" element={isAuthenticated? <Project UserProfile={this.state.UserProfile} setUser={this.setUser} /> : <Navigate to='/'/>} />
+        <Route exact path="bookkeeping/inventory" element={<Bookkeeping UserProfile={this.state.UserProfile} setUser={this.setUser} modal={true} />} />
         <Route exact path="settings" element={isAuthenticated?<Settings UserProfile={this.state.UserProfile} setUser={this.setUser} />: <Navigate to='/'/>} />
         
       </Routes>

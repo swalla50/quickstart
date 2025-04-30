@@ -6,6 +6,48 @@ import { Button, Modal } from 'react-bootstrap'
 import { ToastContainer, toast, Zoom } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './ProjectModal.css'
+import moment from 'moment'
+
+import {
+    Grid,
+    TextField,
+    Card,
+    CardContent,
+    Typography,
+    Checkbox,
+    Autocomplete,
+    Chip,
+    FormControl,
+    InputLabel,
+    Select,
+    OutlinedInput,
+    MenuItem,
+    ListItemText,
+    Paper,
+    Stack
+} from "@mui/material";
+import { useTheme } from '@mui/material/styles';
+
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+    PaperProps: {
+        style: {
+            maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+            width: 250,
+        },
+    },
+};
+
+function getStyles(name, personName, theme) {
+    return {
+        fontWeight:
+            personName.indexOf(name) === -1
+                ? theme.typography.fontWeightRegular
+                : theme.typography.fontWeightMedium,
+    }
+};
 
 function ProjectModal(props) {
 
@@ -14,6 +56,9 @@ function ProjectModal(props) {
     const [newprojName, setnewprojName] = useState("");
     const [newprojDetail, setnewprojDetail] = useState("");
     const [projectList, setProjectList] = useState([]);
+    const [newprojDueDate, setnewprojDueDate] = useState("");
+    const [companylist,setcompanylist] = useState([]);
+    const [newClientId ,setnewClientId] = useState(0);
 
     //Grab
     useEffect(() => {
@@ -25,6 +70,16 @@ function ProjectModal(props) {
             })
             .catch((err) => {
                 console.log(err, "Unable to get user list");
+            });
+
+            axios.get(`getvendor/getvendorList2`)
+            .then((response) => {
+                // setvendorlist(response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true));
+                setcompanylist(response.data.filter(ven => ven.isActiveVendor == true && ven.isCompany == true))
+                // console.log('vendors: ', response.data.filter(ven => ven.isActiveVendor == true && ven.isVendor == true))
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get vendor time info");
             });
 
     }, []);
@@ -44,7 +99,7 @@ function ProjectModal(props) {
     //     console.log("This is the new project: ",submittedProj)
     // }
     useEffect(() => {
-        
+
         axios.get(`getproject/getprojectList`)
             .then((response) => {
                 setProjectList(response.data);
@@ -71,12 +126,14 @@ function ProjectModal(props) {
             MostRecentTask: "No Tasks Completed Yet",
             LastTaskCompleter: "N/A",
             progress: 0,
-            isDeleted: false
+            isDeleted: false,
+            clientId: newClientId,
+            projectDueDate: newprojDueDate
         }
         axios.post('addproject/addProject', submittedProj,)
             .then(res => {
                 console.log("This is the new project: ", res.data)
-                
+
                 document.getElementById("description-input").value = "";
                 document.getElementById("title-input").value = "";
                 toast.success(`${"New Project: " + newprojName + " Added Successfully!"}`, {
@@ -88,7 +145,7 @@ function ProjectModal(props) {
             .catch(err => {
                 console.log(err);
             })
-            axios.get(`getproject/getprojectList`)
+        axios.get(`getproject/getprojectList`)
             .then((response) => {
                 setProjectList(response.data);
 
@@ -97,7 +154,8 @@ function ProjectModal(props) {
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
             });
-            
+        props.onHide();
+        console.log("NEW PROJ", submittedProj)
     }
 
     const handleTaskNameChange = (e, index) => {
@@ -105,7 +163,7 @@ function ProjectModal(props) {
         const list = [...Tasks];
         list[index][name] = value;
         setTasks(list)
-        console.log("modal taks",Tasks)
+        console.log("modal taks", Tasks)
     }
 
     const handleTaskAssigneeChange = (ea, index) => {
@@ -122,6 +180,24 @@ function ProjectModal(props) {
     const onProjectDetail = (pDetail) => {
         setnewprojDetail(pDetail);
     }
+    const onProjectDueDate = (pDueDate) => {
+        setnewprojDueDate(pDueDate);
+    }
+    const theme = useTheme();
+    const [personName, setPersonName] = useState([]);
+
+    const handleChange = (event) => {
+        const {
+            target: { value },
+        } = event;
+        setPersonName(
+            // On autofill we get a stringified value.
+            typeof value === 'string' ? value.split(',') : value,
+        );
+
+        setnewClientId(value)
+        console.log("Value", personName[0])
+    };
 
 
     return (
@@ -131,7 +207,7 @@ function ProjectModal(props) {
             aria-labelledby="contained-modal-title-vcenter"
             centered
         >
-                        <ToastContainer />
+            <ToastContainer />
 
             <Modal.Header closeButton>
                 Add A New Project <FontAwesomeIcon className="project-done-icon" icon={faListCheck} size='1x' />
@@ -139,10 +215,33 @@ function ProjectModal(props) {
             <Modal.Body>
                 <form className='add-project-form'>
                     <label className='project-title'> Project Name </label>
-                    <input  id="title-input"onChange={(e) => onProjectName(e.target.value)} type='text' className='title-input' />
+                    <input id="title-input" onChange={(e) => onProjectName(e.target.value)} type='text' className='title-input' />
 
                     <label className='project-title'> Project Description </label>
                     <textarea id="description-input" onChange={(e) => onProjectDetail(e.target.value)} className='description-input' />
+                    <label className='project-title'> Project Due Date </label>
+                    <input type='datetime-local' id="description-input" onChange={(e) => onProjectDueDate(e.target.value)} className='description-input' />
+                    <FormControl sx={{ m: 1, width: 300 }}>
+                        <InputLabel id="demo-multiple-name-label">Associated Client</InputLabel>
+                        <Select
+                            labelId="demo-multiple-name-label"
+                            id="demo-multiple-name"
+                            value={personName}
+                            onChange={handleChange}
+                            input={<OutlinedInput label="Associated Client" />}
+                            MenuProps={MenuProps}
+                        >
+                            {companylist.map((name) => (
+                                <MenuItem
+                                    key={name.vendorId}
+                                    value={name.vendorId.toString()}
+                                    style={getStyles(name.vendorName, personName, theme)}
+                                >
+                                    {name.vendorName}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
                     {/* <div className='tasks-container'>
                         <label className='project-title'> Project Tasks: </label>

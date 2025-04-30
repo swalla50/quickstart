@@ -18,6 +18,7 @@ function AddGroupModal(props) {
     const [venphone, setvenphone] = useState("");
     const [venContact, setvenContact] = useState("");
     const [moduleList, setmoduleList] = useState("");
+    const [userList, setUserList] = useState([]);
     var vendorbool;
     var companybool;
 
@@ -60,9 +61,18 @@ function AddGroupModal(props) {
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
             });
+        axios.get(`userList/userList`)
+            .then((res) => {
+                setUserList(res.data)
 
 
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user list time info");
+            });
 
+
+            console.log("Par Group", parGroup)
 
     }, []);
 
@@ -93,10 +103,10 @@ function AddGroupModal(props) {
 
 
         }
-        else if (vendorbool == null && companybool == null && parGroup == "None") {
+        else if (vendorbool == null && companybool == null && parGroup == undefined) {
             const newcomven = {
                 vendorName: groupName,
-                parentGroup: null,
+                parentGroup: 0,
                 isGroup: true,
                 isVendor: false,
                 groupLevel: 1,
@@ -112,20 +122,46 @@ function AddGroupModal(props) {
                         autoClose: 5000,
                         theme: 'dark'
                     });
-                    for(var i = 0; i<moduleList.length; i++){
-                        var newRights={
-                            GroupID: parseInt(groupListL1[groupListL1.length-1].vendorId + 1),
+                    for (var i = 0; i < moduleList.length; i++) {
+                        var newRights = {
+                            GroupID: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
                             GRLevel: 0,
-                            ModuleID: parseInt(i+1)
+                            ModuleID: parseInt(i + 1)
                         }
                         axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
-                        .then((response) => {
-                            console.log('new right POST', response.data)
-                            
-                        })
-                        .catch((err) => {
-                            console.log(err, "Unable to get vendor time info");
-                        });
+                            .then((response) => {
+                                console.log('new right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
+
+                    }
+                    for (var i = 0; i < userList.length; i++) {
+                        if (userList[i].myUserId == user.myUserId) {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: true
+                            }
+                        }
+                        else {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: false
+                            }
+                        }
+
+                        axios.post(`addUserGroups/addUserGroup`, newUserRight)
+                            .then((response) => {
+                                console.log('new User right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
 
                     }
                     props.onHide()
@@ -133,6 +169,7 @@ function AddGroupModal(props) {
                 .catch((err) => {
                     console.log(err, "Unable to get vendor time info");
                 });
+
             console.log('parGroup will be NULL', newcomven)
         }
 
@@ -143,7 +180,7 @@ function AddGroupModal(props) {
                 parentGroup: parGroup,
                 isGroup: true,
                 isVendor: false,
-                groupLevel: parseInt(newLevel[0].groupLevel + 1),
+                groupLevel: newLevel[0].groupLevel + 1,
                 isActiveVendor: true,
                 isCompany: false
 
@@ -156,20 +193,46 @@ function AddGroupModal(props) {
                         autoClose: 5000,
                         theme: 'dark'
                     });
-                    for(var i = 0; i<moduleList.length; i++){
-                        var newRights={
-                            GroupID: parseInt(groupListL1[groupListL1.length-1].vendorId + 1),
+                    for (var i = 0; i < moduleList.length; i++) {
+                        var newRights = {
+                            GroupID: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
                             GRLevel: 0,
-                            ModuleID: parseInt(i+1)
+                            ModuleID: parseInt(i + 1)
                         }
                         axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
-                        .then((response) => {
-                            console.log('new right POST', response.data)
-                            
-                        })
-                        .catch((err) => {
-                            console.log(err, "Unable to get vendor time info");
-                        });
+                            .then((response) => {
+                                console.log('new right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
+
+                    }
+                    for (var i = 0; i < userList.length; i++) {
+                        if (userList[i].myUserId == user.myUserId) {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: true
+                            }
+                        }
+                        else {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: false
+                            }
+                        }
+
+                        axios.post(`addUserGroups/addUserGroup`, newUserRight)
+                            .then((response) => {
+                                console.log('new User right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
 
                     }
                     props.onHide()
@@ -187,7 +250,7 @@ function AddGroupModal(props) {
                 parentGroup: parGroup,
                 isGroup: true,
                 isVendor: false,
-                groupLevel: parseInt(newLevel[0].groupLevel + 1),
+                groupLevel: newLevel[0].groupLevel + 1,
                 isActiveVendor: true,
                 isCompany: companybool
 
@@ -200,20 +263,46 @@ function AddGroupModal(props) {
                         autoClose: 5000,
                         theme: 'dark'
                     });
-                    for(var i = 0; i<moduleList.length; i++){
-                        var newRights={
-                            GroupID: parseInt(groupListL1[groupListL1.length-1].vendorId + 1),
+                    for (var i = 0; i < moduleList.length; i++) {
+                        var newRights = {
+                            GroupID: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
                             GRLevel: 0,
-                            ModuleID: parseInt(i+1)
+                            ModuleID: parseInt(i + 1)
                         }
                         axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
-                        .then((response) => {
-                            console.log('new right POST', response.data)
-                            
-                        })
-                        .catch((err) => {
-                            console.log(err, "Unable to get vendor time info");
-                        });
+                            .then((response) => {
+                                console.log('new right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
+
+                    }
+                    for (var i = 0; i < userList.length; i++) {
+                        if (userList[i].myUserId == user.myUserId) {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: true
+                            }
+                        }
+                        else {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: false
+                            }
+                        }
+
+                        axios.post(`addUserGroups/addUserGroup`, newUserRight)
+                            .then((response) => {
+                                console.log('new User right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
 
                     }
                     props.onHide()
@@ -230,7 +319,7 @@ function AddGroupModal(props) {
                 parentGroup: parGroup,
                 isGroup: true,
                 isVendor: vendorbool,
-                groupLevel: parseInt(newLevel[0].groupLevel + 1),
+                groupLevel: newLevel[0].groupLevel + 1,
                 isActiveVendor: true,
                 isCompany: false
 
@@ -243,20 +332,46 @@ function AddGroupModal(props) {
                         autoClose: 5000,
                         theme: 'dark'
                     });
-                    for(var i = 0; i<moduleList.length; i++){
-                        var newRights={
-                            GroupID: parseInt(groupListL1[groupListL1.length-1].vendorId + 1),
+                    for (var i = 0; i < moduleList.length; i++) {
+                        var newRights = {
+                            GroupID: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
                             GRLevel: 0,
-                            ModuleID: parseInt(i+1)
+                            ModuleID: parseInt(i + 1)
                         }
                         axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
-                        .then((response) => {
-                            console.log('new right POST', response.data)
-                            
-                        })
-                        .catch((err) => {
-                            console.log(err, "Unable to get vendor time info");
-                        });
+                            .then((response) => {
+                                console.log('new right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
+
+                    }
+                    for (var i = 0; i < userList.length; i++) {
+                        if (userList[i].myUserId == user.myUserId) {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: true
+                            }
+                        }
+                        else {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: false
+                            }
+                        }
+
+                        axios.post(`addUserGroups/addUserGroup`, newUserRight)
+                            .then((response) => {
+                                console.log('new User right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
 
                     }
                     props.onHide()
@@ -266,7 +381,7 @@ function AddGroupModal(props) {
                 });
             console.log('parGroup will be NULL', newcomven)
         }
-        else if (parGroup == 'None') {
+        else if (parGroup == undefined) {
             const newcomven = {
                 vendorName: groupName,
                 parentGroup: null,
@@ -285,20 +400,46 @@ function AddGroupModal(props) {
                         autoClose: 5000,
                         theme: 'dark'
                     });
-                    for(var i = 0; i<moduleList.length; i++){
-                        var newRights={
-                            GroupID: parseInt(groupListL1[groupListL1.length-1].vendorId + 1),
+                    for (var i = 0; i < moduleList.length; i++) {
+                        var newRights = {
+                            GroupID: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
                             GRLevel: 0,
-                            ModuleID: parseInt(i+1)
+                            ModuleID: parseInt(i + 1)
                         }
                         axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
-                        .then((response) => {
-                            console.log('new right POST', response.data)
-                            
-                        })
-                        .catch((err) => {
-                            console.log(err, "Unable to get vendor time info");
-                        });
+                            .then((response) => {
+                                console.log('new right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
+
+                    }
+                    for (var i = 0; i < userList.length; i++) {
+                        if (userList[i].myUserId == user.myUserId) {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: true
+                            }
+                        }
+                        else {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: false
+                            }
+                        }
+
+                        axios.post(`addUserGroups/addUserGroup`, newUserRight)
+                            .then((response) => {
+                                console.log('new User right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
 
                     }
                     props.onHide()
@@ -308,7 +449,7 @@ function AddGroupModal(props) {
                 });
             console.log('parGroup will be NULL', newcomven)
         }
-        else if (parGroup != 'None') {
+        else if (parGroup != undefined) {
             console.log('parent group is ', parGroup)
             var newLevel = groupListL1.filter((items) => items.vendorId == parGroup);
             const newcomven1 = {
@@ -316,7 +457,7 @@ function AddGroupModal(props) {
                 parentGroup: parseInt(parGroup),
                 isGroup: true,
                 isVendor: vendorbool,
-                groupLevel: parseInt(newLevel[0].groupLevel + 1),
+                groupLevel: newLevel[0].groupLevel + 1,
                 isActiveVendor: true,
                 isCompany: companybool
             }
@@ -328,20 +469,46 @@ function AddGroupModal(props) {
                         autoClose: 5000,
                         theme: 'dark'
                     });
-                    for(var i = 0; i<moduleList.length; i++){
-                        var newRights={
-                            GroupID: parseInt(groupListL1[groupListL1.length-1].vendorId + 1),
+                    for (var i = 0; i < moduleList.length; i++) {
+                        var newRights = {
+                            GroupID: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
                             GRLevel: 0,
-                            ModuleID: parseInt(i+1)
+                            ModuleID: parseInt(i + 1)
                         }
                         axios.post(`GroupCreationAssignRights/assignRightsCreation`, newRights)
-                        .then((response) => {
-                            console.log('new right POST', response.data)
-                            
-                        })
-                        .catch((err) => {
-                            console.log(err, "Unable to get vendor time info");
-                        });
+                            .then((response) => {
+                                console.log('new right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
+
+                    }
+                    for (var i = 0; i < userList.length; i++) {
+                        if (userList[i].myUserId == user.myUserId) {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: true
+                            }
+                        }
+                        else {
+                            var newUserRight = {
+                                userId: parseInt(userList[i].myUserId),
+                                groupId: parseInt(groupListL1[groupListL1.length - 1].vendorId + 1),
+                                inGroup: false
+                            }
+                        }
+
+                        axios.post(`addUserGroups/addUserGroup`, newUserRight)
+                            .then((response) => {
+                                console.log('new User right POST', response.data)
+
+                            })
+                            .catch((err) => {
+                                console.log(err, "Unable to get vendor time info");
+                            });
 
                     }
                     props.onHide()

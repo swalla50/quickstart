@@ -41,7 +41,7 @@ export default class Bookkeeping extends Component {
         )
         return (
             <Canvas UserProfile={this.props.UserProfile} fullName={this.props.UserProfile.fullName} navItems = {navItemList} userPic={this.props.UserProfile.userPic}>
-                <Bookkeepingfunc/>
+                <Bookkeepingfunc modal={this.props.modal}/>
             </Canvas>
         )
         }   

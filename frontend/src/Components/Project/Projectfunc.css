@@ -1,5 +1,5 @@
 .project-func {
-    height: 93rem;
+    height: 100rem;
     width: 100%;
     overflow-y: clip;
     padding: 30px;
@@ -21,7 +21,7 @@ ul.project-list {
     flex-wrap: wrap;
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 60rem;
+    height: 42rem;
 }
 
 li.project-item {
@@ -131,7 +131,7 @@ li.project-item-listed:not(:hover) {
 
 div#uncontrolled-tab-example-tabpane-List {
     overflow-y: scroll;
-    height: 60rem;
+    height: 42rem;
 }
 
 .Project-list-contatiner {
@@ -239,20 +239,35 @@ button.Add-New-Project {
     margin-bottom: 15px;
     padding: 5px;
     height: 50px;
-    width: 200px;
     box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
-    width: 500px;
+    width: 35rem;
 }
 button.Add-New-Project:hover {
-    transform: translateY(10px);
+    transform: scale(1.05);
     -webkit-transition: all 1s ease;
-    transition: all 300ms ease-in-out;
+    transition: all 200ms ease-in-out;
     cursor: pointer;
+}
+button.Add-New-Project-disabled {
+    color: white;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 15px;
+    padding: 5px;
+    height: 50px;
+    box-shadow: 0 15px 15px 0 rgb(0 0 0 / 45%);
+    width: 35rem;
+}
+button.Add-New-Project-disabled:hover {
+    cursor: not-allowed;
 }
 
 button.Add-New-Project:not(:hover) {
     -webkit-transition: all 1s ease;
-    transition: all 300ms ease-in-out;
+    transition: all 200ms ease-in-out;
+}
+.add-new-project-container {
+    text-align: right;
 }
 svg.svg-inline--fa.fa-list-check.fa-1x.project-done-icon {
     margin-left: 25px;
@@ -446,7 +461,7 @@ svg.svg-inline--fa.fa-trash-can.fa-1x.task-rmv-icon {
     margin-top: 20px;
 }
 .edit-tasks-container {
-    height: 30vh;
+    height: 24vh;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -455,18 +470,19 @@ svg.svg-inline--fa.fa-trash-can.fa-1x.task-rmv-icon {
 }
 h4.project-count {
     float: right;
-    margin-left: 50%;
+    margin-left: 5%;
 }
 .project-count-container {
     width: 100%;
     display: flex;
+    height: 23rem;
 
 }
 .archive-proj-container {
     display: inline-flex;
 }
 .project-task-list {
-    height: 60rem;
+    height: 52rem;
     overflow-y: scroll;
     overflow-x: hidden;
 }
@@ -490,4 +506,267 @@ h5.archive-project-label{
 }
 input.archive-check{
     width: 15px;
+}
+.project-metrics-container {
+    width: 70%;
+    height: fit-content;
+
+    display: flex;
+}
+.projects-in-progress-container {
+    text-align: center;
+    width: 25rem;
+    align-self: center;
+}
+.projects-in-progress-container-calendar {
+    color: #514f4f;
+    border-radius: 5rem;
+    text-align: center;
+    width: 25%;
+    background: #4ff68a;
+    align-self: center;
+    padding: 4rem;
+    margin-left: 7rem;
+    box-shadow: 0 25px 15px 0 rgb(0 0 0 / 25%);
+}
+projects-in-progress-container-calendar:hover {
+    color: #514f4f;
+    border-radius: 5rem;
+    text-align: center;
+    width: 25%;
+    background: #4ff68a;
+    align-self: center;
+    padding: 4rem;
+    margin-left: 7rem;
+}
+.projects-in-progress-container-calendar:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+    -webkit-transition: all 1s ease;
+    transition: all 250ms ease-in-out;
+}
+.projects-in-progress-container-calendar:not(:hover){
+    -webkit-transition: all 1s ease;
+    transition: all 250ms ease-in-out;
+}
+.PieChart1 {
+    width: 20rem;
+}
+.PieChart2{
+    width: 20rem;
+}
+.fc-event{
+    cursor: pointer;
+}
+.modal-editevent-height-invoice {
+    border: none;
+    border-radius: 10px;
+    /* padding: 6rem !important; */
+}
+.modal-editevent-width-invoice {
+    max-width: 400px ;
+}
+.no-proj-animation-object{
+    rotate: 180deg !important;
+}
+.Edit-Task-Form {
+    display: flex;
+    flex-direction: column;
+}
+.edit-info-group {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+label.label-title.form-label {
+    width: 25%;
+    display: flex;
+    text-align: left;
+}
+
+p.form-content {
+    width: 75%;
+    text-align: left;
+}
+input.form-input-edit.form-control {
+    width: 75%;
+    font-size: 13px;
+}
+td.fc-daygrid-day.fc-day {
+    border: solid rgb(0 0 0 / 54%) 1px !important;
+}
+.fc.fc-media-screen.fc-direction-ltr.fc-theme-standard {
+    background: #212529 !important;
+}
+.modal-content.modal-height-projCal {
+    background: #212529 !important;
+    height: fit-content;
+    max-height: 80vh;
+    overflow-y: scroll;
+}
+.fc .fc-daygrid-day-number {
+
+    color: white !important;
+
+}
+a.fc-daygrid-more-link.fc-more-link {
+    color: #4da6ff;
+    background: rgb(0 0 0 / 26%);
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+.fc-theme-standard .fc-popover {
+    background: #111 !important;
+    border:none !important;
+    border-radius: 10px !important;
+}
+.fc-popover-header {
+    background: white !important;
+    border-radius: 10px 10px 0px 0px ;
+}
+a.fc-daygrid-event.fc-daygrid-dot-event.fc-event.fc-event-start.fc-event-end.fc-event-future {
+    background: rgb(0 0 0 / 38%);
+    color: white;
+}
+a.fc-daygrid-event.fc-daygrid-dot-event.fc-event.fc-event-start.fc-event-end.fc-event-future:hover {
+    background: #4da6ff61;
+
+}
+a.fc-daygrid-event.fc-daygrid-dot-event.fc-event.fc-event-start.fc-event-end {
+    background: rgb(0 0 0 / 38%);
+    color: white;
+}
+a.fc-daygrid-event.fc-daygrid-dot-event.fc-event.fc-event-start.fc-event-end:hover {
+    background: #4da6ff61;
+}
+.fc-timegrid-slot-label-cushion.fc-scrollgrid-shrink-cushion {
+    color: white;
+}
+span.fc-timegrid-axis-cushion.fc-scrollgrid-shrink-cushion.fc-scrollgrid-sync-inner {
+    color: white;
+}
+.fc-theme-standard td, .fc-theme-standard th {
+    border: 1px solid #343030;
+    border: 1px solid #111 !important; 
+}
+a.fc-col-header-cell-cushion {
+    color: white;
+}
+.form-input-edit {
+    width: 100%;
+}
+td.fc-daygrid-day.fc-day.fc-day-sat.fc-day-today {
+    background: #0d6efd38 !important;
+}
+.e-schedule-toolbar-container {
+    position: fixed;
+    top: 13.1rem;
+    width: 111.5rem;
+    z-index: 100;
+}
+.modal-width-projCal{
+    width: 100% !important;
+}
+h2#fc-dom-2 {
+    color: white !important;
+}
+.header-container {
+    display: flex;
+    margin-left: 6rem;
+}
+.no-project-selected-container {
+    text-align-last: center;
+    margin-top: 12rem;
+}
+.no-client-selected-container {
+    text-align-last: center;
+    margin-top: 12rem;
+}
+
+
+
+a#left-tabs-example-tab-second.nav-link:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+    -webkit-transition: all 1s ease;
+    transition: all 250ms ease-in-out;
+    background: azure;
+    margin-bottom: 2rem;
+}
+a#left-tabs-example-tab-second.nav-link:not(:hover){
+    -webkit-transition: all 1s ease;
+    transition: all 250ms ease-in-out;
+    background: white;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+
+}
+
+a#left-tabs-example-tab-first.nav-link:hover{
+    transform: scale(1.05);
+    cursor: pointer;
+    -webkit-transition: all 1s ease;
+    transition: all 250ms ease-in-out;
+    background: azure;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+a#left-tabs-example-tab-first.nav-link:not(:hover){
+    -webkit-transition: all 1s ease;
+    transition: all 250ms ease-in-out;
+    background: white;
+    border-radius: 5px;
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+a#left-tabs-example-tab-first.nav-link.active{
+
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
+    border-radius: 5px;
+    
+}
+a#left-tabs-example-tab-second.nav-link.active{
+    background: linear-gradient(0deg, rgba(49,47,47,1) 0%, rgba(111,110,110,1) 100%);
+    border-radius: 5px;
+}
+/* .project-gantt-container-chart {
+    
+    /* overflow-x: scroll;
+    overflow-y: scroll; */
+/* } */ */
+/* .gantt-container{
+    /* width: 5000rem; */
+    /* max-width: 180rem; */
+
+.gantt-container-body{
+    height: 67rem;
+    width: 400rem;
+}
+.project-gantt-container-chart {
+    text-align: center;
+}
+.GanttClientProject {
+    height: 68rem !important;
+}
+
+button.btn.btn-primary {
+    border-radius: 20rem !important;
+    margin-bottom: 2rem;
+    height: 3rem;
+    margin-top: 2rem;
+    float: right;
+    margin-right: 2rem;
+    background: #4f86f6;
+}
+
+button.edit-team-member.btn.btn-primary {
+    height: 3rem;
+    border-radius: 20rem;
+    background: #4f86f6;
+}
+button.add-team-member.btn.btn-primary {
+    height: 3rem;
+    border-radius: 20rem;
+    background: #4f86f6;
 }

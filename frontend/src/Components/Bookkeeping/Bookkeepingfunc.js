@@ -4,13 +4,13 @@ import { faBuildingUser, faCartFlatbed, faCoins, faReceipt, faUserGroup } from '
 import { Tabs, Tab } from 'react-bootstrap'
 import './Bookkeepingfunc.css';
 import GL from '../GeneralLedger/GL';
-import InventoryModal from '../Inventory/InventoryModal';
+// import InventoryModal from '../Inventory/InventoryModal';
 import VendorCompanyModal from '../VendorCompany/VendorCompanyModal';
 import InvoiceModal from '../Invoice/InvoiceModal';
 import ManageUsersModal from '../ManageUsers/ManageUsersModal';
 import axios from 'axios';
 
-function Bookkeepingfunc() {
+function Bookkeepingfunc(props) {
 
     const [GLModal, setGLModal] = useState(false);
     const [inventoryModal, setinventoryModal] = useState(false);
@@ -38,6 +38,11 @@ function Bookkeepingfunc() {
 
     //Pulls in Feed
     useEffect(() => {
+        console.log("PROP MODAL",props.modal)
+        if(props.modal ==true){
+            setinventoryModal(true)
+        }
+        
 
 
         axios.get(`UserProfile`)
@@ -62,7 +67,7 @@ function Bookkeepingfunc() {
             });
 
     }, []);
-    console.log("THESE RIGHS", groupRights[0])
+    // console.log("THESE RIGHS", groupRights[0])
     return (
         <div className='Bookkeeping'>
             {groupRights[0].LevelID !== null ?
@@ -73,35 +78,35 @@ function Bookkeepingfunc() {
                             <li onClick={() => setGLModal(true)} className='bk-option'>
                                 <div className='bk-option-name'>
 
-                                    <h3 className='bookkeeping-otpion-header'>GENERAL LEDGER</h3>
+                                    <h3 className='bookkeeping-otpion-header'>Accounting/Books</h3>
 
                                 </div>
                                 <FontAwesomeIcon className="bk-coin-icon" icon={faCoins} size='5x' />
                             </li>
                             <li onClick={() => setvendorModal(true)} className='bk-option'>
                                 <div className='bk-option-name'>
-                                    <h3 className='bookkeeping-otpion-header'>VENDORS & COMPANIES</h3>
+                                    <h3 className='bookkeeping-otpion-header'>VENDORS & CLIENTS</h3>
 
                                 </div>
                                 <FontAwesomeIcon className="bk-coin-icon" icon={faBuildingUser} size='5x' />
                             </li>
-                            <li onClick={() => setinventoryModal(true)} className='bk-option'>
+                            {/* <li onClick={() => setinventoryModal(true)} className='bk-option'>
                                 <div className='bk-option-name'>
                                     <h3 className='bookkeeping-otpion-header'>INVENTORY</h3>
 
                                 </div>
                                 <FontAwesomeIcon className="bk-coin-icon" icon={faCartFlatbed} size='5x' />
-                            </li>
-                            <li onClick={() => setInvoiceModal(true)} className='bk-option'>
+                            </li> */}
+                            {/* <li onClick={() => setInvoiceModal(true)} className='bk-option'>
                                 <div className='bk-option-name'>
                                     <h3 className='bookkeeping-otpion-header'>INVOICE</h3>
 
                                 </div>
                                 <FontAwesomeIcon className="bk-coin-icon" icon={faReceipt} size='5x' />
-                            </li>
+                            </li> */}
                             <li onClick={() => setManageModal(true)} className='bk-option'>
                                 <div className='bk-option-name'>
-                                    <h3 className='bookkeeping-otpion-header'>MANAGE USERS & EMPLOYEES</h3>
+                                    <h3 className='bookkeeping-otpion-header'>MANAGE USERS & CONTACTS</h3>
 
                                 </div>
                                 <FontAwesomeIcon className="bk-coin-icon" icon={faUserGroup} size='5x' />
@@ -113,9 +118,9 @@ function Bookkeepingfunc() {
                         <GL id="GL-modal-modal"
                             show={GLModal}
                             onHide={handleshowgl} />
-                        <InventoryModal id="inventory-modal-modal"
+                        {/* <InventoryModal id="inventory-modal-modal"
                             show={inventoryModal}
-                            onHide={handleshowinv} />
+                            onHide={handleshowinv} /> */}
                         <VendorCompanyModal id="Vendor-modal-modal"
                             show={vendorModal}
                             onHide={handleshowvencom} />

@@ -74,7 +74,7 @@ form.invoice-table-container {
 input.invoice-edit-input{
     height: 30px;
     border: solid gray 1px;
-    color: white;
+    color: gray;
     border-radius: 10px;
 }
 button.add-invoice-btn {
@@ -181,7 +181,7 @@ td.total-cost-final-field {
     min-width: 100%;
 }
 p.invoice-edit-input {
-    color: white;
+    color: gray;
     display: inline-flex;
 }
 /* label[data-shrink=false]+.MuiInputBase-formControl .css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {

@@ -13,7 +13,7 @@ import AddCompanyModal from './AddCompanyModal'
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 
-function CompanyFeed() {
+function CompanyFeed(props) {
 
     const [feedList, setfeedList] = useState([]);
     const [commentList, setcommentList] = useState([]);
@@ -23,6 +23,7 @@ function CompanyFeed() {
 
     //Pulls in Feed
     useEffect(() => {
+        if(props.show!=false){
         axios.get(`getCP/getCPFeed`)
             .then((response) => {
                 setfeedList(response.data.filter(item => item.isActive === true));
@@ -51,11 +52,11 @@ function CompanyFeed() {
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
             });
-
-    }, []);
+        }
+    }, [props.show]);
 
     function CommentType({ items }) {
-        if (items.Id == user.MyUserId) {
+        if (items.Id == user.myUserId) {
             return (
                 <div className='my-comment-content-container'>
                     <div className='comment-header'>
@@ -138,6 +139,15 @@ function CompanyFeed() {
         axios.get(`getCP/getCPFeed`)
             .then((response) => {
                 setfeedList(response.data.filter(item => item.isActive === true));
+                console.log("FEED:", response.data)
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
+        axios.get(`getComment/getComment`)
+            .then((res) => {
+                setcommentList(res.data);
+                console.log("COMMENTS:", res.data)
             })
             .catch((err) => {
                 console.log(err, "Unable to get user time info");
@@ -156,9 +166,9 @@ function CompanyFeed() {
         const replyDataSent = {
             parentcommentid: postid,
             FullName: user.FullName,
-            postreplyUserPic: `${'https://webapi20220126203702.azurewebsites.net/Images/' + user.userPic}`,
+            postreplyUserPic: `${'https://webapi20220126203702.azurewebsites.net/api/blobexplorer/GetBlobFile?url=https://altbooksblob.blob.core.windows.net/profilepicscpntainer/' + user.userPic}`,
             commenttext: replyMessage,
-            Id: user.MyUserId
+            Id: user.myUserId
         }
         axios.post('AddComment/addCommentitem', replyDataSent,)
             .then(res => {
@@ -201,8 +211,39 @@ function CompanyFeed() {
         refreshPost();
     }
     function handleshowpost() {
+        axios.get(`getCP/getCPFeed`)
+            .then((response) => {
+                setfeedList(response.data.filter(item => item.isActive === true));
+                console.log("FEED:", response.data)
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
+        axios.get(`getComment/getComment`)
+            .then((res) => {
+                setcommentList(res.data);
+                console.log("COMMENTS:", res.data)
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
         setPostModal(false);
-        refreshPost();
+        axios.get(`getCP/getCPFeed`)
+            .then((response) => {
+                setfeedList(response.data.filter(item => item.isActive === true));
+                console.log("FEED:", response.data)
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
+        axios.get(`getComment/getComment`)
+            .then((res) => {
+                setcommentList(res.data);
+                console.log("COMMENTS:", res.data)
+            })
+            .catch((err) => {
+                console.log(err, "Unable to get user time info");
+            });
     }
     //onmessagereplychange
     const onMessgeReplyChange = (e) => {
@@ -211,6 +252,7 @@ function CompanyFeed() {
 
     return (
         <div className='company-feed'>
+            <ToastContainer/>
             <div className='add-project-container'>
                 <h3 className='company-feed-title'> Feed </h3> <FontAwesomeIcon onClick={() => setPostModal(true)} className="new-post-add-icon" icon={faPlus} size='2x' />
             </div>

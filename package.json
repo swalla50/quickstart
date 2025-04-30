@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "react-complex-tree": "^1.1.11",
+    "socket.io": "^4.5.4"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "o": "^2.3.2"
+  }
+}

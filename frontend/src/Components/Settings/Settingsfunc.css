@@ -57,6 +57,7 @@ select.UpdateUser-select-item.form-select {
 select.UpdateUser-select-item.form-select {
     width: 100%;
     height: 30px;
+    text-align: center;
     font-size: 15px;
 }
 
@@ -264,4 +265,31 @@ button.Add-new-group-btn.btn.btn-primary {
 }
 .confirmDelete-Btn{
     font-size: 20px;
+}
+.animation-group-container {
+    text-align: -webkit-center;
+}
+
+input.myuser-input.form-control {
+    width: 100%;
+    text-align: -webkit-left;
+    height: 30px;
+    font-size: 15px;
+    text-align: center;
+}
+.addvencom-input.css-b62m3t-container {
+    width: 70%;
+    margin-left: 3rem;
+    box-shadow: 0 6px 15px 0 rgb(0 0 0 / 25%);
+    margin-bottom: 2rem;
+    font-size: 15px;
+}
+.vencom-form-columns-container {
+    display: flex;
+}
+.left-vencom-form {
+    width: 50%;
+}
+.right-vencom-form {
+    width: 50%;
 }
